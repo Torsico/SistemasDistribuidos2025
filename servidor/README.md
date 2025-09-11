@@ -1,0 +1,1 @@
+servidor - posee la API gateway para que el cliente pueda interactuar con el servidor, y el servidor se encargara de comunicarse con los servicios apropiados (en este caso, solo la base de datos) y responder al cliente si es necesario

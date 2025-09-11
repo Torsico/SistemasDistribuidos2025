@@ -1,0 +1,1 @@
+cliente - posee la parte cliente que se conecta al servidor via API, y el view para controlar el cliente o mostrar informacion de el
