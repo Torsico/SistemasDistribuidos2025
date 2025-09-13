@@ -1,0 +1,139 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`rol`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`rol` (
+  `idrol` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idrol`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`usuario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`usuario` (
+  `idusuario` INT NOT NULL AUTO_INCREMENT,
+  `nombreUsuario` VARCHAR(45) NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
+  `apellido` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `rol` INT NOT NULL,
+  `clave` VARCHAR(45) NULL,
+  `telefono` VARCHAR(45) NULL,
+  `activo` TINYINT NULL,
+  PRIMARY KEY (`idusuario`),
+  INDEX `fk_usuario_rol1_idx` (`rol` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `nombreUsuario_UNIQUE` (`nombreUsuario` ASC) VISIBLE,
+  CONSTRAINT `fk_usuario_rol1`
+    FOREIGN KEY (`rol`)
+    REFERENCES `mydb`.`rol` (`idrol`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`donaciones`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`donaciones` (
+  `iddonaciones` INT NOT NULL AUTO_INCREMENT,
+  `categoria` VARCHAR(45) NOT NULL,
+  `descripcion` VARCHAR(45) NOT NULL,
+  `cantidad` INT NOT NULL,
+  `eliminado` TINYINT NULL,
+  `hora_alta` VARCHAR(45) NULL,
+  `hora_mod` VARCHAR(45) NULL,
+  `usuario_alta` INT NOT NULL,
+  `usuario_mod` INT NOT NULL,
+  PRIMARY KEY (`iddonaciones`),
+  INDEX `fk_donaciones_usuario1_idx` (`usuario_alta` ASC) VISIBLE,
+  INDEX `fk_donaciones_usuario2_idx` (`usuario_mod` ASC) VISIBLE,
+  CONSTRAINT `fk_donaciones_usuario1`
+    FOREIGN KEY (`usuario_alta`)
+    REFERENCES `mydb`.`usuario` (`idusuario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_donaciones_usuario2`
+    FOREIGN KEY (`usuario_mod`)
+    REFERENCES `mydb`.`usuario` (`idusuario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`eventos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`eventos` (
+  `ideventos` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  `descripcion` VARCHAR(45) NOT NULL,
+  `fechaHora` DATE NOT NULL,
+  PRIMARY KEY (`ideventos`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`donaciones_has_eventos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`donaciones_has_eventos` (
+  `donaciones_iddonaciones` INT NOT NULL,
+  `eventos_ideventos` INT NOT NULL,
+  PRIMARY KEY (`donaciones_iddonaciones`, `eventos_ideventos`),
+  INDEX `fk_donaciones_has_eventos_eventos1_idx` (`eventos_ideventos` ASC) VISIBLE,
+  INDEX `fk_donaciones_has_eventos_donaciones1_idx` (`donaciones_iddonaciones` ASC) VISIBLE,
+  CONSTRAINT `fk_donaciones_has_eventos_donaciones1`
+    FOREIGN KEY (`donaciones_iddonaciones`)
+    REFERENCES `mydb`.`donaciones` (`iddonaciones`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_donaciones_has_eventos_eventos1`
+    FOREIGN KEY (`eventos_ideventos`)
+    REFERENCES `mydb`.`eventos` (`ideventos`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`participacion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`participacion` (
+  `usuario_idusuario` INT NOT NULL,
+  `eventos_ideventos` INT NOT NULL,
+  PRIMARY KEY (`usuario_idusuario`, `eventos_ideventos`),
+  INDEX `fk_usuario_has_eventos_eventos1_idx` (`eventos_ideventos` ASC) VISIBLE,
+  INDEX `fk_usuario_has_eventos_usuario1_idx` (`usuario_idusuario` ASC) VISIBLE,
+  CONSTRAINT `fk_usuario_has_eventos_usuario1`
+    FOREIGN KEY (`usuario_idusuario`)
+    REFERENCES `mydb`.`usuario` (`idusuario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_usuario_has_eventos_eventos1`
+    FOREIGN KEY (`eventos_ideventos`)
+    REFERENCES `mydb`.`eventos` (`ideventos`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
