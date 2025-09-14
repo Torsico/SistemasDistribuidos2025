@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package usuarios;
+
+message Usuario {
+  int32 idusuario = 1;
+  string nombreUsuario = 2;
+  string nombre = 3;
+  string apellido = 4;
+  string email = 5;
+  int32 rol = 6;
+  string clave = 7;
+  string telefono = 8;
+  bool activo = 9;
+}
+
+message ListaUsuarios {
+  repeated Usuario usuarios = 1;
+}
+
+import "google/protobuf/empty.proto";
+
+service UsuarioService {
+  rpc GetUsuarios (google.protobuf.Empty) returns (ListaUsuarios);
+}
