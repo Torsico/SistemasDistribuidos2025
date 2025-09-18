@@ -1,0 +1,56 @@
+/* chau margen xd */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/* navbar algo bonito */
+ul.navbar {
+	display:flex;
+	overflow: hidden;
+	background-color: #333;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+ul.navbar li a,
+ul.navbar li.text {
+	display: block;
+	color: white;
+	padding: 14px 16px;
+}
+ul.navbar li a {
+	text-decoration: none;
+	background-color: #444;
+}
+ul.navbar li a:hover {
+	background-color: #111;
+}
+
+ul.navopts {
+	display: block;
+	overflow: hidden;
+	background-color: #0004;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* mucho texto */
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #EEE;
+}
+
+.navbarbox {
+	display: flex;
+	background-color: #222;
+	justify-content: space-between;
+}
+
+.centermini {
+	padding: 8px;
+	margin: auto;
+	width: 60%;
+	background-color: #fff;
+}
