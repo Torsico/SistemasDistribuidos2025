@@ -19,6 +19,15 @@ class UsuariosController < ApplicationController
         
         begin
             response = stub.get_usuarios(Google::Protobuf::Empty.new)
+            
+            response.usuarios.each do |xd|
+                u = Usuario.new
+                u.nombre = xd.nombre
+                u.apellido = xd.apellido
+                u.nombreusuario = xd.nombreUsuario
+                lista.push u
+            end
+            
         rescue GRPC::Unavailable => exception
             u = Usuario.new
             u.nombre = 503
