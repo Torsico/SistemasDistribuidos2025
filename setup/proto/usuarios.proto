@@ -2,17 +2,6 @@ syntax = "proto3";
 
 package usuarios;
 
-//  DTO para alta
-
-message UsuarioDTO {
-  string nombreUsuario = 2;
-  string nombre = 3;
-  string apellido = 4;
-  string email = 5;
-}
-
-// Usuario para modificacion y validacion
-
 message Usuario {
   int64 idusuario = 1;
   string nombreUsuario = 2;
@@ -26,11 +15,11 @@ message Usuario {
 }
 
 message AltaUsuarioRequest {
-  UsuarioDTO usuario = 1;
+  Usuario usuario = 1;
 }
 
 message AltaUsuarioResponse {
-  Usuario usuario = 1;
+  bool suceso = 1;
 }
 
 message ModUsuarioRequest {
@@ -38,7 +27,7 @@ message ModUsuarioRequest {
 }
 
 message ModUsuarioResponse {
-  Usuario usuario = 1;
+  bool suceso = 1;
 }
 
 message BajaUsuarioRequest {
@@ -46,13 +35,13 @@ message BajaUsuarioRequest {
 }
 
 message BajaUsuarioResponse {
-  Usuario usuario = 1;
+  bool suceso = 1;
 }
 
 message Empty {}
 
 message UsuarioListResponse {
-  repeated UsuarioDTO usuarios = 1;
+  repeated Usuario usuarios = 1;
 }
 
 service UsuarioService {
