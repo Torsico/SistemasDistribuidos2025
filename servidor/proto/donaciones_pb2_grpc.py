@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-import usuarios_pb2 as usuarios__pb2
+import donaciones_pb2 as donaciones__pb2
 
 GRPC_GENERATED_VERSION = '1.74.0'
 GRPC_VERSION = grpc.__version__
@@ -18,14 +18,14 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in usuarios_pb2_grpc.py depends on'
+        + f' but the generated code in donaciones_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
     )
 
 
-class UsuarioServiceStub(object):
+class DonacionesServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -34,91 +34,91 @@ class UsuarioServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetUsuarios = channel.unary_unary(
-                '/usuarios.UsuarioService/GetUsuarios',
-                request_serializer=usuarios__pb2.Empty.SerializeToString,
-                response_deserializer=usuarios__pb2.UsuarioListResponse.FromString,
+        self.GetDonaciones = channel.unary_unary(
+                '/donaciones.DonacionesService/GetDonaciones',
+                request_serializer=donaciones__pb2.Empty.SerializeToString,
+                response_deserializer=donaciones__pb2.ListDonacionesResponse.FromString,
                 _registered_method=True)
-        self.AltaUsuario = channel.unary_unary(
-                '/usuarios.UsuarioService/AltaUsuario',
-                request_serializer=usuarios__pb2.AltaUsuarioRequest.SerializeToString,
-                response_deserializer=usuarios__pb2.AltaUsuarioResponse.FromString,
+        self.AltaDonaciones = channel.unary_unary(
+                '/donaciones.DonacionesService/AltaDonaciones',
+                request_serializer=donaciones__pb2.AltaDonacionesRequest.SerializeToString,
+                response_deserializer=donaciones__pb2.AltaDonacionesResponse.FromString,
                 _registered_method=True)
-        self.ModUsuario = channel.unary_unary(
-                '/usuarios.UsuarioService/ModUsuario',
-                request_serializer=usuarios__pb2.ModUsuarioRequest.SerializeToString,
-                response_deserializer=usuarios__pb2.ModUsuarioResponse.FromString,
+        self.ModDonaciones = channel.unary_unary(
+                '/donaciones.DonacionesService/ModDonaciones',
+                request_serializer=donaciones__pb2.ModDonacionesRequest.SerializeToString,
+                response_deserializer=donaciones__pb2.ModDonacionesResponse.FromString,
                 _registered_method=True)
-        self.BajaUsuario = channel.unary_unary(
-                '/usuarios.UsuarioService/BajaUsuario',
-                request_serializer=usuarios__pb2.BajaUsuarioRequest.SerializeToString,
-                response_deserializer=usuarios__pb2.BajaUsuarioResponse.FromString,
+        self.BajaDonaciones = channel.unary_unary(
+                '/donaciones.DonacionesService/BajaDonaciones',
+                request_serializer=donaciones__pb2.BajaDonacionesRequest.SerializeToString,
+                response_deserializer=donaciones__pb2.BajaDonacionesResponse.FromString,
                 _registered_method=True)
 
 
-class UsuarioServiceServicer(object):
+class DonacionesServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def GetUsuarios(self, request, context):
+    def GetDonaciones(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def AltaUsuario(self, request, context):
+    def AltaDonaciones(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def ModUsuario(self, request, context):
+    def ModDonaciones(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def BajaUsuario(self, request, context):
+    def BajaDonaciones(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_UsuarioServiceServicer_to_server(servicer, server):
+def add_DonacionesServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetUsuarios': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetUsuarios,
-                    request_deserializer=usuarios__pb2.Empty.FromString,
-                    response_serializer=usuarios__pb2.UsuarioListResponse.SerializeToString,
+            'GetDonaciones': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetDonaciones,
+                    request_deserializer=donaciones__pb2.Empty.FromString,
+                    response_serializer=donaciones__pb2.ListDonacionesResponse.SerializeToString,
             ),
-            'AltaUsuario': grpc.unary_unary_rpc_method_handler(
-                    servicer.AltaUsuario,
-                    request_deserializer=usuarios__pb2.AltaUsuarioRequest.FromString,
-                    response_serializer=usuarios__pb2.AltaUsuarioResponse.SerializeToString,
+            'AltaDonaciones': grpc.unary_unary_rpc_method_handler(
+                    servicer.AltaDonaciones,
+                    request_deserializer=donaciones__pb2.AltaDonacionesRequest.FromString,
+                    response_serializer=donaciones__pb2.AltaDonacionesResponse.SerializeToString,
             ),
-            'ModUsuario': grpc.unary_unary_rpc_method_handler(
-                    servicer.ModUsuario,
-                    request_deserializer=usuarios__pb2.ModUsuarioRequest.FromString,
-                    response_serializer=usuarios__pb2.ModUsuarioResponse.SerializeToString,
+            'ModDonaciones': grpc.unary_unary_rpc_method_handler(
+                    servicer.ModDonaciones,
+                    request_deserializer=donaciones__pb2.ModDonacionesRequest.FromString,
+                    response_serializer=donaciones__pb2.ModDonacionesResponse.SerializeToString,
             ),
-            'BajaUsuario': grpc.unary_unary_rpc_method_handler(
-                    servicer.BajaUsuario,
-                    request_deserializer=usuarios__pb2.BajaUsuarioRequest.FromString,
-                    response_serializer=usuarios__pb2.BajaUsuarioResponse.SerializeToString,
+            'BajaDonaciones': grpc.unary_unary_rpc_method_handler(
+                    servicer.BajaDonaciones,
+                    request_deserializer=donaciones__pb2.BajaDonacionesRequest.FromString,
+                    response_serializer=donaciones__pb2.BajaDonacionesResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'usuarios.UsuarioService', rpc_method_handlers)
+            'donaciones.DonacionesService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('usuarios.UsuarioService', rpc_method_handlers)
+    server.add_registered_method_handlers('donaciones.DonacionesService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class UsuarioService(object):
+class DonacionesService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def GetUsuarios(request,
+    def GetDonaciones(request,
             target,
             options=(),
             channel_credentials=None,
@@ -131,9 +131,9 @@ class UsuarioService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/usuarios.UsuarioService/GetUsuarios',
-            usuarios__pb2.Empty.SerializeToString,
-            usuarios__pb2.UsuarioListResponse.FromString,
+            '/donaciones.DonacionesService/GetDonaciones',
+            donaciones__pb2.Empty.SerializeToString,
+            donaciones__pb2.ListDonacionesResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -145,7 +145,7 @@ class UsuarioService(object):
             _registered_method=True)
 
     @staticmethod
-    def AltaUsuario(request,
+    def AltaDonaciones(request,
             target,
             options=(),
             channel_credentials=None,
@@ -158,9 +158,9 @@ class UsuarioService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/usuarios.UsuarioService/AltaUsuario',
-            usuarios__pb2.AltaUsuarioRequest.SerializeToString,
-            usuarios__pb2.AltaUsuarioResponse.FromString,
+            '/donaciones.DonacionesService/AltaDonaciones',
+            donaciones__pb2.AltaDonacionesRequest.SerializeToString,
+            donaciones__pb2.AltaDonacionesResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -172,7 +172,7 @@ class UsuarioService(object):
             _registered_method=True)
 
     @staticmethod
-    def ModUsuario(request,
+    def ModDonaciones(request,
             target,
             options=(),
             channel_credentials=None,
@@ -185,9 +185,9 @@ class UsuarioService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/usuarios.UsuarioService/ModUsuario',
-            usuarios__pb2.ModUsuarioRequest.SerializeToString,
-            usuarios__pb2.ModUsuarioResponse.FromString,
+            '/donaciones.DonacionesService/ModDonaciones',
+            donaciones__pb2.ModDonacionesRequest.SerializeToString,
+            donaciones__pb2.ModDonacionesResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -199,7 +199,7 @@ class UsuarioService(object):
             _registered_method=True)
 
     @staticmethod
-    def BajaUsuario(request,
+    def BajaDonaciones(request,
             target,
             options=(),
             channel_credentials=None,
@@ -212,9 +212,9 @@ class UsuarioService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/usuarios.UsuarioService/BajaUsuario',
-            usuarios__pb2.BajaUsuarioRequest.SerializeToString,
-            usuarios__pb2.BajaUsuarioResponse.FromString,
+            '/donaciones.DonacionesService/BajaDonaciones',
+            donaciones__pb2.BajaDonacionesRequest.SerializeToString,
+            donaciones__pb2.BajaDonacionesResponse.FromString,
             options,
             channel_credentials,
             insecure,

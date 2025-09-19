@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Agregar la carpeta 'proto' al path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "proto"))
+
 from concurrent import futures
 import logging
 
@@ -14,7 +20,7 @@ from proto import rol_pb2_grpc
 class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
     def GetUsuarios(self, request, context):
         usuariosBD = get_usuarios()
-        lista = usuarios_pb2.ListaUsuarios()
+        lista = usuarios_pb2.UsuarioListResponse()
         for u in usuariosBD:
             lista.usuarios.append(
                 usuarios_pb2.Usuario(
