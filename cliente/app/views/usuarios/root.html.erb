@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Usuarios</title>
+	<!-- <link rel="stylesheet" href="stylesheet.css"> -->
+</head>
+<body>
+	
+	<%= render "shared/navbar" %>
+	
+	<div class="centermini" style="display: flex;">
+		<table style="width: 100%">
+		<tr>
+			<th>Nombre</td>
+			<th>Apellido</td>
+			<th>Usuario</td>
+		</tr>
+		
+		<% @usuarios.each do |user| %>
+		<tr>
+			<td><%= user.nombre %></td>
+			<td><%= user.apellido %></td>
+			<td><%= user.nombreusuario %></td>
+		</tr>
+		<% end %>
+		
+		<!--
+		<tr>
+			<td>Nombre</td>
+			<td>Apellido</td>
+			<td>Usuario</td>
+		</tr>
+		<tr>
+			<td>Nombre</td>
+			<td>Apellido</td>
+			<td>Usuario</td>
+		</tr>
+		</table>
+		-->
+	</div>
+	
+</body>
+</html>
