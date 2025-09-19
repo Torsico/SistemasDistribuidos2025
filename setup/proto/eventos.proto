@@ -2,6 +2,8 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 
+import "usuarios.proto";
+
 package eventos;
 
 message EventosDTO{
@@ -15,7 +17,7 @@ message Eventos{
     string nombre = 2;
     string descripcion = 3;
     google.protobuf.Timestamp fecha = 4;
-    repeated Usuario usuario = 5;
+    repeated usuarios.Usuario usuario = 5;
 }
 
 message AltaEventoRequest{
@@ -60,9 +62,9 @@ message ListEventosResponse{
 
 service EventosService{
     rpc GetEventos(Empty) returns (ListEventosResponse);
-    rpc AltaEvento(AltaDonacionesRequest) returns (AltaDonacionesResponse);
-    rpc ModEvento(ModDonacionesRequest) returns (ModEventoResponse);
-    rpc BajaEvento(BajaDonacionesRequest) returns (BajaEventoResponse);
+    rpc AltaEvento(AltaEventoRequest) returns (AltaEventoResponse);
+    rpc ModEvento(ModEventoRequest) returns (ModEventoResponse);
+    rpc BajaEvento(BajaEventoRequest) returns (BajaEventoResponse);
     rpc AgregarMiembro(AsignarMiembroRequest) returns (Empty);
     rpc QuitarMiembro(QuitarMiembroRequest) returns (Empty);
 }
