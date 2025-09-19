@@ -24,15 +24,10 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
         for u in usuariosBD:
             lista.usuarios.append(
                 usuarios_pb2.Usuario(
-                    idusuario=u[0],
-                    nombreUsuario=u[1],
-                    nombre=u[2],
-                    apellido=u[3],
-                    email=u[4],
-                    rol=u[5],
-                    clave=u[6],
-                    telefono=u[7],
-                    activo=bool(u[8])
+                    nombreUsuario=u[0],
+                    nombre=u[1],
+                    apellido=u[2],
+                    email=u[3],
                 )
             )
         return lista
