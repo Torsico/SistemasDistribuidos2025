@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package roles;
+
+message Empty{
+
+}
+
+message RolDTO{
+    int64 idrol = 1;
+    string nombre = 2;
+}
+
+message RolListResponse{
+    repeated RolDTO roles = 1;
+}
+
+service RolService{
+    rpc GetRoles(Empty) returns (RolListResponse);
+    rpc updateRoles(RolDTO) returns (Empty);
+}
+
