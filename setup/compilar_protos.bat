@@ -8,7 +8,7 @@
 :: .. es el root del proyecto
 set rubyTarget=..\cliente\lib
 set pyTarget=..\servidor\proto
-set compFiles=rol.proto usuarios.proto
+set compFiles=rol.proto usuarios.proto eventos.proto donaciones.proto
 
 echo.
 echo Compilando protos Ruby...
