@@ -26,3 +26,20 @@ class Usuario
     end
     
 end
+
+class Rol
+    @@dd
+    
+    def initialize(id, nom)
+        @id = id
+        @nombre = nom
+    end
+end
+
+class Inventario
+    
+end
+
+class Evento
+    
+end
