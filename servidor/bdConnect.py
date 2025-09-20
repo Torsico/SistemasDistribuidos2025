@@ -23,7 +23,7 @@ def alta_usuario(nombreUsuario, nombre, apellido, email, rol, clave, telefono, a
     try:
         conn =  get_connection()
         cursor = conn.cursor()
-        sql = "INSERT INTO usuarios (nombreUsuario, nombre, apellido, email, rol, clave, telefono, activo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO usuario (nombreUsuario, nombre, apellido, email, rol, clave, telefono, activo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
         values = (nombreUsuario, nombre, apellido, email, rol, clave, telefono, activo)
         cursor.execute(sql, values)
         conn.commit()
@@ -31,37 +31,37 @@ def alta_usuario(nombreUsuario, nombre, apellido, email, rol, clave, telefono, a
         conn.close()
         return True
     except Exception as e:
-        print("Error al cargar")
+        print("Error al cargar:", e)
         return False
     
-def mod_usuario(idusuario, nombreUsuario, nombre, apellido, email, rol, clave, telefono, activo):
+def mod_usuario(idusuario, nombreUsuario, nombre, apellido, rol, telefono, activo):
     try:
         conn =  get_connection()
         cursor = conn.cursor()
-        sql = "UPDATE usuarios SET nombreUsuario = %s, nombre = %s, apellido = %s, email = %s, rol = = %s, telefono = %s, activo = %s WHERE idusuario = %s"
-        values = (nombreUsuario, nombre, apellido, email, rol, clave, telefono, activo)
+        sql = "UPDATE usuario SET nombreUsuario = %s, nombre = %s, apellido = %s, rol = %s, telefono = %s, activo = %s WHERE idusuario = %s"
+        values = (nombreUsuario, nombre, apellido, rol, telefono, activo, idusuario)
         cursor.execute(sql, values)
         conn.commit()
         cursor.close()
         conn.close()
         return True
     except Exception as e:
-        print("Error al cargar")
+        print("Error al cargar:", e)
         return False
     
 def baja_usuario(idusuario):
     try:
         conn =  get_connection()
         cursor = conn.cursor()
-        sql = "UPDATE usuarios SET activo = false WHERE idusuario = %s"
-        values = (idusuario)
+        sql = "UPDATE usuario SET activo = false WHERE idusuario = %s"
+        values = (idusuario,)
         cursor.execute(sql, values)
         conn.commit()
         cursor.close()
         conn.close()
         return True
     except Exception as e:
-        print("Error al cargar")
+        print("Error al cargar:", e)
         return False
 
 # ...

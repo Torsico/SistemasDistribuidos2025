@@ -37,7 +37,6 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
     
     def AltaUsuario(self, request, context):
         usuario = request.usuario
-
         exito = alta_usuario(
             usuario.nombreUsuario,
             usuario.nombre,
@@ -54,20 +53,18 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
         usuario = request.usuario
 
         exito = mod_usuario(
+            usuario.idusuario,
             usuario.nombreUsuario,
             usuario.nombre,
             usuario.apellido,
-            usuario.email,
             usuario.rol,
-            usuario.clave,
             usuario.telefono,
             usuario.activo
         )
         return usuarios_pb2.ModUsuarioResponse(suceso=exito)
     
     def BajaUsuario(self, request, context):
-        usuario = request.usuario
-        exito = baja_usuario(usuario)
+        exito = baja_usuario(request.idusuario)
         return usuarios_pb2.BajaUsuarioResponse(suceso=exito)
 
 
