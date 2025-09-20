@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `dist2025`.`usuario` (
   `apellido` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `rol` INT NOT NULL,
-  `clave` VARCHAR(45) NULL,
+  `clave` VARCHAR(100) NULL,
   `telefono` VARCHAR(45) NULL,
   `activo` TINYINT NULL,
   PRIMARY KEY (`idusuario`),
