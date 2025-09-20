@@ -6,12 +6,6 @@ import "usuarios.proto";
 
 package eventos;
 
-message EventosDTO{
-    string nombre = 1;
-    string descripcion = 2;
-    google.protobuf.Timestamp fecha = 3;
-}
-
 message Eventos{
     int64 ideventos = 1;
     string nombre = 2;
@@ -21,7 +15,7 @@ message Eventos{
 }
 
 message AltaEventoRequest{
-    EventosDTO evento = 1;
+    Eventos evento = 1;
 }
 
 message AltaEventoResponse{
@@ -57,7 +51,7 @@ message QuitarMiembroRequest{
 message Empty{}
 
 message ListEventosResponse{
-    repeated EventosDTO evento = 1;
+    repeated Eventos evento = 1;
 }
 
 service EventosService{
