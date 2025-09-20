@@ -19,6 +19,14 @@ def get_usuarios():
     conn.close()
     return rows
 
+def get_usuario(idusuario):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT idusuario, nombreUsuario, nombre, apellido, email, rol, clave, telefono, activo FROM dist2025.usuario WHERE idusuario = %s",(idusuario,))
+    row = cursor.fetchone()
+    conn.close()
+    return row
+
 def alta_usuario(nombreUsuario, nombre, apellido, email, rol, clave, telefono, activo):
     try:
         conn =  get_connection()

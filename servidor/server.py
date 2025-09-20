@@ -9,7 +9,7 @@ import logging
 import grpc
 
 from security import generar_clave, encriptar_clave, verificar_clave
-from bdConnect import get_usuarios, alta_usuario, mod_usuario, baja_usuario
+from bdConnect import get_usuario, get_usuarios, alta_usuario, mod_usuario, baja_usuario
 from bdConnect import get_roles
 from proto import usuarios_pb2, usuarios_pb2_grpc
 from proto import rol_pb2, rol_pb2_grpc
@@ -35,6 +35,22 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
             )
         return lista
     
+    def GetUsuario(self, request, context):
+        u = get_usuario(request.idusuario)
+        usuario = usuarios_pb2.Usuario(
+                    idusuario=u[0],
+                    nombreUsuario=u[1],
+                    nombre=u[2],
+                    apellido=u[3],
+                    email=u[4],
+                    rol=u[5],
+                    clave=u[6],
+                    telefono=u[7],
+                    activo=bool(u[8])
+                )
+        return usuarios_pb2.UsuarioResponse(usuario=usuario)
+
+    
     def AltaUsuario(self, request, context):
         usuario = request.usuario
         clave = generar_clave()
@@ -56,7 +72,7 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
             ("codigo-error", "EMAIL_DUPLICADO"),
             ("mensaje-error", f"El email '{usuario.email}' ya existe")
         ))
-        context.abort(grpc.StatusCode.ALREADY_EXISTS, f"El email '{usuario.email}' ya esta registrado")
+        #context.abort(grpc.StatusCode.ALREADY_EXISTS, f"El email '{usuario.email}' ya esta registrado")
         return usuarios_pb2.AltaUsuarioResponse(suceso=exito)
     
     def ModUsuario(self, request, context):
@@ -77,7 +93,7 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
             ("codigo-error", "ID no encontrado"),
             ("mensaje-error", f"No se encontro el usuario con id: {usuario.idusuario}")
         ))
-        context.abort(grpc.StatusCode.NOT_FOUND, f"Usuario con id {usuario.idusuario} no encontrado")
+        #context.abort(grpc.StatusCode.NOT_FOUND, f"Usuario con id {usuario.idusuario} no encontrado")
 
         return usuarios_pb2.ModUsuarioResponse(suceso=exito)
     
@@ -89,7 +105,7 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
             ("codigo-error", "ID no encontrado"),
             ("mensaje-error", f"No se encontro el usuario con id: {request.idusuario}")
         ))
-        context.abort(grpc.StatusCode.NOT_FOUND, f"Usuario con id {request.idusuario} no encontrado")
+        #context.abort(grpc.StatusCode.NOT_FOUND, f"Usuario con id {request.idusuario} no encontrado")
 
         return usuarios_pb2.BajaUsuarioResponse(suceso=exito)
 

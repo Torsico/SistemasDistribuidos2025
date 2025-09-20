@@ -34,6 +34,11 @@ class UsuarioServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.GetUsuario = channel.unary_unary(
+                '/usuarios.UsuarioService/GetUsuario',
+                request_serializer=usuarios__pb2.UsuarioRequest.SerializeToString,
+                response_deserializer=usuarios__pb2.UsuarioResponse.FromString,
+                _registered_method=True)
         self.GetUsuarios = channel.unary_unary(
                 '/usuarios.UsuarioService/GetUsuarios',
                 request_serializer=usuarios__pb2.Empty.SerializeToString,
@@ -58,6 +63,12 @@ class UsuarioServiceStub(object):
 
 class UsuarioServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
+
+    def GetUsuario(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def GetUsuarios(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -86,6 +97,11 @@ class UsuarioServiceServicer(object):
 
 def add_UsuarioServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'GetUsuario': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetUsuario,
+                    request_deserializer=usuarios__pb2.UsuarioRequest.FromString,
+                    response_serializer=usuarios__pb2.UsuarioResponse.SerializeToString,
+            ),
             'GetUsuarios': grpc.unary_unary_rpc_method_handler(
                     servicer.GetUsuarios,
                     request_deserializer=usuarios__pb2.Empty.FromString,
@@ -116,6 +132,33 @@ def add_UsuarioServiceServicer_to_server(servicer, server):
  # This class is part of an EXPERIMENTAL API.
 class UsuarioService(object):
     """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def GetUsuario(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/usuarios.UsuarioService/GetUsuario',
+            usuarios__pb2.UsuarioRequest.SerializeToString,
+            usuarios__pb2.UsuarioResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
 
     @staticmethod
     def GetUsuarios(request,

@@ -73,3 +73,15 @@ class UsuarioListResponse(_message.Message):
     USUARIOS_FIELD_NUMBER: _ClassVar[int]
     usuarios: _containers.RepeatedCompositeFieldContainer[Usuario]
     def __init__(self, usuarios: _Optional[_Iterable[_Union[Usuario, _Mapping]]] = ...) -> None: ...
+
+class UsuarioRequest(_message.Message):
+    __slots__ = ("idusuario",)
+    IDUSUARIO_FIELD_NUMBER: _ClassVar[int]
+    idusuario: int
+    def __init__(self, idusuario: _Optional[int] = ...) -> None: ...
+
+class UsuarioResponse(_message.Message):
+    __slots__ = ("usuario",)
+    USUARIO_FIELD_NUMBER: _ClassVar[int]
+    usuario: Usuario
+    def __init__(self, usuario: _Optional[_Union[Usuario, _Mapping]] = ...) -> None: ...

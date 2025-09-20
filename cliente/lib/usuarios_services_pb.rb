@@ -14,6 +14,7 @@ module Usuarios
       self.unmarshal_class_method = :decode
       self.service_name = 'usuarios.UsuarioService'
 
+      rpc :GetUsuario, ::Usuarios::UsuarioRequest, ::Usuarios::UsuarioResponse
       rpc :GetUsuarios, ::Usuarios::Empty, ::Usuarios::UsuarioListResponse
       rpc :AltaUsuario, ::Usuarios::AltaUsuarioRequest, ::Usuarios::AltaUsuarioResponse
       rpc :ModUsuario, ::Usuarios::ModUsuarioRequest, ::Usuarios::ModUsuarioResponse

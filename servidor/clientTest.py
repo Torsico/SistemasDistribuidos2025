@@ -42,6 +42,16 @@ def run():
             print(f"ID: {u.idusuario}, Usuario: {u.nombreUsuario}, Nombre: {u.nombre} {u.apellido}, Email: {u.email}, Rol: {u.rol}, Activo: {u.activo}")
         
         ## Test Usuario
+
+        # Obtener 1 usuario
+
+        request = usuarios_pb2.UsuarioRequest(idusuario=1)
+        response = stub.GetUsuario(request)
+
+        u = response.usuario
+        print(f"ID: {u.idusuario}, Usuario: {u.nombreUsuario}, Nombre: {u.nombre} {u.apellido}, Email: {u.email}, Rol: {u.rol}, Activo: {u.activo}")
+        
+
         # Alta Usuario
 
         usuarioAlta = usuarios_pb2.Usuario(

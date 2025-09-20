@@ -44,7 +44,16 @@ message UsuarioListResponse {
   repeated Usuario usuarios = 1;
 }
 
+message UsuarioRequest{
+  int32 idusuario = 1;
+}
+
+message UsuarioResponse{
+  Usuario usuario = 1;
+}
+
 service UsuarioService {
+  rpc GetUsuario(UsuarioRequest) returns (UsuarioResponse);
   rpc GetUsuarios (Empty) returns (UsuarioListResponse);
   rpc AltaUsuario (AltaUsuarioRequest) returns (AltaUsuarioResponse);
   rpc ModUsuario (ModUsuarioRequest) returns (ModUsuarioResponse);
