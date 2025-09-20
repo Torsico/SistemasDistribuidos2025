@@ -7,9 +7,9 @@ message Usuario {
   string nombreUsuario = 2;
   string nombre = 3;
   string apellido = 4;
-  string email = 5;
+  optional string email = 5;
   int64 rol = 6;
-  string clave = 7;
+  optional string clave = 7;
   string telefono = 8;
   bool activo = 9;
 }

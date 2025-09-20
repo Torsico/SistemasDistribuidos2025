@@ -6,9 +6,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "proto"))
 
 from concurrent import futures
 import logging
-
 import grpc
 
+from security import generar_clave, encriptar_clave, verificar_clave
 from bdConnect import get_usuarios, alta_usuario, mod_usuario, baja_usuario
 from bdConnect import get_roles
 from proto import usuarios_pb2, usuarios_pb2_grpc
@@ -37,6 +37,8 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
     
     def AltaUsuario(self, request, context):
         usuario = request.usuario
+        clave = generar_clave()
+        claveEncriptada = encriptar_clave(clave)
 
         exito = alta_usuario(
             usuario.nombreUsuario,
@@ -44,30 +46,51 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
             usuario.apellido,
             usuario.email,
             usuario.rol,
-            usuario.clave,      # Modificar luego para que se autogenere la clave
+            claveEncriptada,
             usuario.telefono,
             usuario.activo
         )
+
+        if not exito:
+            context.set_trailing_metadata((
+            ("codigo-error", "EMAIL_DUPLICADO"),
+            ("mensaje-error", f"El email '{usuario.email}' ya existe")
+        ))
+        context.abort(grpc.StatusCode.ALREADY_EXISTS, f"El email '{usuario.email}' ya esta registrado")
         return usuarios_pb2.AltaUsuarioResponse(suceso=exito)
     
     def ModUsuario(self, request, context):
         usuario = request.usuario
 
         exito = mod_usuario(
+            usuario.idusuario,
             usuario.nombreUsuario,
             usuario.nombre,
             usuario.apellido,
-            usuario.email,
             usuario.rol,
-            usuario.clave,
             usuario.telefono,
             usuario.activo
         )
+
+        if not exito:
+            context.set_trailing_metadata((
+            ("codigo-error", "ID no encontrado"),
+            ("mensaje-error", f"No se encontro el usuario con id: {usuario.idusuario}")
+        ))
+        context.abort(grpc.StatusCode.NOT_FOUND, f"Usuario con id {usuario.idusuario} no encontrado")
+
         return usuarios_pb2.ModUsuarioResponse(suceso=exito)
     
     def BajaUsuario(self, request, context):
-        usuario = request.usuario
-        exito = baja_usuario(usuario)
+        exito = baja_usuario(request.idusuario)
+
+        if not exito:
+            context.set_trailing_metadata((
+            ("codigo-error", "ID no encontrado"),
+            ("mensaje-error", f"No se encontro el usuario con id: {request.idusuario}")
+        ))
+        context.abort(grpc.StatusCode.NOT_FOUND, f"Usuario con id {request.idusuario} no encontrado")
+
         return usuarios_pb2.BajaUsuarioResponse(suceso=exito)
 
 
