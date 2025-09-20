@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Usuarios</title>
+	<!-- <link rel="stylesheet" href="stylesheet.css"> -->
+</head>
+<body>
+	
+	<%= render "shared/navbar" %>
+	
+	<%= render "shared/notif" %>
+	
+	<div class="centermini" style="display: flex;">
+		<table style="width: 100%; display: table; clear: both;">
+		<tr>
+			<th></th>
+			<th>Usuario</th>
+			<th>Nombre</th>
+			<th>Apellido</th>
+			<th>E-mail</th>
+			<th>Rol</th> <%# transformar esto a string despues %>
+			<th>Telefono</th>
+			<th>Activo</th> <%# transformar a bool o algo %>
+		</tr>
+		
+		<% @usuarios.each do |user| %>
+		<tr>
+			<td>
+				<a href="/usuarios/1/edit" class="btn">
+    				Mod
+				</a>
+			</td>
+			<td><%= user.nombreUsuario %></td>
+			<td><%= user.nombre %></td>
+			<td><%= user.apellido %></td>
+			<td><%= user.email %></td>
+			<td><%= user.rol %></td>
+			<td><%= user.telefono %></td>
+			<td><%= user.activo %></td>
+		</tr>
+		<% end %>
+		</table>
+	</div>
+	<div class="centermini" style="display: flex;">
+		<!--<input type="submit" value="Alternar activo">-->
+		<input type="submit" value="Modificar">
+		<input type="submit" value="Crear">
+	</div>
+	
+</body>
+</html>

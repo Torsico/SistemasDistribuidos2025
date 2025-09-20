@@ -48,9 +48,28 @@ body {
 	justify-content: space-between;
 }
 
+div.centernotif {
+	padding: 8px;
+	margin: auto;
+	width: 80%;
+	background-color: #94c2ff;
+	color: black;
+	text-align: center;
+	font-size: larger;
+}
+
 .centermini {
 	padding: 8px;
 	margin: auto;
-	width: 60%;
+	width: 80%;
 	background-color: #fff;
+}
+
+a.btn {
+    padding: 1px 6px;
+    border: 1px outset buttonborder;
+    border-radius: 3px;
+    /*color: buttontext;
+    background-color: buttonface;*/
+    text-decoration: none;
 }

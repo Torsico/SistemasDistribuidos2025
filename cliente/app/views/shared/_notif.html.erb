@@ -1,0 +1,10 @@
+	<% if flash[:noticetext] then %>
+	<div class="centernotif"
+		style="background-color: <%= flash[:noticecolor] %>"
+	>
+		
+		<%= flash[:noticetext] %>
+		
+	</div>
+	<br>
+	<% end %>

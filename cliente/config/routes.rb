@@ -14,5 +14,8 @@ Rails.application.routes.draw do
 
   root "root#root"
   
-  get "usuarios" => "usuarios#root"
+  resources :usuarios, only: [
+    :index, :new, :create, :edit, :update, :destroy
+  ]
+  
 end

@@ -9,22 +9,20 @@ require 'google/protobuf/empty_pb'
 
 class UsuariosController < ApplicationController
     
-    def root
+    def index
+        # Al cargar la pagina, se muestran los usuarios.
+        # Tambien se muestran los botones de accion.
+        
         lista = []
-        #lista.push Usuario.new.scramble!
-        #lista.push Usuario.new.scramble!
-        #lista.push Usuario.new.scramble!
         
         stub = Usuarios::UsuarioService::Stub.new('localhost:50051', :this_channel_is_insecure)
         
         begin
             response = stub.get_usuarios(Google::Protobuf::Empty.new)
             
-            response.usuarios.each do |xd|
-                u = Usuario.new
-                u.nombre = xd.nombre
-                u.apellido = xd.apellido
-                u.nombreusuario = xd.nombreUsuario
+            response.usuarios.each do |user|
+                #puts user
+                u = Usuario.new(user)
                 lista.push u
             end
             
@@ -33,12 +31,40 @@ class UsuariosController < ApplicationController
             u.nombre = 503
             lista.push u
             
+            # colores en application_controller.rb
+            flash[:noticecolor] = @@color_error
+            flash[:noticetext] = "503: El servidor no esta disponible"
+            
+            
             #redirect_to controller: :root, action: :root
         rescue => exception
             puts exception
+            flash[:noticecolor] = @@color_supererror
+            flash[:noticetext] = exception
         end
         
         @usuarios = lista
+        #render locals: {ntext: notiftext, ncolor: notifcolor}
+    end
+    
+    def show # no usamos show
+        redirect_to "usuarios"
+    end
+    
+    def new
+        @make = true
+        @id = nil
+        form
+    end
+    def edit
+        @make = false
+        @id = params[:id]
+        form
+    end
+    
+    def form
+        flash[:noticetext] = "make? '#{@make}' id? '#{@id}'"
+        render :form
     end
 end
   
