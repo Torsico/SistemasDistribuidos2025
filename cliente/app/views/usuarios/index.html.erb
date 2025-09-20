@@ -12,6 +12,8 @@
 	
 	<%= render "shared/notif" %>
 	
+	<% unless @badlist %>
+	
 	<div class="centermini" style="display: flex;">
 		<table style="width: 100%; display: table; clear: both;">
 		<tr>
@@ -28,8 +30,9 @@
 		<% @usuarios.each do |user| %>
 		<tr>
 			<td>
-				<a href="/usuarios/1/edit" class="btn">
-    				Mod
+				<a href="/usuarios/mod/<%=user.idusuario%>" class="btn"
+					title="Modificar este usuario">
+    				📋
 				</a>
 			</td>
 			<td><%= user.nombreUsuario %></td>
@@ -44,10 +47,12 @@
 		</table>
 	</div>
 	<div class="centermini" style="display: flex;">
-		<!--<input type="submit" value="Alternar activo">-->
-		<input type="submit" value="Modificar">
-		<input type="submit" value="Crear">
+		<a href="/usuarios/alta" class="btn">
+			Crear nuevo usuario
+    	</a>
 	</div>
+	
+	<% end %>
 	
 </body>
 </html>

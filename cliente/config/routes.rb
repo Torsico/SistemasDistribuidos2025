@@ -14,8 +14,14 @@ Rails.application.routes.draw do
 
   root "root#root"
   
-  resources :usuarios, only: [
-    :index, :new, :create, :edit, :update, :destroy
-  ]
+  #resources(...) enruta:
+  # #index #new #show #edit (todos GET)
+  # #create #update #destroy (POST PATCH/PUT DELETE)
+  #resources :usuarios
+  get "usuarios" => "usuarios#index"
+  get "usuarios/alta" => "usuarios#altaform"
+  get "usuarios/mod/:id" => "usuarios#modform"
+  post "usuarios/alta" => "usuarios#altapost"
+  post "usuarios/mod/:id" => "usuarios#modpost"
   
 end

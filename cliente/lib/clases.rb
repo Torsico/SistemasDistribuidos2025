@@ -9,11 +9,20 @@ puts "!!!!!!!!!!!!!!!!!!  clases.rb RECARGADO"
 
 $session = nil # popular con algo despues jaja
 
+ROLE_NADIE = 0
 ROLE_PRESIDENTE = 1
 ROLE_VOCAL = 2
 ROLE_COORDINADOR = 3
 ROLE_VOLUNTARIO = 4
-ROLE_NADIE = 999
+ROLE_NADIE2 = 5
+
+$rolelut = [
+    "xxx",
+    "Presidente",
+    "Vocal",
+    "Coordinador",
+    "Voluntario",
+]
 
 class LocalSession
     
@@ -67,7 +76,7 @@ end
 
 
 class Usuario
-    attr_accessor :id, :nombre, :apellido, :nombreUsuario,
+    attr_accessor :idusuario, :nombre, :apellido, :nombreUsuario,
         :telefono, :email, :rol, :activo
     
     def initialize(gRPCobj = nil)

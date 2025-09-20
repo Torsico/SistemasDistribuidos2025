@@ -66,10 +66,12 @@ div.centernotif {
 }
 
 a.btn {
-    padding: 1px 6px;
+    padding: 1px 2px;
     border: 1px outset buttonborder;
-    border-radius: 3px;
+    border-radius: 4px;
     /*color: buttontext;
     background-color: buttonface;*/
     text-decoration: none;
+	background-color: #ccc;
+	color: #000;
 }

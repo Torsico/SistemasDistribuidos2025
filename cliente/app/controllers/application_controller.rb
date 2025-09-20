@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   
   # prepara la cajita de notificacion
   def notice_setup
-    flash[:noticetext] = nil # si recibe texto, shared/notif se mostrara
+    #flash[:noticetext] = nil # si recibe texto, shared/notif se mostrara
     flash[:noticecolor] = @@color_info
   end
 end

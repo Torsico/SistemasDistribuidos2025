@@ -9,6 +9,8 @@ require 'google/protobuf/empty_pb'
 
 class UsuariosController < ApplicationController
     
+    @@lastlista = nil
+    
     def index
         # Al cargar la pagina, se muestran los usuarios.
         # Tambien se muestran los botones de accion.
@@ -18,6 +20,7 @@ class UsuariosController < ApplicationController
         stub = Usuarios::UsuarioService::Stub.new('localhost:50051', :this_channel_is_insecure)
         
         begin
+            @badlist = false
             response = stub.get_usuarios(Google::Protobuf::Empty.new)
             
             response.usuarios.each do |user|
@@ -30,6 +33,8 @@ class UsuariosController < ApplicationController
             u = Usuario.new
             u.nombre = 503
             lista.push u
+            
+            @badlist = true
             
             # colores en application_controller.rb
             flash[:noticecolor] = @@color_error
@@ -44,27 +49,47 @@ class UsuariosController < ApplicationController
         end
         
         @usuarios = lista
+        @@lastlista = lista
+        #flash[:list] = lista
+        #flash.keep :list
         #render locals: {ntext: notiftext, ncolor: notifcolor}
     end
     
-    def show # no usamos show
-        redirect_to "usuarios"
-    end
-    
-    def new
+    def altaform
         @make = true
         @id = nil
         form
     end
-    def edit
+    def modform
         @make = false
         @id = params[:id]
         form
     end
     
     def form
-        flash[:noticetext] = "make? '#{@make}' id? '#{@id}'"
+        #flash[:noticetext] = "make? '#{@make}' id? '#{@id}' gog? #{@@lastlista}"
+        flash[:noticetext] = "!!!"
+        if @make
+            flash.now[:noticetext] = "Creando nuevo usuario..."
+        else
+            @editee = @@lastlista[@id.to_i-1] # off by 1
+            # id usuarios nunca va a tener un espacio en blanco
+            flash.now[:noticetext] = "Editando usuario #{@editee.nombreUsuario}..."
+        end
         render :form
     end
+    
+    
+    def altapost
+        flash[:noticetext] = "Usuario \"#{params[:nombreUsuario]}\" creado! TODO"
+        
+        redirect_to "/usuarios"
+    end
+    def modpost
+        flash[:noticetext] = "Usuario \"#{params[:nombreUsuario]}\" editado! TODO"
+        
+        redirect_to "/usuarios"
+    end
+    
 end
   

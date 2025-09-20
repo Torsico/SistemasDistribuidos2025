@@ -12,20 +12,68 @@
 	
 	<%= render "shared/notif" %>
 	
-	<form>
+	<form
+		autocomplete="off"
+		<% if @make %>
+			method="post"
+			action="alta"
+		<% else %>
+			method="post"
+			action="<%=@editee.idusuario%>"
+		<% end %>
+	>
 	<div class="centermini" style="display: flex;">
 		<ul>
-			<label for="namein">Nombre</label>
-			<input name="namein" type="input"><br>
-			<label for="apelin">Apellido</label>
-			<input name="apelin" type="input"><br>
+			<label for="nombreUsuario">Nombre de Usuario</label>
+			<input name="nombreUsuario" type="input"
+				placeholder="<%= @editee&.nombreUsuario %>">
+			<br>
+			
+			<label for="nombre">Nombre</label>
+			<input name="nombre" type="input"
+				placeholder="<%= @editee&.nombre %>">
+			<br>
+			
+			<label for="apellido">Apellido</label>
+			<input name="apellido" type="input"
+				placeholder="<%= @editee&.apellido %>">
+			<br>
+			
+			<label for="telefono">Telefono</label>
+			<input name="telefono" type="input"
+				placeholder="<%= @editee&.telefono %>">
+			<br>
+			
+			<label for="email">E-mail</label>
+			<input name="email" id="email" type="input"
+				placeholder="<%= @editee&.email %>">
+			<br>
+			
+			<label for="clave">Clave</label>
+			<input name="clave" id="clave" type="input"
+				placeholder="******?">
+			<br>
+			
+			<label for="rol">Rol</label>
+			<select name="rol">
+				<% for i in 1..4 do %>
+					<option value="<%=i%>"
+					<%="selected" if @editee&.rol==i || (@editee.nil? && i==1)%>>
+						<%= $rolelut[i] %>
+					</option>
+				<% end %>
+			</select>
+			<br>
+			
+			<label for="activo">Activo</label>
+			<input name="activo" type="checkbox"
+				<%= "checked" if @editee&.activo %>>
+			<br>
 		</ul>
 	</div>
 	<div class="centermini" style="display: flex;">
-		<% if @make %>
-			<input type="submit" value="Crear">
-		<% else %>
-			<input type="submit" value="Modificar">
+		<% if @make %><input type="submit" value="Crear">
+		<% else %><input type="submit" value="Modificar">
 		<% end %>
 	</div>
 	</form>
