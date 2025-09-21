@@ -8,12 +8,29 @@ from concurrent import futures
 import logging
 import grpc
 
-from security import generar_clave, encriptar_clave, verificar_clave
+from security import generar_clave, encriptar_clave
+from bdConnect import verificar_usuario
 from bdConnect import get_usuario, get_usuarios, alta_usuario, mod_usuario, baja_usuario
+from bdConnect import get_donaciones, alta_donaciones, mod_donaciones, baja_donaciones
 from bdConnect import get_roles
+from proto import session_pb2, session_pb2_grpc
 from proto import usuarios_pb2, usuarios_pb2_grpc
+from proto import donaciones_pb2, donaciones_pb2_grpc
 from proto import rol_pb2, rol_pb2_grpc
 
+class LoginServiceImpl(session_pb2_grpc.LoginServiceServicer):
+    def Login(self, request, context):
+        usuario_email = request.usuario_email
+        clave = request.clave
+
+        exito, mensaje, idusuario = verificar_usuario(usuario_email, clave)
+
+        if not exito:
+            context.set_details(mensaje)
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            return session_pb2.LoginResponse(suceso=False)
+
+        return session_pb2.LoginResponse(suceso=True)
 
 class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
     def GetUsuarios(self, request, context):
@@ -33,6 +50,7 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
                     activo=bool(u[8])
                 )
             )
+        print("- Lista: ", lista)
         return lista
     
     def GetUsuario(self, request, context):
@@ -48,6 +66,7 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
                     telefono=u[7],
                     activo=bool(u[8])
                 )
+        print("- Usuario: ", usuario)
         return usuarios_pb2.UsuarioResponse(usuario=usuario)
 
     
@@ -56,6 +75,7 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
         clave = generar_clave()
         claveEncriptada = encriptar_clave(clave)
 
+        print("- Alta Usuario: ", usuario)
         exito = alta_usuario(
             usuario.nombreUsuario,
             usuario.nombre,
@@ -67,6 +87,8 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
             usuario.activo
         )
 
+        print("- Estado de alta: ", exito)
+
         if not exito:
             context.set_trailing_metadata((
             ("codigo-error", "EMAIL_DUPLICADO"),
@@ -77,7 +99,7 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
     
     def ModUsuario(self, request, context):
         usuario = request.usuario
-
+        print("- Usuario a Modificar: ", usuario)
         exito = mod_usuario(
             usuario.idusuario,
             usuario.nombreUsuario,
@@ -87,6 +109,7 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
             usuario.telefono,
             usuario.activo
         )
+        print("- Estado de modificacion: ", exito)
 
         if not exito:
             context.set_trailing_metadata((
@@ -99,6 +122,8 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
     
     def BajaUsuario(self, request, context):
         exito = baja_usuario(request.idusuario)
+        print(f"- Usuario con id: {request.idusuario}")
+        print("- Estado de Baja: ", exito)
 
         if not exito:
             context.set_trailing_metadata((
@@ -108,7 +133,65 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
         #context.abort(grpc.StatusCode.NOT_FOUND, f"Usuario con id {request.idusuario} no encontrado")
 
         return usuarios_pb2.BajaUsuarioResponse(suceso=exito)
+    
+class DonacionesServiceImpl(donaciones_pb2_grpc.DonacionesServiceServicer):
+    def GetDonaciones(self, request, context):
+        donacionesBD = get_donaciones()
+        listaDonaciones = donaciones_pb2.ListDonacionesResponse()
+        for d in donacionesBD:
+            listaDonaciones.donaciones.append(
+                donaciones_pb2.Donaciones(
+                    iddonaciones=d[0],
+                    categoria=d[1],
+                    descripcion=d[2],
+                    cantidad=d[3],
+                    eliminado=d[4],
+                    fecha_alta=d[5],
+                    fecha_mod=d[6],
+                    usuario_alta=d[7],
+                    usuario_mod=d[8]
+                )
+            )
+        return listaDonaciones
+    
+    def AltaDonaciones(self, request, context):
+        donaciones = request.donaciones
+        exito = alta_donaciones(
+            donaciones.categoria,
+            donaciones.descripcion,
+            donaciones.cantidad,
+            donaciones.eliminado,
+            donaciones.fecha_alta,
+            donaciones.usuario_alta
+        )
+        if not exito:
+            context.set_trailing_metadata((
+                ("codigo-error", "Error alta"),
+                ("mensaje-error", "No se pudo crear la donacion")
+            ))
+        #context.abort(grpc.StatusCode.INTERNAL, f"No se pudo crear la donacion")
+        return usuarios_pb2.AltaUsuarioResponse(suceso=exito)
+    
+    def ModDonaciones(self, request, context):
+        donaciones = request.donaciones
+        exito = mod_donaciones(
+            donaciones.iddonaciones,
+            donaciones.descripcion,
+            donaciones.cantidad,
+            donaciones.usuario_mod
+        )
+        if not exito:
+            context.set_trailing_metadata((
+                ("codigo-error", "Error modificaciones"),
+                ("mensaje-error", f"No se encontro la donacion con id: {donaciones.iddonaciones}")
+            ))
+        #context.abort(grpc.StatusCode.NOT_FOUND, f"No se encontro la donacion")
+        return donaciones_pb2.ModDonacionesResponse(suceso=exito)
 
+    def BajaDonaciones(self, request, context):
+
+        return super().BajaDonaciones(request, context)
+    
 
 class RolServiceImpl(rol_pb2_grpc.RolServiceServicer):
     def GetRoles(self, request, context):

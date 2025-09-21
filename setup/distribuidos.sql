@@ -59,8 +59,8 @@ CREATE TABLE IF NOT EXISTS `dist2025`.`donaciones` (
   `descripcion` VARCHAR(45) NOT NULL,
   `cantidad` INT NOT NULL,
   `eliminado` TINYINT NULL,
-  `hora_alta` VARCHAR(45) NULL,
-  `hora_mod` VARCHAR(45) NULL,
+  `fecha_alta` DATETIME NULL,
+  `fecha_mod` DATETIME NULL,
   `usuario_alta` INT NOT NULL,
   `usuario_mod` INT NOT NULL,
   PRIMARY KEY (`iddonaciones`),
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `dist2025`.`eventos` (
   `ideventos` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `descripcion` VARCHAR(45) NOT NULL,
-  `fechaHora` DATE NOT NULL,
+  `fechaHora` DATETIME NOT NULL,
   PRIMARY KEY (`ideventos`))
 ENGINE = InnoDB;
 

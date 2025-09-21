@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package session;
+
+message LoginRequest {
+  string usuario_email = 1;
+  string clave = 2;
+}
+
+message LoginResponse {
+  bool suceso = 1;
+  string mensaje = 2;
+  int32 idusuario = 3;
+}
+
+message logoutRequest{
+
+}
+
+message logoutResponse{
+    bool suceso = 1;
+}
+
+service LoginService {
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc Logout(logoutRequest) returns (logoutResponse);
+}

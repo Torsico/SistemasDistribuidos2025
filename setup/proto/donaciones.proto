@@ -4,30 +4,24 @@ import "google/protobuf/timestamp.proto";
 
 package donaciones;
 
-message DonacionesDTO{
-    string categoria = 1;
-    string descripcion = 2;
-    int32 cantidad = 3;
-}
-
 message Donaciones{
     int64 iddonaciones = 1;
     string categoria = 2;
     string descripcion = 3;
     int32 cantidad = 4;
     bool eliminado = 5;
-    google.protobuf.Timestamp hora_alta = 6;
-    google.protobuf.Timestamp hora_mod = 7;
+    google.protobuf.Timestamp fecha_alta = 6;
+    google.protobuf.Timestamp fecha_mod = 7;
     int64 usuario_alta = 8;
     int64 usuario_mod = 9;
 }
 
 message AltaDonacionesRequest{
-    DonacionesDTO donaciones = 1;
+    Donaciones donaciones = 1;
 }
 
 message AltaDonacionesResponse{
-    Donaciones donaciones = 1;
+    bool suceso = 1;
 }
 
 message ModDonacionesRequest{
@@ -35,7 +29,7 @@ message ModDonacionesRequest{
 }
 
 message ModDonacionesResponse{
-    Donaciones donaciones = 1;
+    bool suceso = 1;
 }
 
 message BajaDonacionesRequest{
@@ -43,13 +37,13 @@ message BajaDonacionesRequest{
 }
 
 message BajaDonacionesResponse{
-    Donaciones donaciones = 1;
+    bool suceso = 1;
 }
 
 message Empty{}
 
 message ListDonacionesResponse{
-    repeated DonacionesDTO donaciones = 1;
+    repeated Donaciones donaciones = 1;
 }
 
 service DonacionesService{
