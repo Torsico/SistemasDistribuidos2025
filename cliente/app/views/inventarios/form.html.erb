@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Usuarios</title>
+	<!-- <link rel="stylesheet" href="stylesheet.css"> -->
+</head>
+<body>
+	
+	<%= render "shared/navbar" %>
+	
+	<%= render "shared/notif" %>
+	
+	<div>
+		<%= case @style
+			when :alta; "Creando"
+			when :mod; "Modificando"
+			when :baja; "Confirmar baja de"
+			else "???????????????"
+			end %> donacion <%="?" if @style==:baja%>
+	</div>
+	
+	<form
+		autocomplete="off"
+		method="post"
+		<% case @style %>
+		<% when :alta %>
+			action="alta"
+		<% when :mod, :baja %>
+			action="<%=69%>"
+		<% end %>
+	>
+	<div class="centermini" style="display: flex;">
+		<ul>
+			<%if @style == :baja %>
+				<%=@editee.descripcion%>
+			<%else%>
+			
+			<%if @style==:alta%>
+			<label>Categoria</label>
+			<span style="color:red">*</span>
+			<input name="categoria" type="input" required>
+			<br>
+			<%end%>
+			
+			<label>Descripcion</label>
+			<span style="color:red">*</span>
+			<input name="descripcion" type="input"
+			<%if @style==:mod%>
+				placeholder="<%=@editee.descripcion%>"
+				required
+			<%end%>
+			>
+			<br>
+			
+			<label>Cantidad</label>
+			<span style="color:red">*</span>
+			<input name="cantidad" type="number"
+				value="<%=@style==:mod ? @editee.cantidad : "0"%>"
+			min="0" required>
+			<br>
+			
+			<%if @style==:alta%>
+			<input type="hidden" name="eliminado" value="0">
+			<%else%>
+			<label>Eliminado?</label>
+			<input name="activo" type="checkbox"
+				<%= "checked" if @editee.eliminado %>>
+			<br>
+			<%end%>
+			
+			
+			<%# hace falta? no se xd %>
+			
+			<% end %>
+			
+			
+		</ul>
+	</div>
+	<div class="centermini" style="display: flex;">
+		<input type="submit" value="<%=
+			case @style
+			when :alta; "Crear"
+			when :mod; "Modificar"
+			when :baja; "Confirmar baja!"
+			else "???????????????"
+			end
+		%>">
+	</div>
+	</form>
+	
+</body>
+</html>

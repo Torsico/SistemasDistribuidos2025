@@ -7,6 +7,8 @@ require 'rol_pb'
 require 'rol_services_pb'
 require 'eventos_pb'
 require 'eventos_services_pb'
+require 'donaciones_pb'
+require 'donaciones_services_pb'
 require 'google/protobuf/empty_pb'
 
 class EventosController < ApplicationController

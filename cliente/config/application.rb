@@ -25,6 +25,10 @@ RolPb = 1
 RolServicesPb = 1
 SessionPb = 1
 SessionServicesPb = 1
+DonacionesPb = 1
+DonacionesServicesPb = 1
+EventosPb = 1
+EventosServicesPb = 1
 
 module Cliente
   class Application < Rails::Application

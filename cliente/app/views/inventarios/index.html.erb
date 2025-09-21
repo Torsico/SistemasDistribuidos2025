@@ -12,5 +12,56 @@
 	
 	<%= render "shared/notif" %>
 	
+	<% unless @badlist %>
+	
+	<div class="centermini" style="display: flex;">
+		<table style="width: 100%; display: table; clear: both;">
+		<tr>
+			<th></th>
+			<th>Categoria</th>
+			<th>Descripcion</th>
+			<th>Cantidad</th>
+			<th>Eliminado</th>
+			<th>Alta por</th>
+			<th>Mod por</th>
+		</tr>
+		
+		<% @items.sort_by(&:first).each do |key, item| %>
+		<tr>
+			<td>
+				<a href="/inventarios/mod/<%=item.iddonaciones%>" class="btn"
+					title="Modificar">
+    				📋
+				</a>
+				<a href="/inventarios/baja/<%=item.iddonaciones%>" class="btn"
+					title="Eliminar">
+    				❌
+				</a>
+			</td>
+			<td><%= item.categoria %></td>
+			<td><%= item.descripcion %></td>
+			<td><%= item.cantidad %></td>
+			<td><%= item.eliminado %></td>
+			<td>
+				<%= item.fecha_alta.to_time %><br>
+				<%# item.usuario_alta %>
+				<%= @users[item.usuario_alta].nombreUsuario %>
+			</td>
+			<td>
+				<%= item.fecha_mod.to_time %><br>
+				<%= @users[item.usuario_mod].nombreUsuario %>
+			</td>
+		</tr>
+		<% end %>
+		</table>
+	</div>
+	<div class="centermini" style="display: flex;">
+		<a href="/inventarios/alta" class="btn">
+			Nuevo
+    	</a>
+	</div>
+	
+	<% end %>
+	
 </body>
 </html>

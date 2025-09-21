@@ -30,12 +30,12 @@ Rails.application.routes.draw do
 	post "usuarios/mod/:id"	=> "usuarios#modpost"
 	
 	get "inventarios"			=> "inventarios#index"
-	get "inventario/alta"		=> "inventarios#altaform"
-	get "inventario/mod/:id"	=> "inventarios#modform"
-	get "inventario/baja/:id"	=> "inventarios#bajaform"
-	post "inventario/alta"		=> "inventarios#altapost"
-	post "inventario/mod/:id"	=> "inventarios#modpost"
-	post "inventario/baja/:id"	=> "inventarios#bajapost"
+	get "inventarios/alta"		=> "inventarios#altaform"
+	get "inventarios/mod/:id"	=> "inventarios#modform"
+	get "inventarios/baja/:id"	=> "inventarios#bajaform"
+	post "inventarios/alta"		=> "inventarios#altapost"
+	post "inventarios/mod/:id"	=> "inventarios#modpost"
+	post "inventarios/baja/:id"	=> "inventarios#bajapost"
 	
 	get "eventos"			=> "eventos#index"
 	get "eventos/alta"		=> "eventos#altaform"
