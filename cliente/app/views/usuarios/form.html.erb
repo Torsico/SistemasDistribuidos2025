@@ -24,18 +24,25 @@
 	>
 	<div class="centermini" style="display: flex;">
 		<ul>
+			
 			<label for="nombreUsuario">Nombre de Usuario</label>
+			<span style="color:red"><%= "*" if @make %></span>
 			<input name="nombreUsuario" type="input"
+				<%= "required" if @make %>
 				placeholder="<%= @editee&.nombreUsuario %>">
 			<br>
 			
 			<label for="nombre">Nombre</label>
+			<span style="color:red"><%= "*" if @make %></span>
 			<input name="nombre" type="input"
+				<%= "required" if @make %>
 				placeholder="<%= @editee&.nombre %>">
 			<br>
 			
 			<label for="apellido">Apellido</label>
+			<span style="color:red"><%= "*" if @make %></span>
 			<input name="apellido" type="input"
+				<%= "required" if @make %>
 				placeholder="<%= @editee&.apellido %>">
 			<br>
 			
@@ -45,13 +52,10 @@
 			<br>
 			
 			<label for="email">E-mail</label>
+			<span style="color:red"><%= "*" if @make %></span>
 			<input name="email" id="email" type="input"
+				<%= "required" if @make %>
 				placeholder="<%= @editee&.email %>">
-			<br>
-			
-			<label for="clave">Clave</label>
-			<input name="clave" id="clave" type="input"
-				placeholder="******?">
 			<br>
 			
 			<label for="rol">Rol</label>
@@ -69,6 +73,15 @@
 			<input name="activo" type="checkbox"
 				<%= "checked" if @editee&.activo %>>
 			<br>
+			
+			<% if @make %>
+			<br><br>
+			<label for="clave">Clave</label>
+			<span style="color:red">*</span>
+			<input name="clave" id="clave" type="input" required>
+			<br><br>
+			<% end %>
+			
 		</ul>
 	</div>
 	<div class="centermini" style="display: flex;">
