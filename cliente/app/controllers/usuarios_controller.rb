@@ -10,6 +10,13 @@ require 'google/protobuf/empty_pb'
 class UsuariosController < ApplicationController
     
     @@lastlista = nil
+    @@stub = nil
+    
+    before_action do
+        unless @@stub # reusar stub en vez de crear uno nuevo
+            @@stub = Usuarios::UsuarioService::Stub.new('localhost:50051', :this_channel_is_insecure)
+        end
+    end
     
     def index
         # Al cargar la pagina, se muestran los usuarios.
@@ -17,11 +24,11 @@ class UsuariosController < ApplicationController
         
         lista = []
         
-        stub = Usuarios::UsuarioService::Stub.new('localhost:50051', :this_channel_is_insecure)
+        #stub = Usuarios::UsuarioService::Stub.new('localhost:50051', :this_channel_is_insecure)
         
         begin
             @badlist = false
-            response = stub.get_usuarios(Google::Protobuf::Empty.new)
+            response = @@stub.get_usuarios(Google::Protobuf::Empty.new)
             
             response.usuarios.each do |user|
                 #puts user
@@ -76,6 +83,7 @@ class UsuariosController < ApplicationController
             # id usuarios nunca va a tener un espacio en blanco
             flash.now[:noticetext] = "Editando usuario #{@editee.nombreUsuario}..."
         end
+        
         render :form
     end
     
