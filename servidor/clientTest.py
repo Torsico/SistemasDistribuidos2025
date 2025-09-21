@@ -180,7 +180,9 @@ def run():
         response = stub.AltaEvento(request)
         print("Respuesta del Servidor: ", response.suceso)
 
-        
+        request = eventos_pb2.BajaEventoRequest(ideventos=4)
+        response = stub.BajaEvento(request)
+        print("Respuesta del servidor:", response.suceso)
 
         ## Test Roles
         

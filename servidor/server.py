@@ -13,7 +13,7 @@ from security import generar_clave, encriptar_clave, generar_token, verificar_to
 from bdConnect import verificar_usuario
 from bdConnect import get_usuario, get_usuarios, alta_usuario, mod_usuario, baja_usuario
 from bdConnect import get_donaciones, alta_donaciones, mod_donaciones, baja_donaciones
-from bdConnect import get_eventos, alta_eventos
+from bdConnect import get_eventos, alta_eventos, baja_eventos
 from bdConnect import get_roles, obtener_usuario
 from proto import session_pb2, session_pb2_grpc
 from proto import usuarios_pb2, usuarios_pb2_grpc
@@ -248,9 +248,9 @@ class DonacionesServiceImpl(donaciones_pb2_grpc.DonacionesServiceServicer):
             context.abort(grpc.StatusCode.UNAUTHENTICATED, resultado["error"])
         idusuario = resultado["idusuario"]
 
-
         donaciones = request.iddonaciones
         exito = baja_donaciones(donaciones,idusuario)
+        print("Estado de Baja de Donacion: ", exito)
 
         if not exito:
             context.set_trailing_metadata((
@@ -320,6 +320,18 @@ class EventoServiceImpl(eventos_pb2_grpc.EventosServiceServicer):
     def ModEvento(self, request, context):
         return super().ModEvento(request, context)
 
+    def BajaEvento(self, request, context):
+        exito = baja_eventos(request.ideventos)
+        print("Estado de Baja de Evento: ", exito)
+
+        if not exito:
+            context.set_trailing_metadata((
+            ("codigo-error", "ID no encontrado"),
+            ("mensaje-error", f"No se encontro el evento con id: {request.ideventos}")
+        ))
+        #context.abort(grpc.StatusCode.NOT_FOUND, f"Evento con id {request.ideventos} no encontrado")
+
+        return eventos_pb2.BajaEventoResponse(suceso=exito)
 
 
 class RolServiceImpl(rol_pb2_grpc.RolServiceServicer):

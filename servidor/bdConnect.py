@@ -224,6 +224,30 @@ def alta_eventos(nombre, descripcion, fecha, usuarios):
         print("Error al cargar:", e)
         return False
 
+def baja_eventos(ideventos):
+    try:
+        conn =  get_connection()
+        cursor = conn.cursor()
+        now = datetime.now()
+
+        cursor.execute("SELECT fechaHora FROM eventos WHERE ideventos = %s", (ideventos,))
+        fechaHora = cursor.fetchone()
+
+        fecha_evento = fechaHora[0]
+        if fecha_evento <= now:
+            print("Solo se pueden eliminar eventos a futuro")
+            return False
+
+        cursor.execute("DELETE FROM participacion WHERE eventos_ideventos = %s", (ideventos,))
+        cursor.execute("DELETE FROM donaciones_has_eventos WHERE eventos_ideventos = %s", (ideventos,))
+        cursor.execute("DELETE FROM eventos WHERE ideventos = %s", (ideventos,))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return True
+    except Exception as e:
+        print("Error al cargar:", e)
+        return False
 # ...
 
 def get_roles():
