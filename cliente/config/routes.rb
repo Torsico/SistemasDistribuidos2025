@@ -18,6 +18,11 @@ Rails.application.routes.draw do
   # #index #new #show #edit (todos GET)
   # #create #update #destroy (POST PATCH/PUT DELETE)
   #resources :usuarios
+  
+  get "login" => "root#login"
+  post "login" => "root#loginpost"
+  post "logout" => "root#logoutpost"
+  
   get "usuarios" => "usuarios#index"
   get "usuarios/alta" => "usuarios#altaform"
   get "usuarios/mod/:id" => "usuarios#modform"

@@ -1,6 +1,26 @@
 class RootController < ApplicationController
     def root
-        # nada para mostrar, se va a renderizar lo de siempre
+        # cosas
+    end
+    
+    def loginpost
+        
+        #rq = Usuarios::ModUsuarioRequest.new
+        #rq.usuario = u
+        
+        
+        flash[:noticetext] = ":)"
+        flash[:noticecolor] = @@color_info
+        redirect_to "/"
+    end
+    
+    def logoutpost
+        
+        
+        
+        flash[:noticetext] = ":()"
+        flash[:noticecolor] = @@color_info
+        redirect_to "/"
     end
 end
   

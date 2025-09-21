@@ -5,6 +5,9 @@
 }
 
 /* navbar algo bonito */
+ul {
+	list-style-type: none;
+}
 ul.navbar {
 	display:flex;
 	overflow: hidden;

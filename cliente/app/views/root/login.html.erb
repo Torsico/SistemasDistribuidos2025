@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Usuarios</title>
+	<!-- <link rel="stylesheet" href="stylesheet.css"> -->
+</head>
+<body>
+	
+	<%= render "shared/navbar" %>
+	
+	<%= render "shared/notif" %>
+	
+	<div class="centermini" style="display: flex;">
+		<form method="post" action="login">
+		<ul>
+			<li>
+			<label for="user">Usuario/Email</label>
+			<span style="color:red">*</span>
+			<input name="nombreUsuario" type="input">
+			<br>
+			</li>
+			
+			<li>
+			<label for="pass">Clave</label>
+			<span style="color:red">*</span>
+			<input name="pass" id="pass" type="input" required>
+			</li>
+			
+		</ul>
+        <br>
+        <input type="submit" value="Login">
+        </form>
+	</div>
+	
+</body>
+</html>
