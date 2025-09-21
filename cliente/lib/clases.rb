@@ -7,14 +7,11 @@ puts "!!!!!!!!!!!!!!!!!!  clases.rb RECARGADO"
 # la vista no te deja cambiar lo que no se permite.
 # (y en produccion, aunque pudieras, el servidor no lo aceptaria xd)
 
-$session = nil # popular con algo despues jaja
-
 ROLE_NADIE = 0
 ROLE_PRESIDENTE = 1
 ROLE_VOCAL = 2
 ROLE_COORDINADOR = 3
 ROLE_VOLUNTARIO = 4
-ROLE_NADIE2 = 5
 
 $rolelut = [
     "xxx",
@@ -24,56 +21,46 @@ $rolelut = [
     "Voluntario",
 ]
 
+# !!! nos tomamos unas libertades con el cliente !!!
+# 
+# asumimos 1 unico usuario que usa el view
+# el cual usa el cliente
+# el cual guarda de forma global y estatica su sesion con el servidor
+# 
+# no es seguro, pero...
 class LocalSession
     
-    @@role = ROLE_NADIE
-    @@name = nil
-    @@token = nil
+    @@user = nil
     
-    def log_in(name, pass)
-        # send login request
-        # receive success, name, role and token
-        @@role = ROLE_PRESIDENTE
-        @@name = "test"
-        @@token = "tokentoken"
+    def user=(u)
+        @@user = u
     end
-    def log_out
-        # if i have a token,
-        # grpc log out
-        # then toss token
-        @@role = ROLE_NADIE
-        @@name = nil
-        @@token = nil
+    def user
+        @@user
     end
-    
-    def ensure_consistency!
-        if @@token == nil
-            @@role = ROLE_NADIE
-            @@name = nil
-        else
-            @@name ||= "BADTOKEN"
-        end
+    def forget_user!
+        @@user = nil  
     end
     
     def logged_in?
-        return !!@@token
+        return !!@@user
     end
     
     def can_mod_users?
-        return @@role == ROLE_PRESIDENTE
+        return !!@@user && @@user.rol == ROLE_PRESIDENTE
     end
     def can_mod_inventory?
-        return @@role <= ROLE_VOCAL
+        return !!@@user && @@user.rol <= ROLE_VOCAL
     end
     def can_mod_events?
-        return @@role == ROLE_PRESIDENTE || @@role == ROLE_COORDINADOR
+        return !!@@user && (@@user.rol == ROLE_PRESIDENTE || @@user.rol == ROLE_COORDINADOR)
     end
     def can_join_events?
-        return @@role <= ROLE_VOLUNTARIO
+        return !!@@user && @@user.rol <= ROLE_VOLUNTARIO
     end
 end
 
-
+$session = LocalSession.new
 
 class Usuario
     attr_accessor :idusuario, :nombre, :apellido, :nombreUsuario,

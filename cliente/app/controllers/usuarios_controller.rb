@@ -112,7 +112,7 @@ class UsuariosController < ApplicationController
         rp = @@stub.alta_usuario( rq )
         
         if rp.suceso then
-            flash[:noticetext] = "Usuario creado!"
+            flash[:noticetext] = "Usuario creado!\nSu contraseña es \"#{rp.clave}\""
             flash[:noticecolor] = @@color_success
         else
             flash[:noticetext] = "Error: no se puede usar nombre de usuario ya existente"

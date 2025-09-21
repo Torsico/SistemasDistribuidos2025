@@ -1,17 +1,33 @@
 	<div class="navbarbox">
 		<ul class="navbar">
-			<li class="text">???</li>
+			<li class="text">:)</li>
 
 			<!-- despues ver como iluminar boton cuya pagina destino es la actual -->
-
+			
+			<% if $session.can_mod_users? %>
 			<li><a href="/usuarios">Usuarios</a></li>
+			<% end %>
+			<% if $session.can_mod_inventory? %>
 			<li><a href="/inventarios">Inventarios</a></li>
+			<% end %>
+			<% if $session.can_mod_events? || $session.can_join_events? %>
 			<li><a href="/eventos">Eventos</a></li>
+			<% end %>
 		</ul>
 		
 		<ul class="navbar" style="float: right">
-			<li class="text">Hola, nombreusuario</li>
-			<li><a href="/login">Loggy</a></li>
+			<% if $session.logged_in? %>
+			<li class="text" style="font-size: smaller;">
+				<%=$session.user.nombreUsuario%>
+			</li>
+			<li class="text" style="font-size: smaller;">
+				<%=$rolelut[$session.user.rol]%>
+			</li>
+			<li><a href="/logout">Logout</a></li>
+			<% else %>
+			<%#<li class="text">Hola, nombreusuario</li>%>
+			<li><a href="/login">Login</a></li>
+			<% end %>
 		</ul>
 	</div>
 	<br>

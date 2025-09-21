@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 	
 	get "login"		=> "root#login"
 	post "login"	=> "root#loginpost"
-	post "logout"	=> "root#logoutpost"
+	get "logout"	=> "root#logout"
 	
 	get "usuarios"			=> "usuarios#index"
 	get "usuarios/alta"		=> "usuarios#altaform"
