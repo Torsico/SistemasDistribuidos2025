@@ -7,7 +7,7 @@ require 'google/protobuf'
 require 'usuarios_pb'
 
 
-descriptor_data = "\n\rsession.proto\x12\x07session\x1a\x0eusuarios.proto\"4\n\x0cLoginRequest\x12\x15\n\rusuario_email\x18\x01 \x01(\t\x12\r\n\x05\x63lave\x18\x02 \x01(\t\"T\n\rLoginResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\x12\'\n\x07usuario\x18\x02 \x01(\x0b\x32\x11.usuarios.UsuarioH\x00\x88\x01\x01\x42\n\n\x08_usuario\"\r\n\x0bInfoRequest\"E\n\x0cInfoResponse\x12\x11\n\tidusuario\x18\x01 \x01(\x03\x12\x15\n\rnombreUsuario\x18\x02 \x01(\t\x12\x0b\n\x03rol\x18\x03 \x01(\x03\x32\x82\x01\n\x0cLoginService\x12\x36\n\x05Login\x12\x15.session.LoginRequest\x1a\x16.session.LoginResponse\x12:\n\x0bObtenerInfo\x12\x14.session.InfoRequest\x1a\x15.session.InfoResponseb\x06proto3"
+descriptor_data = "\n\rsession.proto\x12\x07session\x1a\x0eusuarios.proto\"4\n\x0cLoginRequest\x12\x15\n\rusuario_email\x18\x01 \x01(\t\x12\r\n\x05\x63lave\x18\x02 \x01(\t\"c\n\rLoginResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\x12\'\n\x07usuario\x18\x02 \x01(\x0b\x32\x11.usuarios.UsuarioH\x00\x88\x01\x01\x12\r\n\x05token\x18\x03 \x01(\tB\n\n\x08_usuario\"\r\n\x0bInfoRequest\"E\n\x0cInfoResponse\x12\x11\n\tidusuario\x18\x01 \x01(\x03\x12\x15\n\rnombreUsuario\x18\x02 \x01(\t\x12\x0b\n\x03rol\x18\x03 \x01(\x03\x32\x82\x01\n\x0cLoginService\x12\x36\n\x05Login\x12\x15.session.LoginRequest\x1a\x16.session.LoginResponse\x12:\n\x0bObtenerInfo\x12\x14.session.InfoRequest\x1a\x15.session.InfoResponseb\x06proto3"
 
 pool = ::Google::Protobuf::DescriptorPool.generated_pool
 pool.add_serialized_file(descriptor_data)

@@ -29,7 +29,7 @@ $rolelut = [
 # 
 # no es seguro, pero...
 class LocalSession
-    
+        attr_accessor :user, :token
     @@user = nil
     
     def user=(u)

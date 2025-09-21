@@ -50,7 +50,7 @@ class LoginServiceImpl(session_pb2_grpc.LoginServiceServicer):
                     activo=bool(usuarioObtenido[8])
                 )
 
-        return session_pb2.LoginResponse(suceso=True, usuario=usuario)
+        return session_pb2.LoginResponse(suceso=True, usuario=usuario, token=token)
     
     def ObtenerInfo(self, request, context):
         metadata = dict(context.invocation_metadata())

@@ -13,6 +13,7 @@ message LoginRequest {
 message LoginResponse {
   bool suceso = 1;
   optional usuarios.Usuario usuario = 2;
+  string token = 3;
 }
 
 message InfoRequest{

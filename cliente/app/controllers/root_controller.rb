@@ -45,7 +45,10 @@ class RootController < ApplicationController
 			if rp.suceso
 				p({suc: rp.suceso, us: rp.usuario })
 				u = rp.usuario
-				$session.user = u
+				t = rp.token
+				$session.user = u	
+				$session.token = t
+
 				flash[:noticetext] = "Bienvenido, #{u.nombreUsuario}!"
 			else
 				flash[:noticetext] = "¿ :( ?"

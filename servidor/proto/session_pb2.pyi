@@ -15,12 +15,14 @@ class LoginRequest(_message.Message):
     def __init__(self, usuario_email: _Optional[str] = ..., clave: _Optional[str] = ...) -> None: ...
 
 class LoginResponse(_message.Message):
-    __slots__ = ("suceso", "usuario")
+    __slots__ = ("suceso", "usuario", "token")
     SUCESO_FIELD_NUMBER: _ClassVar[int]
     USUARIO_FIELD_NUMBER: _ClassVar[int]
+    TOKEN_FIELD_NUMBER: _ClassVar[int]
     suceso: bool
     usuario: _usuarios_pb2.Usuario
-    def __init__(self, suceso: bool = ..., usuario: _Optional[_Union[_usuarios_pb2.Usuario, _Mapping]] = ...) -> None: ...
+    token: str
+    def __init__(self, suceso: bool = ..., usuario: _Optional[_Union[_usuarios_pb2.Usuario, _Mapping]] = ..., token: _Optional[str] = ...) -> None: ...
 
 class InfoRequest(_message.Message):
     __slots__ = ()

@@ -111,7 +111,9 @@ class InventariosController < ApplicationController
         rq = Donaciones::AltaDonacionesRequest.new
         rq.donaciones = don
         
-        rp = @@stub.alta_donaciones( rq )
+        metadata = { "authorization" => $session.token }
+        rp = @@stub.alta_donaciones(rq, metadata: metadata)
+        
         
         if rp.suceso then
             flash[:noticetext] = "Donacion de \"#{params[:descripcion]}\" creada!"
