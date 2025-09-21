@@ -18,7 +18,7 @@ def verificar_usuario(usuario, clave):
     conn = get_connection()
     cursor = conn.cursor()
 
-    query = "SELECT idusuario, clave FROM dist2025.usuario WHERE nombreUsuario = %s OR email = %s"
+    query = "SELECT idusuario, clave, nombreUsuario, rol FROM dist2025.usuario WHERE nombreUsuario = %s OR email = %s"
     cursor.execute(query, (usuario, usuario))
 
     row = cursor.fetchone()
@@ -27,7 +27,7 @@ def verificar_usuario(usuario, clave):
     if not row:
         return False, "Usuario o email inexistente", None
 
-    idusuario, clave_guardada = row
+    idusuario, clave_guardada, nombreUsuario, rol = row
 
     # Caso 1: la clave es hash
     if clave_guardada.startswith("$2a$") or clave_guardada.startswith("$2b$") or clave_guardada.startswith("$2y$"):
@@ -38,7 +38,7 @@ def verificar_usuario(usuario, clave):
         if clave != clave_guardada:
             return False, "Clave incorrecta", None
 
-    return True, "Login exitoso", idusuario
+    return True, "Login exitoso", idusuario, nombreUsuario, rol
 
 # Consultas de Usuario
 

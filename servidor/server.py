@@ -8,7 +8,7 @@ from concurrent import futures
 import logging
 import grpc
 
-from security import generar_clave, encriptar_clave
+from security import generar_clave, encriptar_clave, generar_token, verificar_token
 from bdConnect import verificar_usuario
 from bdConnect import get_usuario, get_usuarios, alta_usuario, mod_usuario, baja_usuario
 from bdConnect import get_donaciones, alta_donaciones, mod_donaciones, baja_donaciones
@@ -18,19 +18,36 @@ from proto import usuarios_pb2, usuarios_pb2_grpc
 from proto import donaciones_pb2, donaciones_pb2_grpc
 from proto import rol_pb2, rol_pb2_grpc
 
+sessionToken = {}
+
+
+
 class LoginServiceImpl(session_pb2_grpc.LoginServiceServicer):
     def Login(self, request, context):
         usuario_email = request.usuario_email
         clave = request.clave
 
-        exito, mensaje, idusuario = verificar_usuario(usuario_email, clave)
+        exito, mensaje, idusuario, nombreUsuario, rol = verificar_usuario(usuario_email, clave)
 
         if not exito:
             context.set_details(mensaje)
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             return session_pb2.LoginResponse(suceso=False)
+        
+        token = generar_token(idusuario, nombreUsuario, rol)
 
-        return session_pb2.LoginResponse(suceso=True)
+        return session_pb2.LoginResponse(suceso=True, token=token)
+    
+    def ObtenerInfo(self, request, context):
+        metadata = dict(context.invocation_metadata())
+        token = metadata.get("authorization")
+
+        if not token:
+            context.abort(grpc.StatusCode.UNAUTHENTICATED, "Token no enviado")
+
+        idusuario, nombreUsuario, rol = verificar_token(token)
+
+        return session_pb2.InfoResponse(idusuario=idusuario, nombreUsuario=nombreUsuario, rol=rol)
 
 class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
     def GetUsuarios(self, request, context):
@@ -75,6 +92,10 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
         clave = generar_clave()
         claveEncriptada = encriptar_clave(clave)
 
+        print("---------------------------")
+        print(f"Clave del usuario: {clave}")
+        print("---------------------------")
+
         print("- Alta Usuario: ", usuario)
         exito = alta_usuario(
             usuario.nombreUsuario,
@@ -95,7 +116,7 @@ class UsuarioServiceImpl(usuarios_pb2_grpc.UsuarioServiceServicer):
             ("mensaje-error", f"El email '{usuario.email}' ya existe")
         ))
         #context.abort(grpc.StatusCode.ALREADY_EXISTS, f"El email '{usuario.email}' ya esta registrado")
-        return usuarios_pb2.AltaUsuarioResponse(suceso=exito)
+        return usuarios_pb2.AltaUsuarioResponse(suceso=exito, clave=clave)
     
     def ModUsuario(self, request, context):
         usuario = request.usuario
@@ -155,6 +176,10 @@ class DonacionesServiceImpl(donaciones_pb2_grpc.DonacionesServiceServicer):
         return listaDonaciones
     
     def AltaDonaciones(self, request, context):
+        metadata = dict(context.invocation_metadata())
+        token = metadata.get("authorization")
+        idusuario, _, _ = verificar_token(token)
+
         donaciones = request.donaciones
         exito = alta_donaciones(
             donaciones.categoria,
@@ -162,7 +187,7 @@ class DonacionesServiceImpl(donaciones_pb2_grpc.DonacionesServiceServicer):
             donaciones.cantidad,
             donaciones.eliminado,
             donaciones.fecha_alta,
-            donaciones.usuario_alta
+            idusuario
         )
         if not exito:
             context.set_trailing_metadata((
@@ -173,12 +198,16 @@ class DonacionesServiceImpl(donaciones_pb2_grpc.DonacionesServiceServicer):
         return usuarios_pb2.AltaUsuarioResponse(suceso=exito)
     
     def ModDonaciones(self, request, context):
+        metadata = dict(context.invocation_metadata())
+        token = metadata.get("authorization")
+        idusuario, _, _ = verificar_token(token)
+    
         donaciones = request.donaciones
         exito = mod_donaciones(
             donaciones.iddonaciones,
             donaciones.descripcion,
             donaciones.cantidad,
-            donaciones.usuario_mod
+            idusuario
         )
         if not exito:
             context.set_trailing_metadata((
@@ -189,8 +218,21 @@ class DonacionesServiceImpl(donaciones_pb2_grpc.DonacionesServiceServicer):
         return donaciones_pb2.ModDonacionesResponse(suceso=exito)
 
     def BajaDonaciones(self, request, context):
-
-        return super().BajaDonaciones(request, context)
+        metadata = dict(context.invocation_metadata())
+        token = metadata.get("authorization")
+        idusuario, _, _ = verificar_token(token)
+        donaciones = request.donaciones
+        exito = baja_donaciones(
+            donaciones.iddonaciones,
+            idusuario
+        )
+        if not exito:
+            context.set_trailing_metadata((
+                ("codigo-error", "Error baja"),
+                ("mensaje-error", f"No se encontro la donacion con id: {donaciones.iddonaciones}")
+            ))
+        #context.abort(grpc.StatusCode.NOT_FOUND, f"No se encontro la donacion")
+        return donaciones_pb2.BajaDonacionesResponse(suceso=exito)
     
 
 class RolServiceImpl(rol_pb2_grpc.RolServiceServicer):
@@ -211,8 +253,10 @@ class RolServiceImpl(rol_pb2_grpc.RolServiceServicer):
 def serve():
     port = "50051"
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    session_pb2_grpc.add_LoginServiceServicer_to_server(LoginServiceImpl(), server)
     usuarios_pb2_grpc.add_UsuarioServiceServicer_to_server(UsuarioServiceImpl(), server)
     rol_pb2_grpc.add_RolServiceServicer_to_server(RolServiceImpl(), server)
+    
     server.add_insecure_port("[::]:" + port)
     server.start()
     print("Server started, listening on " + port)

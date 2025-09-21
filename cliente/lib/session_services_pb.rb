@@ -15,7 +15,7 @@ module Session
       self.service_name = 'session.LoginService'
 
       rpc :Login, ::Session::LoginRequest, ::Session::LoginResponse
-      rpc :Logout, ::Session::LogoutRequest, ::Session::LogoutResponse
+      rpc :ObtenerInfo, ::Session::InfoRequest, ::Session::InfoResponse
     end
 
     Stub = Service.rpc_stub_class
