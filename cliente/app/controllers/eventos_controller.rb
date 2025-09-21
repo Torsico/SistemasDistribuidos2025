@@ -3,7 +3,7 @@ require 'clases' # no es necesario gracias a Rails, pero permite recargar
 require 'grpc'
 require 'google/protobuf/empty_pb'
 
-class InventariosController < ApplicationController
+class EventosController < ApplicationController
     
     @@stub = nil
     
@@ -13,7 +13,7 @@ class InventariosController < ApplicationController
         end
     end
     
-    def root
+    def index
         # cosas
         # flash[:noticetext] = ":)"
         # flash[:noticecolor] = @@color_info

@@ -13,7 +13,7 @@ class InventariosController < ApplicationController
         end
     end
     
-    def root
+    def index
         # cosas
         # flash[:noticetext] = ":)"
         # flash[:noticecolor] = @@color_info
