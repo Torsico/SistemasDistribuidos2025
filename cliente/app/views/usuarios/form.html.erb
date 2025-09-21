@@ -12,6 +12,10 @@
 	
 	<%= render "shared/notif" %>
 	
+	<div>
+		<%= @make ? "Creando" : "Editando" %> usuario
+	</div>
+	
 	<form
 		autocomplete="off"
 		<% if @make %>

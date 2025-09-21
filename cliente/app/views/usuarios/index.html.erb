@@ -22,12 +22,12 @@
 			<th>Nombre</th>
 			<th>Apellido</th>
 			<th>E-mail</th>
-			<th>Rol</th> <%# transformar esto a string despues %>
+			<th>Rol</th>
 			<th>Telefono</th>
 			<th>Activo</th> <%# transformar a bool o algo %>
 		</tr>
 		
-		<% @usuarios.each do |user| %>
+		<% @usuarios.sort_by(&:first).each do |key, user| %>
 		<tr>
 			<td>
 				<a href="/usuarios/mod/<%=user.idusuario%>" class="btn"

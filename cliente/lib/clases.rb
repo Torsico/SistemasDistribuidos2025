@@ -77,7 +77,7 @@ end
 
 class Usuario
     attr_accessor :idusuario, :nombre, :apellido, :nombreUsuario,
-        :telefono, :email, :rol, :activo
+        :telefono, :clave, :email, :rol, :activo
     
     def initialize(gRPCobj = nil)
         # se espera que gRPCobj sea una respesta de gRPC
