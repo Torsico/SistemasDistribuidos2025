@@ -23,6 +23,8 @@ UsuariosPb = 1
 UsuariosServicesPb = 1
 RolPb = 1
 RolServicesPb = 1
+SessionPb = 1
+SessionServicesPb = 1
 
 module Cliente
   class Application < Rails::Application
