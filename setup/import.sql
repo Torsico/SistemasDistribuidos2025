@@ -13,7 +13,7 @@ VALUES ('jdoe', 'John', 'Doe', 'jdoe@mail.com', 1, '1234', '1111-1111', 1),
        ('mlopez', 'Maria', 'Lopez', 'mlopez@mail.com', 2, 'abcd', '2222-2222', 1);
 
 -- Donaciones
-INSERT INTO donaciones (categoria, descripcion, cantidad, eliminado, hora_alta, hora_mod, usuario_alta, usuario_mod)
+INSERT INTO donaciones (categoria, descripcion, cantidad, eliminado, fecha_alta, fecha_mod, usuario_alta, usuario_mod)
 VALUES ('Ropa', 'Camperas de abrigo', 10, 0, '2025-09-01 10:00:00', '2025-09-01 11:00:00', 1, 2),
        ('Alimentos', 'Paquetes de arroz', 25, 0, '2025-09-05 09:30:00', '2025-09-05 09:45:00', 2, 2);
 
@@ -26,3 +26,8 @@ VALUES ('Colecta Escolar', 'Recolección de útiles escolares', '2025-10-01'),
 INSERT INTO donaciones_has_eventos (donaciones_iddonaciones, eventos_ideventos)
 VALUES (1, 1),
        (2, 2);
+
+-- Relacion participacion (eventos-usuarios)
+INSERT INTO participacion (usuario_idusuario, eventos_ideventos) 
+VALUES (2, 1), 
+	   (1, 1);

@@ -35,10 +35,12 @@ class AltaUsuarioRequest(_message.Message):
     def __init__(self, usuario: _Optional[_Union[Usuario, _Mapping]] = ...) -> None: ...
 
 class AltaUsuarioResponse(_message.Message):
-    __slots__ = ("suceso",)
+    __slots__ = ("suceso", "clave")
     SUCESO_FIELD_NUMBER: _ClassVar[int]
+    CLAVE_FIELD_NUMBER: _ClassVar[int]
     suceso: bool
-    def __init__(self, suceso: bool = ...) -> None: ...
+    clave: str
+    def __init__(self, suceso: bool = ..., clave: _Optional[str] = ...) -> None: ...
 
 class ModUsuarioRequest(_message.Message):
     __slots__ = ("usuario",)

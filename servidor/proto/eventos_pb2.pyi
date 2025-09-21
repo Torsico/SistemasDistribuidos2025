@@ -10,41 +10,31 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
-class EventosDTO(_message.Message):
-    __slots__ = ("nombre", "descripcion", "fecha")
-    NOMBRE_FIELD_NUMBER: _ClassVar[int]
-    DESCRIPCION_FIELD_NUMBER: _ClassVar[int]
-    FECHA_FIELD_NUMBER: _ClassVar[int]
-    nombre: str
-    descripcion: str
-    fecha: _timestamp_pb2.Timestamp
-    def __init__(self, nombre: _Optional[str] = ..., descripcion: _Optional[str] = ..., fecha: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ...) -> None: ...
-
 class Eventos(_message.Message):
-    __slots__ = ("ideventos", "nombre", "descripcion", "fecha", "usuario")
+    __slots__ = ("ideventos", "nombre", "descripcion", "fechaHora", "usuario")
     IDEVENTOS_FIELD_NUMBER: _ClassVar[int]
     NOMBRE_FIELD_NUMBER: _ClassVar[int]
     DESCRIPCION_FIELD_NUMBER: _ClassVar[int]
-    FECHA_FIELD_NUMBER: _ClassVar[int]
+    FECHAHORA_FIELD_NUMBER: _ClassVar[int]
     USUARIO_FIELD_NUMBER: _ClassVar[int]
     ideventos: int
     nombre: str
     descripcion: str
-    fecha: _timestamp_pb2.Timestamp
+    fechaHora: _timestamp_pb2.Timestamp
     usuario: _containers.RepeatedCompositeFieldContainer[_usuarios_pb2.Usuario]
-    def __init__(self, ideventos: _Optional[int] = ..., nombre: _Optional[str] = ..., descripcion: _Optional[str] = ..., fecha: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., usuario: _Optional[_Iterable[_Union[_usuarios_pb2.Usuario, _Mapping]]] = ...) -> None: ...
+    def __init__(self, ideventos: _Optional[int] = ..., nombre: _Optional[str] = ..., descripcion: _Optional[str] = ..., fechaHora: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., usuario: _Optional[_Iterable[_Union[_usuarios_pb2.Usuario, _Mapping]]] = ...) -> None: ...
 
 class AltaEventoRequest(_message.Message):
     __slots__ = ("evento",)
     EVENTO_FIELD_NUMBER: _ClassVar[int]
-    evento: EventosDTO
-    def __init__(self, evento: _Optional[_Union[EventosDTO, _Mapping]] = ...) -> None: ...
-
-class AltaEventoResponse(_message.Message):
-    __slots__ = ("evento",)
-    EVENTO_FIELD_NUMBER: _ClassVar[int]
     evento: Eventos
     def __init__(self, evento: _Optional[_Union[Eventos, _Mapping]] = ...) -> None: ...
+
+class AltaEventoResponse(_message.Message):
+    __slots__ = ("suceso",)
+    SUCESO_FIELD_NUMBER: _ClassVar[int]
+    suceso: bool
+    def __init__(self, suceso: bool = ...) -> None: ...
 
 class ModEventoRequest(_message.Message):
     __slots__ = ("evento",)
@@ -53,10 +43,10 @@ class ModEventoRequest(_message.Message):
     def __init__(self, evento: _Optional[_Union[Eventos, _Mapping]] = ...) -> None: ...
 
 class ModEventoResponse(_message.Message):
-    __slots__ = ("evento",)
-    EVENTO_FIELD_NUMBER: _ClassVar[int]
-    evento: Eventos
-    def __init__(self, evento: _Optional[_Union[Eventos, _Mapping]] = ...) -> None: ...
+    __slots__ = ("suceso",)
+    SUCESO_FIELD_NUMBER: _ClassVar[int]
+    suceso: bool
+    def __init__(self, suceso: bool = ...) -> None: ...
 
 class BajaEventoRequest(_message.Message):
     __slots__ = ("ideventos",)
@@ -65,10 +55,10 @@ class BajaEventoRequest(_message.Message):
     def __init__(self, ideventos: _Optional[int] = ...) -> None: ...
 
 class BajaEventoResponse(_message.Message):
-    __slots__ = ("evento",)
-    EVENTO_FIELD_NUMBER: _ClassVar[int]
-    evento: Eventos
-    def __init__(self, evento: _Optional[_Union[Eventos, _Mapping]] = ...) -> None: ...
+    __slots__ = ("suceso",)
+    SUCESO_FIELD_NUMBER: _ClassVar[int]
+    suceso: bool
+    def __init__(self, suceso: bool = ...) -> None: ...
 
 class AsignarMiembroRequest(_message.Message):
     __slots__ = ("idusuario", "ideventos")
@@ -93,5 +83,5 @@ class Empty(_message.Message):
 class ListEventosResponse(_message.Message):
     __slots__ = ("evento",)
     EVENTO_FIELD_NUMBER: _ClassVar[int]
-    evento: _containers.RepeatedCompositeFieldContainer[EventosDTO]
-    def __init__(self, evento: _Optional[_Iterable[_Union[EventosDTO, _Mapping]]] = ...) -> None: ...
+    evento: _containers.RepeatedCompositeFieldContainer[Eventos]
+    def __init__(self, evento: _Optional[_Iterable[_Union[Eventos, _Mapping]]] = ...) -> None: ...

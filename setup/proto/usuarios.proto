@@ -20,7 +20,7 @@ message AltaUsuarioRequest {
 
 message AltaUsuarioResponse {
   bool suceso = 1;
-  string clave = 2;
+  optional string clave = 2;
 }
 
 message ModUsuarioRequest {

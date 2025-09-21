@@ -21,18 +21,23 @@ def verificar_clave(clave, clave_hash):
 
 def generar_token(idusuario, nombreUsuario, rol):
     carga = {
-        "idUsuario": idusuario,
+        "idusuario": idusuario,
         "nombreUsuario": nombreUsuario,
         "rol": rol,
-        "exp": datetime.datetime.now() + datetime.timedelta(hours=1)
+        "exp": datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=1)
     }
     return jwt.encode(carga, SECRET_KEY, algorithm="HS256")
 
 def verificar_token(token):
     try:
         carga = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-        return carga["idusuario"], carga["nombreUsuario"], carga["rol"]
+        return {
+                "ok":True,
+                "idusuario":carga["idusuario"], 
+                "nombreUsuario":carga["nombreUsuario"], 
+                "rol":carga["rol"]
+                }
     except jwt.ExpiredSignatureError:
-        return (grpc.StatusCode.UNAUTHENTICATED, "Token expirado")
+        return {"ok": False, "error":"Token expirado"}
     except jwt.InvalidTokenError:
-        return (grpc.StatusCode.UNAUTHENTICATED, "Token expirado")
+        return {"ok": False, "error":"Token expirado"}

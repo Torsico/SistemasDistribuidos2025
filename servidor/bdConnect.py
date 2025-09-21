@@ -117,8 +117,9 @@ def alta_donaciones(categoria, descripcion, cantidad, eliminado, fecha_alta, usu
     try:
         conn =  get_connection()
         cursor = conn.cursor()
-        sql = "INSERT INTO donaciones (categoria, descripcion, cantidad, eliminado, fecha_alta, usuario_alta) VALUES (%s, %s, %s, %s, %s, %s)"
-        values = (categoria, descripcion, cantidad, eliminado, fecha_alta, usuario_alta)
+        now = datetime.now()
+        sql = "INSERT INTO donaciones (categoria, descripcion, cantidad, eliminado, fecha_alta, fecha_mod, usuario_alta, usuario_mod) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+        values = (categoria, descripcion, cantidad, eliminado, now, now, usuario_alta, usuario_alta)
         cursor.execute(sql, values)
         conn.commit()
         cursor.close()
@@ -159,6 +160,53 @@ def baja_donaciones(iddonaciones, usuario_mod):
     except Exception as e:
         print("Error al cargar:", e)
         return False
+# ...
+
+# Consulta Eventos
+def get_eventos():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT ideventos, nombre, descripcion, fechaHora FROM dist2025.eventos")
+    rows = cursor.fetchall()
+
+    eventosCompleto = []
+
+    for e in rows:
+        ideventos = e[0]
+        cursor.execute("""
+            SELECT u.idusuario, u.nombreUsuario, u.nombre, u.apellido, u.email, u.rol, u.clave, u.telefono, u.activo
+            FROM dist2025.usuario u
+            JOIN dist2025.participacion eu ON u.idusuario = eu.usuario_idusuario
+            WHERE eu.eventos_ideventos = %s
+            """, (ideventos,))
+        usuarios_bd = cursor.fetchall()
+
+        eventosCompleto.append({
+            "ideventos": ideventos,
+            "nombre": e[1],
+            "descripcion": e[2],
+            "fechaHora": e[3],
+            "usuarios": usuarios_bd
+        })
+    
+    conn.close()
+    return eventosCompleto
+
+def alta_eventos(nombre, descripcion, fecha, usuarios):
+    try:
+        conn =  get_connection()
+        cursor = conn.cursor()
+        sql = "INSERT INTO eventos (nombre, descripcion, fechaHora, usuarios) VALUES (%s, %s, %s, %s)"
+        values = (nombre, descripcion, fecha, usuarios)
+        cursor.execute(sql, values)
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return True
+    except Exception as e:
+        print("Error al cargar:", e)
+        return False
+
 # ...
 
 def get_roles():

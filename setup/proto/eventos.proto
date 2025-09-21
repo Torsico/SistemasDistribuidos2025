@@ -10,7 +10,7 @@ message Eventos{
     int64 ideventos = 1;
     string nombre = 2;
     string descripcion = 3;
-    google.protobuf.Timestamp fecha = 4;
+    google.protobuf.Timestamp fechaHora = 4;
     repeated usuarios.Usuario usuario = 5;
 }
 
@@ -19,7 +19,7 @@ message AltaEventoRequest{
 }
 
 message AltaEventoResponse{
-    Eventos evento = 1;
+    bool suceso = 1;
 }
 
 message ModEventoRequest{
@@ -27,7 +27,7 @@ message ModEventoRequest{
 }
 
 message ModEventoResponse{
-    Eventos evento = 1;
+    bool suceso = 1;
 }
 
 message BajaEventoRequest{
@@ -35,7 +35,7 @@ message BajaEventoRequest{
 }
 
 message BajaEventoResponse{
-    Eventos evento = 1;
+    bool suceso = 1;
 }
 
 message AsignarMiembroRequest{

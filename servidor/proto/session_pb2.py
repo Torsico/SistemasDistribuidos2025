@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rsession.proto\x12\x07session\"4\n\x0cLoginRequest\x12\x15\n\rusuario_email\x18\x01 \x01(\t\x12\r\n\x05\x63lave\x18\x02 \x01(\t\".\n\rLoginResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\x12\r\n\x05token\x18\x02 \x01(\t\"\r\n\x0bInfoRequest\"2\n\x0cInfoResponse\x12\x15\n\rnombreUsuario\x18\x01 \x01(\t\x12\x0b\n\x03rol\x18\x02 \x01(\x03\x32\x82\x01\n\x0cLoginService\x12\x36\n\x05Login\x12\x15.session.LoginRequest\x1a\x16.session.LoginResponse\x12:\n\x0bObtenerInfo\x12\x14.session.InfoRequest\x1a\x15.session.InfoResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rsession.proto\x12\x07session\"4\n\x0cLoginRequest\x12\x15\n\rusuario_email\x18\x01 \x01(\t\x12\r\n\x05\x63lave\x18\x02 \x01(\t\".\n\rLoginResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\x12\r\n\x05token\x18\x02 \x01(\t\"\r\n\x0bInfoRequest\"E\n\x0cInfoResponse\x12\x11\n\tidusuario\x18\x01 \x01(\x03\x12\x15\n\rnombreUsuario\x18\x02 \x01(\t\x12\x0b\n\x03rol\x18\x03 \x01(\x03\x32\x82\x01\n\x0cLoginService\x12\x36\n\x05Login\x12\x15.session.LoginRequest\x1a\x16.session.LoginResponse\x12:\n\x0bObtenerInfo\x12\x14.session.InfoRequest\x1a\x15.session.InfoResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -38,7 +38,7 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_INFOREQUEST']._serialized_start=128
   _globals['_INFOREQUEST']._serialized_end=141
   _globals['_INFORESPONSE']._serialized_start=143
-  _globals['_INFORESPONSE']._serialized_end=193
-  _globals['_LOGINSERVICE']._serialized_start=196
-  _globals['_LOGINSERVICE']._serialized_end=326
+  _globals['_INFORESPONSE']._serialized_end=212
+  _globals['_LOGINSERVICE']._serialized_start=215
+  _globals['_LOGINSERVICE']._serialized_end=345
 # @@protoc_insertion_point(module_scope)

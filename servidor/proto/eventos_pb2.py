@@ -26,37 +26,35 @@ from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__
 import usuarios_pb2 as usuarios__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\reventos.proto\x12\x07\x65ventos\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x0eusuarios.proto\"\\\n\nEventosDTO\x12\x0e\n\x06nombre\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scripcion\x18\x02 \x01(\t\x12)\n\x05\x66\x65\x63ha\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\x90\x01\n\x07\x45ventos\x12\x11\n\tideventos\x18\x01 \x01(\x03\x12\x0e\n\x06nombre\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scripcion\x18\x03 \x01(\t\x12)\n\x05\x66\x65\x63ha\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\"\n\x07usuario\x18\x05 \x03(\x0b\x32\x11.usuarios.Usuario\"8\n\x11\x41ltaEventoRequest\x12#\n\x06\x65vento\x18\x01 \x01(\x0b\x32\x13.eventos.EventosDTO\"6\n\x12\x41ltaEventoResponse\x12 \n\x06\x65vento\x18\x01 \x01(\x0b\x32\x10.eventos.Eventos\"4\n\x10ModEventoRequest\x12 \n\x06\x65vento\x18\x01 \x01(\x0b\x32\x10.eventos.Eventos\"5\n\x11ModEventoResponse\x12 \n\x06\x65vento\x18\x01 \x01(\x0b\x32\x10.eventos.Eventos\"&\n\x11\x42\x61jaEventoRequest\x12\x11\n\tideventos\x18\x01 \x01(\x03\"6\n\x12\x42\x61jaEventoResponse\x12 \n\x06\x65vento\x18\x01 \x01(\x0b\x32\x10.eventos.Eventos\"=\n\x15\x41signarMiembroRequest\x12\x11\n\tidusuario\x18\x01 \x01(\x03\x12\x11\n\tideventos\x18\x02 \x01(\x03\"<\n\x14QuitarMiembroRequest\x12\x11\n\tidusuario\x18\x01 \x01(\x03\x12\x11\n\tideventos\x18\x02 \x01(\x03\"\x07\n\x05\x45mpty\":\n\x13ListEventosResponse\x12#\n\x06\x65vento\x18\x01 \x03(\x0b\x32\x13.eventos.EventosDTO2\xa0\x03\n\x0e\x45ventosService\x12:\n\nGetEventos\x12\x0e.eventos.Empty\x1a\x1c.eventos.ListEventosResponse\x12\x45\n\nAltaEvento\x12\x1a.eventos.AltaEventoRequest\x1a\x1b.eventos.AltaEventoResponse\x12\x42\n\tModEvento\x12\x19.eventos.ModEventoRequest\x1a\x1a.eventos.ModEventoResponse\x12\x45\n\nBajaEvento\x12\x1a.eventos.BajaEventoRequest\x1a\x1b.eventos.BajaEventoResponse\x12@\n\x0e\x41gregarMiembro\x12\x1e.eventos.AsignarMiembroRequest\x1a\x0e.eventos.Empty\x12>\n\rQuitarMiembro\x12\x1d.eventos.QuitarMiembroRequest\x1a\x0e.eventos.Emptyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\reventos.proto\x12\x07\x65ventos\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x0eusuarios.proto\"\x94\x01\n\x07\x45ventos\x12\x11\n\tideventos\x18\x01 \x01(\x03\x12\x0e\n\x06nombre\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scripcion\x18\x03 \x01(\t\x12-\n\tfechaHora\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\"\n\x07usuario\x18\x05 \x03(\x0b\x32\x11.usuarios.Usuario\"5\n\x11\x41ltaEventoRequest\x12 \n\x06\x65vento\x18\x01 \x01(\x0b\x32\x10.eventos.Eventos\"$\n\x12\x41ltaEventoResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"4\n\x10ModEventoRequest\x12 \n\x06\x65vento\x18\x01 \x01(\x0b\x32\x10.eventos.Eventos\"#\n\x11ModEventoResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"&\n\x11\x42\x61jaEventoRequest\x12\x11\n\tideventos\x18\x01 \x01(\x03\"$\n\x12\x42\x61jaEventoResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"=\n\x15\x41signarMiembroRequest\x12\x11\n\tidusuario\x18\x01 \x01(\x03\x12\x11\n\tideventos\x18\x02 \x01(\x03\"<\n\x14QuitarMiembroRequest\x12\x11\n\tidusuario\x18\x01 \x01(\x03\x12\x11\n\tideventos\x18\x02 \x01(\x03\"\x07\n\x05\x45mpty\"7\n\x13ListEventosResponse\x12 \n\x06\x65vento\x18\x01 \x03(\x0b\x32\x10.eventos.Eventos2\xa0\x03\n\x0e\x45ventosService\x12:\n\nGetEventos\x12\x0e.eventos.Empty\x1a\x1c.eventos.ListEventosResponse\x12\x45\n\nAltaEvento\x12\x1a.eventos.AltaEventoRequest\x1a\x1b.eventos.AltaEventoResponse\x12\x42\n\tModEvento\x12\x19.eventos.ModEventoRequest\x1a\x1a.eventos.ModEventoResponse\x12\x45\n\nBajaEvento\x12\x1a.eventos.BajaEventoRequest\x1a\x1b.eventos.BajaEventoResponse\x12@\n\x0e\x41gregarMiembro\x12\x1e.eventos.AsignarMiembroRequest\x1a\x0e.eventos.Empty\x12>\n\rQuitarMiembro\x12\x1d.eventos.QuitarMiembroRequest\x1a\x0e.eventos.Emptyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'eventos_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_EVENTOSDTO']._serialized_start=75
-  _globals['_EVENTOSDTO']._serialized_end=167
-  _globals['_EVENTOS']._serialized_start=170
-  _globals['_EVENTOS']._serialized_end=314
-  _globals['_ALTAEVENTOREQUEST']._serialized_start=316
-  _globals['_ALTAEVENTOREQUEST']._serialized_end=372
-  _globals['_ALTAEVENTORESPONSE']._serialized_start=374
-  _globals['_ALTAEVENTORESPONSE']._serialized_end=428
-  _globals['_MODEVENTOREQUEST']._serialized_start=430
-  _globals['_MODEVENTOREQUEST']._serialized_end=482
-  _globals['_MODEVENTORESPONSE']._serialized_start=484
-  _globals['_MODEVENTORESPONSE']._serialized_end=537
-  _globals['_BAJAEVENTOREQUEST']._serialized_start=539
-  _globals['_BAJAEVENTOREQUEST']._serialized_end=577
-  _globals['_BAJAEVENTORESPONSE']._serialized_start=579
-  _globals['_BAJAEVENTORESPONSE']._serialized_end=633
-  _globals['_ASIGNARMIEMBROREQUEST']._serialized_start=635
-  _globals['_ASIGNARMIEMBROREQUEST']._serialized_end=696
-  _globals['_QUITARMIEMBROREQUEST']._serialized_start=698
-  _globals['_QUITARMIEMBROREQUEST']._serialized_end=758
-  _globals['_EMPTY']._serialized_start=760
-  _globals['_EMPTY']._serialized_end=767
-  _globals['_LISTEVENTOSRESPONSE']._serialized_start=769
-  _globals['_LISTEVENTOSRESPONSE']._serialized_end=827
-  _globals['_EVENTOSSERVICE']._serialized_start=830
-  _globals['_EVENTOSSERVICE']._serialized_end=1246
+  _globals['_EVENTOS']._serialized_start=76
+  _globals['_EVENTOS']._serialized_end=224
+  _globals['_ALTAEVENTOREQUEST']._serialized_start=226
+  _globals['_ALTAEVENTOREQUEST']._serialized_end=279
+  _globals['_ALTAEVENTORESPONSE']._serialized_start=281
+  _globals['_ALTAEVENTORESPONSE']._serialized_end=317
+  _globals['_MODEVENTOREQUEST']._serialized_start=319
+  _globals['_MODEVENTOREQUEST']._serialized_end=371
+  _globals['_MODEVENTORESPONSE']._serialized_start=373
+  _globals['_MODEVENTORESPONSE']._serialized_end=408
+  _globals['_BAJAEVENTOREQUEST']._serialized_start=410
+  _globals['_BAJAEVENTOREQUEST']._serialized_end=448
+  _globals['_BAJAEVENTORESPONSE']._serialized_start=450
+  _globals['_BAJAEVENTORESPONSE']._serialized_end=486
+  _globals['_ASIGNARMIEMBROREQUEST']._serialized_start=488
+  _globals['_ASIGNARMIEMBROREQUEST']._serialized_end=549
+  _globals['_QUITARMIEMBROREQUEST']._serialized_start=551
+  _globals['_QUITARMIEMBROREQUEST']._serialized_end=611
+  _globals['_EMPTY']._serialized_start=613
+  _globals['_EMPTY']._serialized_end=620
+  _globals['_LISTEVENTOSRESPONSE']._serialized_start=622
+  _globals['_LISTEVENTOSRESPONSE']._serialized_end=677
+  _globals['_EVENTOSSERVICE']._serialized_start=680
+  _globals['_EVENTOSSERVICE']._serialized_end=1096
 # @@protoc_insertion_point(module_scope)

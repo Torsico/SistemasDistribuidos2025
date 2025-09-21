@@ -21,14 +21,14 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "proto"))
 
 import logging
-
+import jwt
 import grpc
-from proto import usuarios_pb2
-from proto import usuarios_pb2_grpc
-from proto import rol_pb2
-from proto import rol_pb2_grpc
+from proto import usuarios_pb2, usuarios_pb2_grpc
+from proto import rol_pb2, rol_pb2_grpc
+from proto import donaciones_pb2, donaciones_pb2_grpc
+from proto import eventos_pb2, eventos_pb2_grpc
 from google.protobuf import empty_pb2
-
+import datetime
 
 def run():
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be
@@ -36,13 +36,11 @@ def run():
     # of the code.
     print("Will try to greet world ...")
     with grpc.insecure_channel("localhost:50051") as channel:
+        
         stub = usuarios_pb2_grpc.UsuarioServiceStub(channel)
-        response = stub.GetUsuarios(empty_pb2.Empty())
-        for u in response.usuarios:
-            print(f"ID: {u.idusuario}, Usuario: {u.nombreUsuario}, Nombre: {u.nombre} {u.apellido}, Email: {u.email}, Rol: {u.rol}, Activo: {u.activo}")
+
         
         ## Test Usuario
-
         # Obtener 1 usuario
 
         request = usuarios_pb2.UsuarioRequest(idusuario=1)
@@ -96,6 +94,69 @@ def run():
         response = stub.GetUsuarios(empty_pb2.Empty())
         for u in response.usuarios:
             print(f"ID: {u.idusuario}, Usuario: {u.nombreUsuario}, Nombre: {u.nombre} {u.apellido}, Email: {u.email}, Rol: {u.rol}, Activo: {u.activo}")
+
+        ## Test Donaciones
+        # Alta Donaciones
+
+        ###Token Temporal
+        SECRET_KEY = "secretosecretoso468"
+
+        payload = {
+            "idusuario": 1,
+            "nombreUsuario": "jdoe",
+            "rol": "Presidente",
+            "exp": datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=1)
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+        metadata = [("authorization", token)]
+        ###
+
+        stub = donaciones_pb2_grpc.DonacionesServiceStub(channel)
+        
+        donacionesAlta = donaciones_pb2.Donaciones(
+            categoria="Ropa",
+            descripcion="Azul",
+            cantidad=10,
+            eliminado=False,
+        )
+
+        request = donaciones_pb2.AltaDonacionesRequest(donaciones=donacionesAlta)
+        response = stub.AltaDonaciones(request, metadata=metadata)
+        print("Respuesta del Servidor: ", response.suceso)
+
+        # Mod Donaciones
+
+        donacionesMod = donaciones_pb2.Donaciones(
+            iddonaciones=2,
+            descripcion="Verde",
+            cantidad=15
+        )
+
+        request = donaciones_pb2.ModDonacionesRequest(donaciones=donacionesMod)
+        response = stub.ModDonaciones(request, metadata=metadata)
+        print("Respuesta del Servidor: ", response.suceso)
+
+        #Baja Donaciones
+
+        request = donaciones_pb2.BajaDonacionesRequest(iddonaciones=2)
+        response = stub.BajaDonaciones(request, metadata=metadata)
+        print("Respuesta del Servidor ", response.suceso)
+
+        # Reimprimir la lista de donaciones
+        
+        response = stub.GetDonaciones(empty_pb2.Empty())
+        for d in response.donaciones:
+            print(f"ID: {d.iddonaciones}, Categoria: {d.categoria}, Descripcion: {d.descripcion}, Cantidad: {d.cantidad}, Eliminado? {d.eliminado}, Fecha de Alta: {d.fecha_alta}, Fecha de Modificacion: {d.fecha_mod}, Usuario de Alta: {d.usuario_alta}, Usuario que Modifico: {d.usuario_mod}")
+
+        ## Test Eventos
+
+        stub = eventos_pb2_grpc.EventosServiceStub(channel)
+        response = stub.GetEventos(empty_pb2.Empty())
+        for e in response.evento:
+            print(f"Evento: ID: {e.ideventos}, Nombre: {e.nombre}, Descripcion: {e.descripcion}, fecha evento: {e.fechaHora}")
+            print("Usuarios: ")
+            for u in e.usuario:
+                print(f"ID: {u.idusuario}, Usuario: {u.nombreUsuario}, Nombre: {u.nombre} {u.apellido}, Email: {u.email}, Rol: {u.rol}, Activo: {u.activo}")
 
         ## Test Roles
         

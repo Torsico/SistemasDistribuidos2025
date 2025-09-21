@@ -25,9 +25,11 @@ class InfoRequest(_message.Message):
     def __init__(self) -> None: ...
 
 class InfoResponse(_message.Message):
-    __slots__ = ("nombreUsuario", "rol")
+    __slots__ = ("idusuario", "nombreUsuario", "rol")
+    IDUSUARIO_FIELD_NUMBER: _ClassVar[int]
     NOMBREUSUARIO_FIELD_NUMBER: _ClassVar[int]
     ROL_FIELD_NUMBER: _ClassVar[int]
+    idusuario: int
     nombreUsuario: str
     rol: int
-    def __init__(self, nombreUsuario: _Optional[str] = ..., rol: _Optional[int] = ...) -> None: ...
+    def __init__(self, idusuario: _Optional[int] = ..., nombreUsuario: _Optional[str] = ..., rol: _Optional[int] = ...) -> None: ...
