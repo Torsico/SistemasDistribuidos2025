@@ -1,3 +1,4 @@
+import datetime
 import sys
 import os
 
@@ -7,8 +8,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "proto"))
 from concurrent import futures
 import logging
 import grpc
-from google.protobuf.timestamp_pb2 import Timestamp
-import datetime
 
 from security import generar_clave, encriptar_clave, generar_token, verificar_token
 from bdConnect import verificar_usuario
@@ -28,9 +27,9 @@ class LoginServiceImpl(session_pb2_grpc.LoginServiceServicer):
         usuario_email = request.usuario_email
         clave = request.clave
 
-        usuarioObtenido = obtener_usuario(usuario_email)
-
         exito, mensaje, idusuario, nombreUsuario, rol = verificar_usuario(usuario_email, clave)
+
+        usuarioObtenido = obtener_usuario(nombreUsuario)
 
         if not exito:
             context.set_details(mensaje)
@@ -281,23 +280,45 @@ class EventoServiceImpl(eventos_pb2_grpc.EventosServiceServicer):
                         activo=bool(u[8])
                     )
                 )
-            fecha_ts = Timestamp()
-            if isinstance(e["fechaHora"], datetime.datetime):
-                fecha_ts.FromDatetime(e["fechaHora"])
-            else:
-                fecha_dt = datetime.datetime.strptime(e["fechaHora"], "%Y-%m-%d %H:%M:%S")
-                fecha_ts.FromDatetime(fecha_dt)
+
             listaEventos.evento.append(
                 eventos_pb2.Eventos(
                     ideventos=e["ideventos"],
                     nombre=e["nombre"],
                     descripcion=e["descripcion"],
-                    fechaHora=fecha_ts,
+                    fechaHora=e["fechaHora"],
                     usuario=lista_usuarios
                 )
             )
         return listaEventos
     
+    def AltaEvento(self, request, context):
+        evento = request.evento
+        fecha_dt = evento.fechaHora.ToDatetime()    #La base de datos no soporta Timestamp, entonces
+                                                    #Se vuelve a convertir
+        now = datetime.datetime.now()
+        if fecha_dt <= now:
+            context.abort(
+                grpc.StatusCode.INVALID_ARGUMENT,
+                "La fecha del evento debe ser a futuro"
+        )
+
+        exito = alta_eventos(
+            evento.nombre,
+            evento.descripcion,
+            fecha_dt,
+            [u.idusuario for u in evento.usuario]
+        )
+        if not exito:
+            context.set_trailing_metadata((
+                ("codigo-error", "Error alta"),
+                ("mensaje-error", "No se pudo crear el evento")
+            ))
+        #context.abort(grpc.StatusCode.INTERNAL, f"No se pudo crear el evento")
+        return eventos_pb2.AltaEventoResponse(suceso=exito)
+
+    def ModEvento(self, request, context):
+        return super().ModEvento(request, context)
 
 
 

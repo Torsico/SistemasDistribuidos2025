@@ -17,7 +17,7 @@ def get_connection():
 def obtener_usuario(usuario):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT idusuario, nombreUsuario, nombre, apellido, email, rol, clave, telefono, activo FROM dist2025.usuario WHERE email = %s",(usuario,))
+    cursor.execute("SELECT idusuario, nombreUsuario, nombre, apellido, email, rol, clave, telefono, activo FROM dist2025.usuario WHERE nombreUsuario = %s",(usuario,))
     row = cursor.fetchone()
     conn.close()
     return row
@@ -33,18 +33,21 @@ def verificar_usuario(usuario, clave):
     conn.close()
 
     if not row:
-        return False, "Usuario o email inexistente", None
+        return False, "Usuario o email inexistente", None, None, None
 
     idusuario, clave_guardada, nombreUsuario, rol = row
+
+    clave = clave.strip()
+    clave_guardada = clave_guardada.strip()
 
     # Caso 1: la clave es hash
     if clave_guardada.startswith("$2a$") or clave_guardada.startswith("$2b$") or clave_guardada.startswith("$2y$"):
         if not verificar_clave(clave, clave_guardada):
-            return False, "Clave incorrecta", None
+            return False, "Clave incorrecta", None, None, None
     else:
     # Caso 2: clave normal (casos de prueba)
         if clave != clave_guardada:
-            return False, "Clave incorrecta", None
+            return False, "Clave incorrecta", None, None, None
 
     return True, "Login exitoso", idusuario, nombreUsuario, rol
 
@@ -204,9 +207,15 @@ def alta_eventos(nombre, descripcion, fecha, usuarios):
     try:
         conn =  get_connection()
         cursor = conn.cursor()
-        sql = "INSERT INTO eventos (nombre, descripcion, fechaHora, usuarios) VALUES (%s, %s, %s, %s)"
-        values = (nombre, descripcion, fecha, usuarios)
-        cursor.execute(sql, values)
+        
+        sql_evento = "INSERT INTO eventos (nombre, descripcion, fechaHora) VALUES (%s, %s, %s)"
+        cursor.execute(sql_evento, (nombre, descripcion, fecha))
+        ideventos = cursor.lastrowid
+
+        sql_participacion = "INSERT INTO participacion (usuario_idusuario, eventos_ideventos) VALUES (%s, %s)"
+        for u in usuarios:
+            cursor.execute(sql_participacion, (u, ideventos))
+
         conn.commit()
         cursor.close()
         conn.close()

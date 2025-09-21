@@ -3,7 +3,6 @@ import random
 import string
 import jwt
 import datetime
-import grpc
 
 SECRET_KEY = "secretosecretoso468"
 

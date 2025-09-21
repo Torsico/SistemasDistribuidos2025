@@ -20,6 +20,9 @@ import os
 # Se agrega la carpeta 'proto' al path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "proto"))
 
+from google.protobuf.timestamp_pb2 import Timestamp
+import datetime
+
 import logging
 import jwt
 import grpc
@@ -46,8 +49,8 @@ def run():
         request = usuarios_pb2.UsuarioRequest(idusuario=1)
         response = stub.GetUsuario(request)
 
-        u = response.usuario
-        print(f"ID: {u.idusuario}, Usuario: {u.nombreUsuario}, Nombre: {u.nombre} {u.apellido}, Email: {u.email}, Rol: {u.rol}, Activo: {u.activo}")
+        usuarioPrueba = response.usuario
+        print(f"ID: {usuarioPrueba.idusuario}, Usuario: {usuarioPrueba.nombreUsuario}, Nombre: {usuarioPrueba.nombre} {usuarioPrueba.apellido}, Email: {usuarioPrueba.email}, Rol: {usuarioPrueba.rol}, Activo: {usuarioPrueba.activo}")
         
 
         # Alta Usuario
@@ -157,6 +160,27 @@ def run():
             print("Usuarios: ")
             for u in e.usuario:
                 print(f"ID: {u.idusuario}, Usuario: {u.nombreUsuario}, Nombre: {u.nombre} {u.apellido}, Email: {u.email}, Rol: {u.rol}, Activo: {u.activo}")
+
+
+        # Fecha manualmente
+        fecha_str = "2025-09-22 14:30:00"
+        # Convertir al formato que timestamp acepte
+        fecha_dt = datetime.datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
+        # Se convierte y envia como Timestamp
+        fecha_ts = Timestamp()
+        fecha_ts.FromDatetime(fecha_dt)
+
+        eventoAlta = eventos_pb2.Eventos(
+            nombre="Barrio Nuevo",
+            descripcion="Es un barrio nuevo",
+            fechaHora=fecha_ts,
+            usuario=[usuarioPrueba]
+        )
+        request = eventos_pb2.AltaEventoRequest(evento=eventoAlta)
+        response = stub.AltaEvento(request)
+        print("Respuesta del Servidor: ", response.suceso)
+
+        
 
         ## Test Roles
         
