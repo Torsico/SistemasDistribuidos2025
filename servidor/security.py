@@ -1,6 +1,11 @@
 import bcrypt
 import random
 import string
+import jwt
+import datetime
+import grpc
+
+SECRET_KEY = "secretosecretoso468"
 
 def generar_clave(longitud=8):
     caracteres = string.ascii_letters + string.digits
@@ -13,3 +18,21 @@ def encriptar_clave(clave):
 
 def verificar_clave(clave, clave_hash):
     return bcrypt.checkpw(clave.encode('utf-8'), clave_hash.encode('utf-8'))
+
+def generar_token(idusuario, nombreUsuario, rol):
+    carga = {
+        "idUsuario": idusuario,
+        "nombreUsuario": nombreUsuario,
+        "rol": rol,
+        "exp": datetime.datetime.now() + datetime.timedelta(hours=1)
+    }
+    return jwt.encode(carga, SECRET_KEY, algorithm="HS256")
+
+def verificar_token(token):
+    try:
+        carga = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        return carga["idusuario"], carga["nombreUsuario"], carga["rol"]
+    except jwt.ExpiredSignatureError:
+        return (grpc.StatusCode.UNAUTHENTICATED, "Token expirado")
+    except jwt.InvalidTokenError:
+        return (grpc.StatusCode.UNAUTHENTICATED, "Token expirado")

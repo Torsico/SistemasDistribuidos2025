@@ -39,10 +39,10 @@ class LoginServiceStub(object):
                 request_serializer=session__pb2.LoginRequest.SerializeToString,
                 response_deserializer=session__pb2.LoginResponse.FromString,
                 _registered_method=True)
-        self.Logout = channel.unary_unary(
-                '/session.LoginService/Logout',
-                request_serializer=session__pb2.logoutRequest.SerializeToString,
-                response_deserializer=session__pb2.logoutResponse.FromString,
+        self.ObtenerInfo = channel.unary_unary(
+                '/session.LoginService/ObtenerInfo',
+                request_serializer=session__pb2.InfoRequest.SerializeToString,
+                response_deserializer=session__pb2.InfoResponse.FromString,
                 _registered_method=True)
 
 
@@ -55,7 +55,7 @@ class LoginServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def Logout(self, request, context):
+    def ObtenerInfo(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -69,10 +69,10 @@ def add_LoginServiceServicer_to_server(servicer, server):
                     request_deserializer=session__pb2.LoginRequest.FromString,
                     response_serializer=session__pb2.LoginResponse.SerializeToString,
             ),
-            'Logout': grpc.unary_unary_rpc_method_handler(
-                    servicer.Logout,
-                    request_deserializer=session__pb2.logoutRequest.FromString,
-                    response_serializer=session__pb2.logoutResponse.SerializeToString,
+            'ObtenerInfo': grpc.unary_unary_rpc_method_handler(
+                    servicer.ObtenerInfo,
+                    request_deserializer=session__pb2.InfoRequest.FromString,
+                    response_serializer=session__pb2.InfoResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -113,7 +113,7 @@ class LoginService(object):
             _registered_method=True)
 
     @staticmethod
-    def Logout(request,
+    def ObtenerInfo(request,
             target,
             options=(),
             channel_credentials=None,
@@ -126,9 +126,9 @@ class LoginService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/session.LoginService/Logout',
-            session__pb2.logoutRequest.SerializeToString,
-            session__pb2.logoutResponse.FromString,
+            '/session.LoginService/ObtenerInfo',
+            session__pb2.InfoRequest.SerializeToString,
+            session__pb2.InfoResponse.FromString,
             options,
             channel_credentials,
             insecure,

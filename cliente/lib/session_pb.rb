@@ -5,7 +5,7 @@
 require 'google/protobuf'
 
 
-descriptor_data = "\n\rsession.proto\x12\x07session\"4\n\x0cLoginRequest\x12\x15\n\rusuario_email\x18\x01 \x01(\t\x12\r\n\x05\x63lave\x18\x02 \x01(\t\"C\n\rLoginResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\x12\x0f\n\x07mensaje\x18\x02 \x01(\t\x12\x11\n\tidusuario\x18\x03 \x01(\x05\"\x0f\n\rlogoutRequest\" \n\x0elogoutResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\x32\x81\x01\n\x0cLoginService\x12\x36\n\x05Login\x12\x15.session.LoginRequest\x1a\x16.session.LoginResponse\x12\x39\n\x06Logout\x12\x16.session.logoutRequest\x1a\x17.session.logoutResponseb\x06proto3"
+descriptor_data = "\n\rsession.proto\x12\x07session\"4\n\x0cLoginRequest\x12\x15\n\rusuario_email\x18\x01 \x01(\t\x12\r\n\x05\x63lave\x18\x02 \x01(\t\".\n\rLoginResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\x12\r\n\x05token\x18\x02 \x01(\t\"\r\n\x0bInfoRequest\"2\n\x0cInfoResponse\x12\x15\n\rnombreUsuario\x18\x01 \x01(\t\x12\x0b\n\x03rol\x18\x02 \x01(\x03\x32\x82\x01\n\x0cLoginService\x12\x36\n\x05Login\x12\x15.session.LoginRequest\x1a\x16.session.LoginResponse\x12:\n\x0bObtenerInfo\x12\x14.session.InfoRequest\x1a\x15.session.InfoResponseb\x06proto3"
 
 pool = ::Google::Protobuf::DescriptorPool.generated_pool
 pool.add_serialized_file(descriptor_data)
@@ -13,6 +13,6 @@ pool.add_serialized_file(descriptor_data)
 module Session
   LoginRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("session.LoginRequest").msgclass
   LoginResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("session.LoginResponse").msgclass
-  LogoutRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("session.logoutRequest").msgclass
-  LogoutResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("session.logoutResponse").msgclass
+  InfoRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("session.InfoRequest").msgclass
+  InfoResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("session.InfoResponse").msgclass
 end

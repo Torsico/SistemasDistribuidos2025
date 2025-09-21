@@ -25,33 +25,31 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x64onaciones.proto\x12\ndonaciones\x1a\x1fgoogle/protobuf/timestamp.proto\"I\n\rDonacionesDTO\x12\x11\n\tcategoria\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scripcion\x18\x02 \x01(\t\x12\x10\n\x08\x63\x61ntidad\x18\x03 \x01(\x05\"\xf7\x01\n\nDonaciones\x12\x14\n\x0ciddonaciones\x18\x01 \x01(\x03\x12\x11\n\tcategoria\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scripcion\x18\x03 \x01(\t\x12\x10\n\x08\x63\x61ntidad\x18\x04 \x01(\x05\x12\x11\n\teliminado\x18\x05 \x01(\x08\x12-\n\thora_alta\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12,\n\x08hora_mod\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x14\n\x0cusuario_alta\x18\x08 \x01(\x03\x12\x13\n\x0busuario_mod\x18\t \x01(\x03\"F\n\x15\x41ltaDonacionesRequest\x12-\n\ndonaciones\x18\x01 \x01(\x0b\x32\x19.donaciones.DonacionesDTO\"D\n\x16\x41ltaDonacionesResponse\x12*\n\ndonaciones\x18\x01 \x01(\x0b\x32\x16.donaciones.Donaciones\"B\n\x14ModDonacionesRequest\x12*\n\ndonaciones\x18\x01 \x01(\x0b\x32\x16.donaciones.Donaciones\"C\n\x15ModDonacionesResponse\x12*\n\ndonaciones\x18\x01 \x01(\x0b\x32\x16.donaciones.Donaciones\"-\n\x15\x42\x61jaDonacionesRequest\x12\x14\n\x0ciddonaciones\x18\x01 \x01(\x03\"D\n\x16\x42\x61jaDonacionesResponse\x12*\n\ndonaciones\x18\x01 \x01(\x0b\x32\x16.donaciones.Donaciones\"\x07\n\x05\x45mpty\"G\n\x16ListDonacionesResponse\x12-\n\ndonaciones\x18\x01 \x03(\x0b\x32\x19.donaciones.DonacionesDTO2\xe3\x02\n\x11\x44onacionesService\x12\x46\n\rGetDonaciones\x12\x11.donaciones.Empty\x1a\".donaciones.ListDonacionesResponse\x12W\n\x0e\x41ltaDonaciones\x12!.donaciones.AltaDonacionesRequest\x1a\".donaciones.AltaDonacionesResponse\x12T\n\rModDonaciones\x12 .donaciones.ModDonacionesRequest\x1a!.donaciones.ModDonacionesResponse\x12W\n\x0e\x42\x61jaDonaciones\x12!.donaciones.BajaDonacionesRequest\x1a\".donaciones.BajaDonacionesResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x64onaciones.proto\x12\ndonaciones\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x01\n\nDonaciones\x12\x14\n\x0ciddonaciones\x18\x01 \x01(\x03\x12\x11\n\tcategoria\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scripcion\x18\x03 \x01(\t\x12\x10\n\x08\x63\x61ntidad\x18\x04 \x01(\x05\x12\x11\n\teliminado\x18\x05 \x01(\x08\x12.\n\nfecha_alta\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12-\n\tfecha_mod\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x14\n\x0cusuario_alta\x18\x08 \x01(\x03\x12\x13\n\x0busuario_mod\x18\t \x01(\x03\"C\n\x15\x41ltaDonacionesRequest\x12*\n\ndonaciones\x18\x01 \x01(\x0b\x32\x16.donaciones.Donaciones\"(\n\x16\x41ltaDonacionesResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"B\n\x14ModDonacionesRequest\x12*\n\ndonaciones\x18\x01 \x01(\x0b\x32\x16.donaciones.Donaciones\"\'\n\x15ModDonacionesResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"-\n\x15\x42\x61jaDonacionesRequest\x12\x14\n\x0ciddonaciones\x18\x01 \x01(\x03\"(\n\x16\x42\x61jaDonacionesResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"\x07\n\x05\x45mpty\"D\n\x16ListDonacionesResponse\x12*\n\ndonaciones\x18\x01 \x03(\x0b\x32\x16.donaciones.Donaciones2\xe3\x02\n\x11\x44onacionesService\x12\x46\n\rGetDonaciones\x12\x11.donaciones.Empty\x1a\".donaciones.ListDonacionesResponse\x12W\n\x0e\x41ltaDonaciones\x12!.donaciones.AltaDonacionesRequest\x1a\".donaciones.AltaDonacionesResponse\x12T\n\rModDonaciones\x12 .donaciones.ModDonacionesRequest\x1a!.donaciones.ModDonacionesResponse\x12W\n\x0e\x42\x61jaDonaciones\x12!.donaciones.BajaDonacionesRequest\x1a\".donaciones.BajaDonacionesResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'donaciones_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_DONACIONESDTO']._serialized_start=65
-  _globals['_DONACIONESDTO']._serialized_end=138
-  _globals['_DONACIONES']._serialized_start=141
-  _globals['_DONACIONES']._serialized_end=388
-  _globals['_ALTADONACIONESREQUEST']._serialized_start=390
-  _globals['_ALTADONACIONESREQUEST']._serialized_end=460
-  _globals['_ALTADONACIONESRESPONSE']._serialized_start=462
-  _globals['_ALTADONACIONESRESPONSE']._serialized_end=530
-  _globals['_MODDONACIONESREQUEST']._serialized_start=532
-  _globals['_MODDONACIONESREQUEST']._serialized_end=598
-  _globals['_MODDONACIONESRESPONSE']._serialized_start=600
-  _globals['_MODDONACIONESRESPONSE']._serialized_end=667
-  _globals['_BAJADONACIONESREQUEST']._serialized_start=669
-  _globals['_BAJADONACIONESREQUEST']._serialized_end=714
-  _globals['_BAJADONACIONESRESPONSE']._serialized_start=716
-  _globals['_BAJADONACIONESRESPONSE']._serialized_end=784
-  _globals['_EMPTY']._serialized_start=786
-  _globals['_EMPTY']._serialized_end=793
-  _globals['_LISTDONACIONESRESPONSE']._serialized_start=795
-  _globals['_LISTDONACIONESRESPONSE']._serialized_end=866
-  _globals['_DONACIONESSERVICE']._serialized_start=869
-  _globals['_DONACIONESSERVICE']._serialized_end=1224
+  _globals['_DONACIONES']._serialized_start=66
+  _globals['_DONACIONES']._serialized_end=315
+  _globals['_ALTADONACIONESREQUEST']._serialized_start=317
+  _globals['_ALTADONACIONESREQUEST']._serialized_end=384
+  _globals['_ALTADONACIONESRESPONSE']._serialized_start=386
+  _globals['_ALTADONACIONESRESPONSE']._serialized_end=426
+  _globals['_MODDONACIONESREQUEST']._serialized_start=428
+  _globals['_MODDONACIONESREQUEST']._serialized_end=494
+  _globals['_MODDONACIONESRESPONSE']._serialized_start=496
+  _globals['_MODDONACIONESRESPONSE']._serialized_end=535
+  _globals['_BAJADONACIONESREQUEST']._serialized_start=537
+  _globals['_BAJADONACIONESREQUEST']._serialized_end=582
+  _globals['_BAJADONACIONESRESPONSE']._serialized_start=584
+  _globals['_BAJADONACIONESRESPONSE']._serialized_end=624
+  _globals['_EMPTY']._serialized_start=626
+  _globals['_EMPTY']._serialized_end=633
+  _globals['_LISTDONACIONESRESPONSE']._serialized_start=635
+  _globals['_LISTDONACIONESRESPONSE']._serialized_end=703
+  _globals['_DONACIONESSERVICE']._serialized_start=706
+  _globals['_DONACIONESSERVICE']._serialized_end=1061
 # @@protoc_insertion_point(module_scope)

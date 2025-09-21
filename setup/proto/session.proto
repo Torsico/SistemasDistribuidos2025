@@ -9,19 +9,20 @@ message LoginRequest {
 
 message LoginResponse {
   bool suceso = 1;
-  string mensaje = 2;
-  int32 idusuario = 3;
+  string token = 2;
 }
 
-message logoutRequest{
+message InfoRequest{
 
 }
 
-message logoutResponse{
-    bool suceso = 1;
+message InfoResponse{
+  int64 idusuario = 1;
+  string nombreUsuario = 2;
+  int64 rol = 3;
 }
 
 service LoginService {
   rpc Login(LoginRequest) returns (LoginResponse);
-  rpc Logout(logoutRequest) returns (logoutResponse);
+  rpc ObtenerInfo(InfoRequest) returns (InfoResponse);
 }
