@@ -1,6 +1,9 @@
 syntax = "proto3";
 
+import "usuarios.proto";
+
 package session;
+
 
 message LoginRequest {
   string usuario_email = 1;
@@ -9,7 +12,7 @@ message LoginRequest {
 
 message LoginResponse {
   bool suceso = 1;
-  string token = 2;
+  optional usuarios.Usuario usuario = 2;
 }
 
 message InfoRequest{

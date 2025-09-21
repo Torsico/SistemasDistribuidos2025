@@ -15,7 +15,7 @@ from bdConnect import verificar_usuario
 from bdConnect import get_usuario, get_usuarios, alta_usuario, mod_usuario, baja_usuario
 from bdConnect import get_donaciones, alta_donaciones, mod_donaciones, baja_donaciones
 from bdConnect import get_eventos, alta_eventos
-from bdConnect import get_roles
+from bdConnect import get_roles, obtener_usuario
 from proto import session_pb2, session_pb2_grpc
 from proto import usuarios_pb2, usuarios_pb2_grpc
 from proto import donaciones_pb2, donaciones_pb2_grpc
@@ -28,6 +28,8 @@ class LoginServiceImpl(session_pb2_grpc.LoginServiceServicer):
         usuario_email = request.usuario_email
         clave = request.clave
 
+        usuarioObtenido = obtener_usuario(usuario_email)
+
         exito, mensaje, idusuario, nombreUsuario, rol = verificar_usuario(usuario_email, clave)
 
         if not exito:
@@ -37,7 +39,19 @@ class LoginServiceImpl(session_pb2_grpc.LoginServiceServicer):
         
         token = generar_token(idusuario, nombreUsuario, rol)
 
-        return session_pb2.LoginResponse(suceso=True, token=token)
+        usuario = usuarios_pb2.Usuario(
+                    idusuario=usuarioObtenido[0],
+                    nombreUsuario=usuarioObtenido[1],
+                    nombre=usuarioObtenido[2],
+                    apellido=usuarioObtenido[3],
+                    email=usuarioObtenido[4],
+                    rol=usuarioObtenido[5],
+                    clave=usuarioObtenido[6],
+                    telefono=usuarioObtenido[7],
+                    activo=bool(usuarioObtenido[8])
+                )
+
+        return session_pb2.LoginResponse(suceso=True, usuario=usuario)
     
     def ObtenerInfo(self, request, context):
         metadata = dict(context.invocation_metadata())

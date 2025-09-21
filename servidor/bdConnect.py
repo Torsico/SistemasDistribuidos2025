@@ -14,6 +14,14 @@ def get_connection():
 
 # Login
 
+def obtener_usuario(usuario):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT idusuario, nombreUsuario, nombre, apellido, email, rol, clave, telefono, activo FROM dist2025.usuario WHERE email = %s",(usuario,))
+    row = cursor.fetchone()
+    conn.close()
+    return row
+
 def verificar_usuario(usuario, clave):
     conn = get_connection()
     cursor = conn.cursor()

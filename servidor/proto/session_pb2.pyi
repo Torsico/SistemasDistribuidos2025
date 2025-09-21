@@ -1,6 +1,8 @@
+import usuarios_pb2 as _usuarios_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Optional as _Optional
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -13,12 +15,12 @@ class LoginRequest(_message.Message):
     def __init__(self, usuario_email: _Optional[str] = ..., clave: _Optional[str] = ...) -> None: ...
 
 class LoginResponse(_message.Message):
-    __slots__ = ("suceso", "token")
+    __slots__ = ("suceso", "usuario")
     SUCESO_FIELD_NUMBER: _ClassVar[int]
-    TOKEN_FIELD_NUMBER: _ClassVar[int]
+    USUARIO_FIELD_NUMBER: _ClassVar[int]
     suceso: bool
-    token: str
-    def __init__(self, suceso: bool = ..., token: _Optional[str] = ...) -> None: ...
+    usuario: _usuarios_pb2.Usuario
+    def __init__(self, suceso: bool = ..., usuario: _Optional[_Union[_usuarios_pb2.Usuario, _Mapping]] = ...) -> None: ...
 
 class InfoRequest(_message.Message):
     __slots__ = ()
