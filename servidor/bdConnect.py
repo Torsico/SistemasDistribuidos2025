@@ -156,6 +156,34 @@ def mod_donaciones(iddonaciones, descripcion, cantidad, usuario_mod):
         print("Error al cargar:", e)
         return False
     
+def actualizar_stock(ideventos, donaciones, usuario_mod):
+    try:
+        conn =  get_connection()
+        cursor = conn.cursor()
+        now = datetime.now()
+
+        for d in donaciones:
+            
+            cursor.execute(
+                """
+                INSERT INTO donaciones_has_eventos (donaciones_iddonaciones, eventos_ideventos, cantidad_donada)
+                VALUES (%s, %s, %s)
+                ON DUPLICATE KEY UPDATE cantidad_donada = VALUES(cantidad_donada) 
+                """, (d.iddonaciones, ideventos, d.cantidad))
+            
+            sql = "UPDATE donaciones SET cantidad = cantidad - %s, usuario_mod = %s, fecha_mod = %s WHERE iddonaciones = %s"
+            values = (d.cantidad, usuario_mod, now, d.iddonaciones)
+
+            cursor.execute(sql, values)
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return True
+    except Exception as e:
+        print("Error al cargar:", e)
+        return False
+    
 def baja_donaciones(iddonaciones, usuario_mod):
     try:
         conn =  get_connection()
@@ -174,6 +202,17 @@ def baja_donaciones(iddonaciones, usuario_mod):
 # ...
 
 # Consulta Eventos
+def get_evento(idevento):
+    conn = get_connection()
+    cursor = conn.cursor()
+    sql = "SELECT ideventos, nombre, descripcion, fechaHora FROM dist2025.eventos WHERE ideventos = %s"
+    values = (idevento,)
+    cursor.execute(sql, values)
+    row = cursor.fetchone()
+    conn.close()
+    return row
+
+
 def get_eventos():
     conn = get_connection()
     cursor = conn.cursor()
@@ -184,12 +223,14 @@ def get_eventos():
 
     for e in rows:
         ideventos = e[0]
-        cursor.execute("""
+        sql = """
             SELECT u.idusuario, u.nombreUsuario, u.nombre, u.apellido, u.email, u.rol, u.clave, u.telefono, u.activo
             FROM dist2025.usuario u
             JOIN dist2025.participacion eu ON u.idusuario = eu.usuario_idusuario
             WHERE eu.eventos_ideventos = %s
-            """, (ideventos,))
+            """
+        values = (ideventos,)
+        cursor.execute(sql, values)
         usuarios_bd = cursor.fetchall()
 
         eventosCompleto.append({
@@ -208,18 +249,41 @@ def alta_eventos(nombre, descripcion, fecha, usuarios):
         conn =  get_connection()
         cursor = conn.cursor()
         
-        sql_evento = "INSERT INTO eventos (nombre, descripcion, fechaHora) VALUES (%s, %s, %s)"
-        cursor.execute(sql_evento, (nombre, descripcion, fecha))
-        ideventos = cursor.lastrowid
+        sql = "INSERT INTO eventos (nombre, descripcion, fechaHora) VALUES (%s, %s, %s)"
+        values = (nombre, descripcion, fecha)
+        cursor.execute(sql, values)
+        idevento = cursor.lastrowid
 
-        sql_participacion = "INSERT INTO participacion (usuario_idusuario, eventos_ideventos) VALUES (%s, %s)"
         for u in usuarios:
-            cursor.execute(sql_participacion, (u, ideventos))
+            cursor.execute("INSERT INTO participacion (usuario_idusuario, eventos_ideventos) VALUES (%s, %s)", (u, idevento))
 
         conn.commit()
         cursor.close()
         conn.close()
         return True
+    except Exception as e:
+        print("Error al cargar:", e)
+        return False
+    
+def mod_eventos(ideventos, nombre, usuarios):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        now = datetime.now()
+
+        sql = "UPDATE eventos SET nombre = %s, fechaHora = %s WHERE ideventos = %s"
+        values = (nombre, now, ideventos)
+        cursor.execute(sql, values)
+
+        cursor.execute("DELETE FROM dist2025.participacion WHERE eventos_ideventos = %s", (ideventos,))
+        for u in usuarios:
+            cursor.execute("INSERT INTO participacion (usuario_idusuario, eventos_ideventos) VALUES (%s, %s)", (u, ideventos))
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return True
+
     except Exception as e:
         print("Error al cargar:", e)
         return False
@@ -230,7 +294,9 @@ def baja_eventos(ideventos):
         cursor = conn.cursor()
         now = datetime.now()
 
-        cursor.execute("SELECT fechaHora FROM eventos WHERE ideventos = %s", (ideventos,))
+        sql = "SELECT fechaHora FROM dist2025.eventos WHERE ideventos = %s"
+        values = (ideventos,)
+        cursor.execute(sql, values)
         fechaHora = cursor.fetchone()
 
         fecha_evento = fechaHora[0]
@@ -238,9 +304,9 @@ def baja_eventos(ideventos):
             print("Solo se pueden eliminar eventos a futuro")
             return False
 
-        cursor.execute("DELETE FROM participacion WHERE eventos_ideventos = %s", (ideventos,))
-        cursor.execute("DELETE FROM donaciones_has_eventos WHERE eventos_ideventos = %s", (ideventos,))
-        cursor.execute("DELETE FROM eventos WHERE ideventos = %s", (ideventos,))
+        cursor.execute("DELETE FROM dist2025.participacion WHERE eventos_ideventos = %s", (ideventos,))
+        cursor.execute("DELETE FROM dist2025.donaciones_has_eventos WHERE eventos_ideventos = %s", (ideventos,))
+        cursor.execute("DELETE FROM dist2025.eventos WHERE ideventos = %s", (ideventos,))
         conn.commit()
         cursor.close()
         conn.close()

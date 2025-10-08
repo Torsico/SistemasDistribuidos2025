@@ -3,6 +3,7 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 
 import "usuarios.proto";
+import "donaciones.proto";
 
 package eventos;
 
@@ -24,6 +25,7 @@ message AltaEventoResponse{
 
 message ModEventoRequest{
     Eventos evento = 1;
+    repeated donaciones.Donaciones donaciones = 2;
 }
 
 message ModEventoResponse{

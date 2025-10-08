@@ -2,6 +2,7 @@ import datetime
 
 from google.protobuf import timestamp_pb2 as _timestamp_pb2
 import usuarios_pb2 as _usuarios_pb2
+import donaciones_pb2 as _donaciones_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
@@ -37,10 +38,12 @@ class AltaEventoResponse(_message.Message):
     def __init__(self, suceso: bool = ...) -> None: ...
 
 class ModEventoRequest(_message.Message):
-    __slots__ = ("evento",)
+    __slots__ = ("evento", "donaciones")
     EVENTO_FIELD_NUMBER: _ClassVar[int]
+    DONACIONES_FIELD_NUMBER: _ClassVar[int]
     evento: Eventos
-    def __init__(self, evento: _Optional[_Union[Eventos, _Mapping]] = ...) -> None: ...
+    donaciones: _containers.RepeatedCompositeFieldContainer[_donaciones_pb2.Donaciones]
+    def __init__(self, evento: _Optional[_Union[Eventos, _Mapping]] = ..., donaciones: _Optional[_Iterable[_Union[_donaciones_pb2.Donaciones, _Mapping]]] = ...) -> None: ...
 
 class ModEventoResponse(_message.Message):
     __slots__ = ("suceso",)

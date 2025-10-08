@@ -67,8 +67,12 @@ def run():
         )
 
         request = usuarios_pb2.AltaUsuarioRequest(usuario=usuarioAlta)
-        response = stub.AltaUsuario(request)
-        print("Respuesta del servidor:", response.suceso)
+
+        try:
+            response = stub.AltaUsuario(request)
+            print("Alta Usuario - Respuesta del servidor:", response.suceso)
+        except grpc.RpcError as e:
+            print("Error en Alta Usuario:", e.code(), e.details())
         
         # Modificacion Usuario
 
@@ -83,14 +87,20 @@ def run():
         )
 
         request = usuarios_pb2.ModUsuarioRequest(usuario=usuarioMod)
-        response = stub.ModUsuario(request)
-        print("Respuesta del servidor:", response.suceso)
+        try:
+            response = stub.ModUsuario(request)
+            print("Mod Usuario - Respuesta del servidor:", response.suceso)
+        except grpc.RpcError as e:
+            print("Error en Mod Usuario:", e.code(), e.details())
 
         # Baja Usuario
 
         request = usuarios_pb2.BajaUsuarioRequest(idusuario=3)
-        response = stub.BajaUsuario(request)
-        print("Respuesta del servidor:", response.suceso)
+        try:
+            response = stub.BajaUsuario(request)
+            print("Baja Usuario - Respuesta del servidor:", response.suceso)
+        except grpc.RpcError as e:
+            print("Error en Baja Usuario:", e.code(), e.details())
 
         # Reimprimir la lista de usuarios
         
@@ -124,8 +134,12 @@ def run():
         )
 
         request = donaciones_pb2.AltaDonacionesRequest(donaciones=donacionesAlta)
-        response = stub.AltaDonaciones(request, metadata=metadata)
-        print("Respuesta del Servidor: ", response.suceso)
+
+        try:
+            response = stub.AltaDonaciones(request, metadata=metadata)
+            print("Alta Donaciones - Respuesta del Servidor: ", response.suceso)
+        except grpc.RpcError as e:
+            print("Error en Alta Donaciones:", e.code(), e.details())
 
         # Mod Donaciones
 
@@ -136,14 +150,20 @@ def run():
         )
 
         request = donaciones_pb2.ModDonacionesRequest(donaciones=donacionesMod)
-        response = stub.ModDonaciones(request, metadata=metadata)
-        print("Respuesta del Servidor: ", response.suceso)
+        try:
+            response = stub.ModDonaciones(request, metadata=metadata)
+            print("Mod Donaciones - Respuesta del Servidor: ", response.suceso)
+        except grpc.RpcError as e:
+            print("Error en Mod Donaciones:", e.code(), e.details())
 
         #Baja Donaciones
 
         request = donaciones_pb2.BajaDonacionesRequest(iddonaciones=2)
-        response = stub.BajaDonaciones(request, metadata=metadata)
-        print("Respuesta del Servidor ", response.suceso)
+        try:
+            response = stub.BajaDonaciones(request, metadata=metadata)
+            print("Baja Donaciones - Respuesta del Servidor ", response.suceso)
+        except grpc.RpcError as e:
+            print("Error en Baja Donaciones:", e.code(), e.details())
 
         # Reimprimir la lista de donaciones
         
@@ -154,16 +174,11 @@ def run():
         ## Test Eventos
 
         stub = eventos_pb2_grpc.EventosServiceStub(channel)
-        response = stub.GetEventos(empty_pb2.Empty())
-        for e in response.evento:
-            print(f"Evento: ID: {e.ideventos}, Nombre: {e.nombre}, Descripcion: {e.descripcion}, fecha evento: {e.fechaHora}")
-            print("Usuarios: ")
-            for u in e.usuario:
-                print(f"ID: {u.idusuario}, Usuario: {u.nombreUsuario}, Nombre: {u.nombre} {u.apellido}, Email: {u.email}, Rol: {u.rol}, Activo: {u.activo}")
 
+        # Alta Eventos
 
         # Fecha manualmente
-        fecha_str = "2025-09-22 14:30:00"
+        fecha_str = "2025-12-22 14:30:00"
         # Convertir al formato que timestamp acepte
         fecha_dt = datetime.datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
         # Se convierte y envia como Timestamp
@@ -177,12 +192,49 @@ def run():
             usuario=[usuarioPrueba]
         )
         request = eventos_pb2.AltaEventoRequest(evento=eventoAlta)
-        response = stub.AltaEvento(request)
-        print("Respuesta del Servidor: ", response.suceso)
+        try:
+            response = stub.AltaEvento(request, metadata=metadata)
+            print("Alta Evento - Respuesta del Servidor: ", response.suceso)
+        except grpc.RpcError as e:
+            print("Error en Alta Evento:", e.code(), e.details())
+
+        # Mod Evento
+
+        usuarioPrueba2 = [usuarios_pb2.Usuario(idusuario=1), usuarios_pb2.Usuario(idusuario=2)]
+        eventoMod = eventos_pb2.Eventos(
+            ideventos=3,
+            nombre="Barrio Renovado",
+            usuario=usuarioPrueba2
+        )
+        
+        donacionEvento = donaciones_pb2.Donaciones(
+            iddonaciones=1,
+            cantidad=25
+        )
+
+        request = eventos_pb2.ModEventoRequest(evento=eventoMod, donaciones=[donacionEvento])
+        try:
+            response = stub.ModEvento(request, metadata=metadata)
+            print("Mod Evento - Respuesta del Servidor: ", response.suceso)
+        except grpc.RpcError as e:
+            print("Error en Mod Evento:", e.code(), e.details())
+
+        # Baja Evento
 
         request = eventos_pb2.BajaEventoRequest(ideventos=4)
-        response = stub.BajaEvento(request)
-        print("Respuesta del servidor:", response.suceso)
+        try:
+            response = stub.BajaEvento(request)
+            print("Baja Evento - Respuesta del servidor:", response.suceso)
+        except grpc.RpcError as e:
+            print("Error en Baja Evento:", e.code(), e.details())
+
+        # Reimprimir la lista de eventos
+        response = stub.GetEventos(empty_pb2.Empty())
+        for e in response.evento:
+            print(f"Evento: ID: {e.ideventos}, Nombre: {e.nombre}, Descripcion: {e.descripcion}, fecha evento: {e.fechaHora}")
+            print("Usuarios: ")
+            for u in e.usuario:
+                print(f"ID: {u.idusuario}, Usuario: {u.nombreUsuario}, Nombre: {u.nombre} {u.apellido}, Email: {u.email}, Rol: {u.rol}, Activo: {u.activo}")
 
         ## Test Roles
         

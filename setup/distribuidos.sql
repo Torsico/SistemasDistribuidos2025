@@ -97,6 +97,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `dist2025`.`donaciones_has_eventos` (
   `donaciones_iddonaciones` INT NOT NULL,
   `eventos_ideventos` INT NOT NULL,
+  `cantidad_donada` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`donaciones_iddonaciones`, `eventos_ideventos`),
   INDEX `fk_donaciones_has_eventos_eventos1_idx` (`eventos_ideventos` ASC) VISIBLE,
   INDEX `fk_donaciones_has_eventos_donaciones1_idx` (`donaciones_iddonaciones` ASC) VISIBLE,
