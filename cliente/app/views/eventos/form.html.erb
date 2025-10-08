@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Usuarios</title>
+	<title>unguentos</title>
 	<!-- <link rel="stylesheet" href="stylesheet.css"> -->
 </head>
 <body>
@@ -28,7 +28,7 @@
 		<% when :alta %>
 			action="alta"
 		<% when :mod, :baja %>
-			action="<%=@editee.iddonaciones%>"
+			action="<%=69%>"
 		<% end %>
 	>
 	<div class="centermini" style="display: flex;">
@@ -62,11 +62,10 @@
 			<br>
 			
 			<%if @style==:alta%>
-				<input type="hidden" name="eliminado" value="0">
-			<%elseif @style==nil%>
-			<%# nunca va a pasar... guardado para cambios futuros%>
+			<input type="hidden" name="eliminado" value="0">
+			<%else%>
 			<label>Eliminado?</label>
-			<input name="eliminado" type="checkbox" value="1"
+			<input name="activo" type="checkbox"
 				<%= "checked" if @editee.eliminado %>>
 			<br>
 			<%end%>

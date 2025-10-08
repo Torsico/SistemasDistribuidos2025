@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>mucho texto</title>
+	<title>Eventario</title>
 	<!-- <link rel="stylesheet" href="stylesheet.css"> -->
 </head>
 <body>
@@ -11,6 +11,51 @@
 	<%= render "shared/navbar" %>
 	
 	<%= render "shared/notif" %>
+	
+	<% unless @badlist %>
+	
+	<div class="centermini" style="display: flex;">
+		<table style="width: 100%; display: table; clear: both;">
+		<tr>
+			<th></th>
+			<th>Nombre</th>
+			<th>Descripcion</th>
+			<th>Fecha y Hora</th>
+			<th>Participantes</th>
+		</tr>
+		
+		<% @items.sort_by(&:first).each do |key, item| %>
+		<tr>
+			<td>
+				<a href="/eventos/mod/<%=item.ideventos%>" class="btn"
+					<% if $session.can_mod_events? %>title="Modificar"
+					<% else %>title="Participacion"<% end %>
+					><%= $session.can_mod_events? ? "📋" : "🙋" %></a>
+				<a href="/eventos/baja/<%=item.ideventos%>" class="btn"
+					title="Eliminar">
+    				❌
+				</a>
+			</td>
+			<td><%= item.nombre %></td>
+			<td><%= item.descripcion %></td>
+			<td><%= item.fechaHora.to_time %></td>
+			<td>
+				<% item.usuario.each do |uu| %>
+				<%# @users[item.usuario_mod].nombreUsuario %>
+				<%= uu.nombreUsuario %><br>
+				<% end %>
+			</td>
+		</tr>
+		<% end %>
+		</table>
+	</div>
+	<div class="centermini" style="display: flex;">
+		<a href="/eventos/alta" class="btn">
+			Nuevo
+    	</a>
+	</div>
+	
+	<% end %>
 	
 </body>
 </html>
