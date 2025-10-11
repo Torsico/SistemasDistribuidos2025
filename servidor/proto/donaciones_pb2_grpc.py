@@ -54,6 +54,11 @@ class DonacionesServiceStub(object):
                 request_serializer=donaciones__pb2.BajaDonacionesRequest.SerializeToString,
                 response_deserializer=donaciones__pb2.BajaDonacionesResponse.FromString,
                 _registered_method=True)
+        self.SolicitarDonacion = channel.unary_unary(
+                '/donaciones.DonacionesService/SolicitarDonacion',
+                request_serializer=donaciones__pb2.SolicitarDonacionRequest.SerializeToString,
+                response_deserializer=donaciones__pb2.SolicitarDonacionResponse.FromString,
+                _registered_method=True)
 
 
 class DonacionesServiceServicer(object):
@@ -83,6 +88,13 @@ class DonacionesServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def SolicitarDonacion(self, request, context):
+        """Kafka Solicitudes
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_DonacionesServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -105,6 +117,11 @@ def add_DonacionesServiceServicer_to_server(servicer, server):
                     servicer.BajaDonaciones,
                     request_deserializer=donaciones__pb2.BajaDonacionesRequest.FromString,
                     response_serializer=donaciones__pb2.BajaDonacionesResponse.SerializeToString,
+            ),
+            'SolicitarDonacion': grpc.unary_unary_rpc_method_handler(
+                    servicer.SolicitarDonacion,
+                    request_deserializer=donaciones__pb2.SolicitarDonacionRequest.FromString,
+                    response_serializer=donaciones__pb2.SolicitarDonacionResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -215,6 +232,33 @@ class DonacionesService(object):
             '/donaciones.DonacionesService/BajaDonaciones',
             donaciones__pb2.BajaDonacionesRequest.SerializeToString,
             donaciones__pb2.BajaDonacionesResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def SolicitarDonacion(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/donaciones.DonacionesService/SolicitarDonacion',
+            donaciones__pb2.SolicitarDonacionRequest.SerializeToString,
+            donaciones__pb2.SolicitarDonacionResponse.FromString,
             options,
             channel_credentials,
             insecure,

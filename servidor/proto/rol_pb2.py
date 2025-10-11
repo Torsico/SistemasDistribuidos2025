@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\trol.proto\x12\x05roles\"\x07\n\x05\x45mpty\"\'\n\x06RolDTO\x12\r\n\x05idrol\x18\x01 \x01(\x03\x12\x0e\n\x06nombre\x18\x02 \x01(\t\"/\n\x0fRolListResponse\x12\x1c\n\x05roles\x18\x01 \x03(\x0b\x32\r.roles.RolDTO2j\n\nRolService\x12\x30\n\x08GetRoles\x12\x0c.roles.Empty\x1a\x16.roles.RolListResponse\x12*\n\x0bupdateRoles\x12\r.roles.RolDTO\x1a\x0c.roles.Emptyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\trol.proto\x12\x05roles\"\x07\n\x05\x45mpty\"$\n\x03Rol\x12\r\n\x05idrol\x18\x01 \x01(\x03\x12\x0e\n\x06nombre\x18\x02 \x01(\t\",\n\x0fRolListResponse\x12\x19\n\x05roles\x18\x01 \x03(\x0b\x32\n.roles.Rol2g\n\nRolService\x12\x30\n\x08GetRoles\x12\x0c.roles.Empty\x1a\x16.roles.RolListResponse\x12\'\n\x0bupdateRoles\x12\n.roles.Rol\x1a\x0c.roles.Emptyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,10 +33,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_EMPTY']._serialized_start=20
   _globals['_EMPTY']._serialized_end=27
-  _globals['_ROLDTO']._serialized_start=29
-  _globals['_ROLDTO']._serialized_end=68
-  _globals['_ROLLISTRESPONSE']._serialized_start=70
-  _globals['_ROLLISTRESPONSE']._serialized_end=117
-  _globals['_ROLSERVICE']._serialized_start=119
-  _globals['_ROLSERVICE']._serialized_end=225
+  _globals['_ROL']._serialized_start=29
+  _globals['_ROL']._serialized_end=65
+  _globals['_ROLLISTRESPONSE']._serialized_start=67
+  _globals['_ROLLISTRESPONSE']._serialized_end=111
+  _globals['_ROLSERVICE']._serialized_start=113
+  _globals['_ROLSERVICE']._serialized_end=216
 # @@protoc_insertion_point(module_scope)

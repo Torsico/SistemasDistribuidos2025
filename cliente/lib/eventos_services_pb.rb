@@ -18,8 +18,7 @@ module Eventos
       rpc :AltaEvento, ::Eventos::AltaEventoRequest, ::Eventos::AltaEventoResponse
       rpc :ModEvento, ::Eventos::ModEventoRequest, ::Eventos::ModEventoResponse
       rpc :BajaEvento, ::Eventos::BajaEventoRequest, ::Eventos::BajaEventoResponse
-      rpc :AgregarMiembro, ::Eventos::AsignarMiembroRequest, ::Eventos::Empty
-      rpc :QuitarMiembro, ::Eventos::QuitarMiembroRequest, ::Eventos::Empty
+      rpc :DonarEvento, ::Eventos::DonarRequest, ::Eventos::DonarResponse
     end
 
     Stub = Service.rpc_stub_class

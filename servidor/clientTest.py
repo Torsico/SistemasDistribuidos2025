@@ -202,22 +202,32 @@ def run():
 
         usuarioPrueba2 = [usuarios_pb2.Usuario(idusuario=1), usuarios_pb2.Usuario(idusuario=2)]
         eventoMod = eventos_pb2.Eventos(
-            ideventos=3,
+            ideventos=1,
             nombre="Barrio Renovado",
             usuario=usuarioPrueba2
         )
         
-        donacionEvento = donaciones_pb2.Donaciones(
-            iddonaciones=1,
-            cantidad=25
+        donacionEvento = eventos_pb2.DonarEvento(
+            iddonaciones=2,
+            ideventos=15,
+            cantidad_donada=5
         )
 
-        request = eventos_pb2.ModEventoRequest(evento=eventoMod, donaciones=[donacionEvento])
+        request = eventos_pb2.ModEventoRequest(evento=eventoMod)
+
         try:
             response = stub.ModEvento(request, metadata=metadata)
             print("Mod Evento - Respuesta del Servidor: ", response.suceso)
         except grpc.RpcError as e:
             print("Error en Mod Evento:", e.code(), e.details())
+
+
+        request = eventos_pb2.DonarRequest(donar=donacionEvento)
+        try:
+            response = stub.DonarEvento(request, metadata=metadata)
+            print("Mod Donacion Evento - Respuesta del Servidor: ", response.suceso)
+        except grpc.RpcError as e:
+            print("Error en Mod Donacion Evento:", e.code(), e.details())
 
         # Baja Evento
 
@@ -235,13 +245,9 @@ def run():
             print("Usuarios: ")
             for u in e.usuario:
                 print(f"ID: {u.idusuario}, Usuario: {u.nombreUsuario}, Nombre: {u.nombre} {u.apellido}, Email: {u.email}, Rol: {u.rol}, Activo: {u.activo}")
-
-        ## Test Roles
-        
-        stub = rol_pb2_grpc.RolServiceStub(channel)
-        response = stub.GetRoles(empty_pb2.Empty())
-        for r in response.roles:
-            print(f"ID Rol: {r.idrol}, Rol: {r.nombre}")
+            for d in e.donar:
+                print("Donaciones Registradas: ")
+                print(f"ID: {d.iddonaciones}, Cantidad: {d.cantidad_donada}")
 
 
 if __name__ == "__main__":

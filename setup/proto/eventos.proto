@@ -13,6 +13,8 @@ message Eventos{
     string descripcion = 3;
     google.protobuf.Timestamp fechaHora = 4;
     repeated usuarios.Usuario usuario = 5;
+
+    repeated DonarEvento donar = 6;
 }
 
 message AltaEventoRequest{
@@ -40,14 +42,18 @@ message BajaEventoResponse{
     bool suceso = 1;
 }
 
-message AsignarMiembroRequest{
-    int64 idusuario = 1;
+message DonarEvento{
+    int64 iddonaciones = 1;
     int64 ideventos = 2;
+    int64 cantidad_donada = 3;
 }
 
-message QuitarMiembroRequest{
-    int64 idusuario = 1;
-    int64 ideventos = 2;
+message DonarRequest{
+    DonarEvento donar = 1;
+}
+
+message DonarResponse{
+    bool suceso = 1;
 }
 
 message Empty{}
@@ -61,6 +67,5 @@ service EventosService{
     rpc AltaEvento(AltaEventoRequest) returns (AltaEventoResponse);
     rpc ModEvento(ModEventoRequest) returns (ModEventoResponse);
     rpc BajaEvento(BajaEventoRequest) returns (BajaEventoResponse);
-    rpc AgregarMiembro(AsignarMiembroRequest) returns (Empty);
-    rpc QuitarMiembro(QuitarMiembroRequest) returns (Empty);
+    rpc DonarEvento(DonarRequest) returns (DonarResponse);
 }

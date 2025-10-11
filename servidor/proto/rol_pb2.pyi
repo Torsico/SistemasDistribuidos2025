@@ -10,7 +10,7 @@ class Empty(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...
 
-class RolDTO(_message.Message):
+class Rol(_message.Message):
     __slots__ = ("idrol", "nombre")
     IDROL_FIELD_NUMBER: _ClassVar[int]
     NOMBRE_FIELD_NUMBER: _ClassVar[int]
@@ -21,5 +21,5 @@ class RolDTO(_message.Message):
 class RolListResponse(_message.Message):
     __slots__ = ("roles",)
     ROLES_FIELD_NUMBER: _ClassVar[int]
-    roles: _containers.RepeatedCompositeFieldContainer[RolDTO]
-    def __init__(self, roles: _Optional[_Iterable[_Union[RolDTO, _Mapping]]] = ...) -> None: ...
+    roles: _containers.RepeatedCompositeFieldContainer[Rol]
+    def __init__(self, roles: _Optional[_Iterable[_Union[Rol, _Mapping]]] = ...) -> None: ...

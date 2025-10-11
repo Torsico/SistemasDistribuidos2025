@@ -5,13 +5,13 @@
 require 'google/protobuf'
 
 
-descriptor_data = "\n\trol.proto\x12\x05roles\"\x07\n\x05\x45mpty\"\'\n\x06RolDTO\x12\r\n\x05idrol\x18\x01 \x01(\x03\x12\x0e\n\x06nombre\x18\x02 \x01(\t\"/\n\x0fRolListResponse\x12\x1c\n\x05roles\x18\x01 \x03(\x0b\x32\r.roles.RolDTO2j\n\nRolService\x12\x30\n\x08GetRoles\x12\x0c.roles.Empty\x1a\x16.roles.RolListResponse\x12*\n\x0bupdateRoles\x12\r.roles.RolDTO\x1a\x0c.roles.Emptyb\x06proto3"
+descriptor_data = "\n\trol.proto\x12\x05roles\"\x07\n\x05\x45mpty\"$\n\x03Rol\x12\r\n\x05idrol\x18\x01 \x01(\x03\x12\x0e\n\x06nombre\x18\x02 \x01(\t\",\n\x0fRolListResponse\x12\x19\n\x05roles\x18\x01 \x03(\x0b\x32\n.roles.Rol2g\n\nRolService\x12\x30\n\x08GetRoles\x12\x0c.roles.Empty\x1a\x16.roles.RolListResponse\x12\'\n\x0bupdateRoles\x12\n.roles.Rol\x1a\x0c.roles.Emptyb\x06proto3"
 
 pool = ::Google::Protobuf::DescriptorPool.generated_pool
 pool.add_serialized_file(descriptor_data)
 
 module Roles
   Empty = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("roles.Empty").msgclass
-  RolDTO = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("roles.RolDTO").msgclass
+  Rol = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("roles.Rol").msgclass
   RolListResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("roles.RolListResponse").msgclass
 end

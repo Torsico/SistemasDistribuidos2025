@@ -76,3 +76,29 @@ class ListDonacionesResponse(_message.Message):
     DONACIONES_FIELD_NUMBER: _ClassVar[int]
     donaciones: _containers.RepeatedCompositeFieldContainer[Donaciones]
     def __init__(self, donaciones: _Optional[_Iterable[_Union[Donaciones, _Mapping]]] = ...) -> None: ...
+
+class DonacionSolicitada(_message.Message):
+    __slots__ = ("categoria", "descripcion")
+    CATEGORIA_FIELD_NUMBER: _ClassVar[int]
+    DESCRIPCION_FIELD_NUMBER: _ClassVar[int]
+    categoria: int
+    descripcion: int
+    def __init__(self, categoria: _Optional[int] = ..., descripcion: _Optional[int] = ...) -> None: ...
+
+class SolicitarDonacionRequest(_message.Message):
+    __slots__ = ("idOrganizacion", "idSolicitante", "donacion")
+    IDORGANIZACION_FIELD_NUMBER: _ClassVar[int]
+    IDSOLICITANTE_FIELD_NUMBER: _ClassVar[int]
+    DONACION_FIELD_NUMBER: _ClassVar[int]
+    idOrganizacion: int
+    idSolicitante: int
+    donacion: _containers.RepeatedCompositeFieldContainer[DonacionSolicitada]
+    def __init__(self, idOrganizacion: _Optional[int] = ..., idSolicitante: _Optional[int] = ..., donacion: _Optional[_Iterable[_Union[DonacionSolicitada, _Mapping]]] = ...) -> None: ...
+
+class SolicitarDonacionResponse(_message.Message):
+    __slots__ = ("suceso", "mensaje")
+    SUCESO_FIELD_NUMBER: _ClassVar[int]
+    MENSAJE_FIELD_NUMBER: _ClassVar[int]
+    suceso: bool
+    mensaje: str
+    def __init__(self, suceso: bool = ..., mensaje: _Optional[str] = ...) -> None: ...

@@ -116,6 +116,14 @@ def baja_usuario(idusuario):
 
 # Consulta de Donaciones
 
+def get_donacion(iddonacion):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT iddonaciones, categoria, descripcion, cantidad, eliminado, fecha_alta, fecha_mod, usuario_alta, usuario_mod FROM dist2025.donaciones WHERE iddonaciones = %s", (iddonacion,))
+    rows = cursor.fetchone()
+    conn.close()
+    return rows
+
 def get_donaciones():
     conn = get_connection()
     cursor = conn.cursor()
@@ -156,25 +164,22 @@ def mod_donaciones(iddonaciones, descripcion, cantidad, usuario_mod):
         print("Error al cargar:", e)
         return False
     
-def actualizar_stock(ideventos, donaciones, usuario_mod):
+def actualizar_stock(donacion, usuario_mod):
     try:
         conn =  get_connection()
         cursor = conn.cursor()
         now = datetime.now()
+    
+        cursor.execute(
+            """
+            INSERT INTO donaciones_has_eventos (donaciones_iddonaciones, eventos_ideventos, cantidad_donada)
+            VALUES (%s, %s, %s)
+            ON DUPLICATE KEY UPDATE cantidad_donada = cantidad_donada + VALUES(cantidad_donada) 
+            """, (donacion.iddonaciones, donacion.ideventos, donacion.cantidad_donada))
+        sql = "UPDATE donaciones SET cantidad = cantidad - %s, usuario_mod = %s, fecha_mod = %s WHERE iddonaciones = %s"
+        values = (donacion.cantidad_donada, usuario_mod, now, donacion.iddonaciones)
 
-        for d in donaciones:
-            
-            cursor.execute(
-                """
-                INSERT INTO donaciones_has_eventos (donaciones_iddonaciones, eventos_ideventos, cantidad_donada)
-                VALUES (%s, %s, %s)
-                ON DUPLICATE KEY UPDATE cantidad_donada = VALUES(cantidad_donada) 
-                """, (d.iddonaciones, ideventos, d.cantidad))
-            
-            sql = "UPDATE donaciones SET cantidad = cantidad - %s, usuario_mod = %s, fecha_mod = %s WHERE iddonaciones = %s"
-            values = (d.cantidad, usuario_mod, now, d.iddonaciones)
-
-            cursor.execute(sql, values)
+        cursor.execute(sql, values)
 
         conn.commit()
         cursor.close()
@@ -223,22 +228,32 @@ def get_eventos():
 
     for e in rows:
         ideventos = e[0]
-        sql = """
+        sql_usuario = """
             SELECT u.idusuario, u.nombreUsuario, u.nombre, u.apellido, u.email, u.rol, u.clave, u.telefono, u.activo
             FROM dist2025.usuario u
             JOIN dist2025.participacion eu ON u.idusuario = eu.usuario_idusuario
             WHERE eu.eventos_ideventos = %s
             """
         values = (ideventos,)
-        cursor.execute(sql, values)
+        cursor.execute(sql_usuario, values)
         usuarios_bd = cursor.fetchall()
+
+        sql_donaciones = """
+            SELECT d.iddonaciones, dhe.cantidad_donada
+            FROM dist2025.donaciones_has_eventos dhe
+            JOIN dist2025.donaciones d ON dhe.donaciones_iddonaciones = d.iddonaciones
+            WHERE dhe.eventos_ideventos = %s
+        """
+        cursor.execute(sql_donaciones, values)
+        donaciones_bd = cursor.fetchall()
 
         eventosCompleto.append({
             "ideventos": ideventos,
             "nombre": e[1],
             "descripcion": e[2],
             "fechaHora": e[3],
-            "usuarios": usuarios_bd
+            "usuarios": usuarios_bd,
+            "donaciones": donaciones_bd
         })
     
     conn.close()

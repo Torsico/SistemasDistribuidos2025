@@ -15,7 +15,7 @@ module Roles
       self.service_name = 'roles.RolService'
 
       rpc :GetRoles, ::Roles::Empty, ::Roles::RolListResponse
-      rpc :updateRoles, ::Roles::RolDTO, ::Roles::Empty
+      rpc :updateRoles, ::Roles::Rol, ::Roles::Empty
     end
 
     Stub = Service.rpc_stub_class

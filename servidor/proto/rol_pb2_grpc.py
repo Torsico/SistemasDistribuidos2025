@@ -41,7 +41,7 @@ class RolServiceStub(object):
                 _registered_method=True)
         self.updateRoles = channel.unary_unary(
                 '/roles.RolService/updateRoles',
-                request_serializer=rol__pb2.RolDTO.SerializeToString,
+                request_serializer=rol__pb2.Rol.SerializeToString,
                 response_deserializer=rol__pb2.Empty.FromString,
                 _registered_method=True)
 
@@ -71,7 +71,7 @@ def add_RolServiceServicer_to_server(servicer, server):
             ),
             'updateRoles': grpc.unary_unary_rpc_method_handler(
                     servicer.updateRoles,
-                    request_deserializer=rol__pb2.RolDTO.FromString,
+                    request_deserializer=rol__pb2.Rol.FromString,
                     response_serializer=rol__pb2.Empty.SerializeToString,
             ),
     }
@@ -127,7 +127,7 @@ class RolService(object):
             request,
             target,
             '/roles.RolService/updateRoles',
-            rol__pb2.RolDTO.SerializeToString,
+            rol__pb2.Rol.SerializeToString,
             rol__pb2.Empty.FromString,
             options,
             channel_credentials,
