@@ -176,6 +176,7 @@ def actualizar_stock(donacion, usuario_mod):
             VALUES (%s, %s, %s)
             ON DUPLICATE KEY UPDATE cantidad_donada = cantidad_donada + VALUES(cantidad_donada) 
             """, (donacion.iddonaciones, donacion.ideventos, donacion.cantidad_donada))
+        
         sql = "UPDATE donaciones SET cantidad = cantidad - %s, usuario_mod = %s, fecha_mod = %s WHERE iddonaciones = %s"
         values = (donacion.cantidad_donada, usuario_mod, now, donacion.iddonaciones)
 
@@ -280,7 +281,7 @@ def alta_eventos(nombre, descripcion, fecha, usuarios):
         print("Error al cargar:", e)
         return False
     
-def mod_eventos(ideventos, nombre, usuarios):
+def mod_eventos(ideventos, nombre):
     try:
         conn = get_connection()
         cursor = conn.cursor()
@@ -290,10 +291,6 @@ def mod_eventos(ideventos, nombre, usuarios):
         values = (nombre, now, ideventos)
         cursor.execute(sql, values)
 
-        cursor.execute("DELETE FROM dist2025.participacion WHERE eventos_ideventos = %s", (ideventos,))
-        for u in usuarios:
-            cursor.execute("INSERT INTO participacion (usuario_idusuario, eventos_ideventos) VALUES (%s, %s)", (u, ideventos))
-        
         conn.commit()
         cursor.close()
         conn.close()
@@ -302,6 +299,36 @@ def mod_eventos(ideventos, nombre, usuarios):
     except Exception as e:
         print("Error al cargar:", e)
         return False
+    
+def agregar_miembro_evento(idusuario, idevento):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO participacion (usuario_idusuario, eventos_ideventos) VALUES (%s, %s)", (idusuario, idevento))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return True
+    except Exception as e:
+        print("Error al cargar:", e)
+        return False
+    
+def quitar_miembro_evento(idusuario, idevento):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM dist2025.participacion WHERE usuario_idusuario = %s AND eventos_ideventos = %s ", (idusuario, idevento))
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return True
+    except Exception as e:
+        print("Error al cargar:", e)
+        return False    
 
 def baja_eventos(ideventos):
     try:

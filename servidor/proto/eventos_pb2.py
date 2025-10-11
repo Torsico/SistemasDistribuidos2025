@@ -27,7 +27,7 @@ import usuarios_pb2 as usuarios__pb2
 import donaciones_pb2 as donaciones__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\reventos.proto\x12\x07\x65ventos\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x0eusuarios.proto\x1a\x10\x64onaciones.proto\"\xb9\x01\n\x07\x45ventos\x12\x11\n\tideventos\x18\x01 \x01(\x03\x12\x0e\n\x06nombre\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scripcion\x18\x03 \x01(\t\x12-\n\tfechaHora\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\"\n\x07usuario\x18\x05 \x03(\x0b\x32\x11.usuarios.Usuario\x12#\n\x05\x64onar\x18\x06 \x03(\x0b\x32\x14.eventos.DonarEvento\"5\n\x11\x41ltaEventoRequest\x12 \n\x06\x65vento\x18\x01 \x01(\x0b\x32\x10.eventos.Eventos\"$\n\x12\x41ltaEventoResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"`\n\x10ModEventoRequest\x12 \n\x06\x65vento\x18\x01 \x01(\x0b\x32\x10.eventos.Eventos\x12*\n\ndonaciones\x18\x02 \x03(\x0b\x32\x16.donaciones.Donaciones\"#\n\x11ModEventoResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"&\n\x11\x42\x61jaEventoRequest\x12\x11\n\tideventos\x18\x01 \x01(\x03\"$\n\x12\x42\x61jaEventoResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"O\n\x0b\x44onarEvento\x12\x14\n\x0ciddonaciones\x18\x01 \x01(\x03\x12\x11\n\tideventos\x18\x02 \x01(\x03\x12\x17\n\x0f\x63\x61ntidad_donada\x18\x03 \x01(\x03\"3\n\x0c\x44onarRequest\x12#\n\x05\x64onar\x18\x01 \x01(\x0b\x32\x14.eventos.DonarEvento\"\x1f\n\rDonarResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"\x07\n\x05\x45mpty\"7\n\x13ListEventosResponse\x12 \n\x06\x65vento\x18\x01 \x03(\x0b\x32\x10.eventos.Eventos2\xdc\x02\n\x0e\x45ventosService\x12:\n\nGetEventos\x12\x0e.eventos.Empty\x1a\x1c.eventos.ListEventosResponse\x12\x45\n\nAltaEvento\x12\x1a.eventos.AltaEventoRequest\x1a\x1b.eventos.AltaEventoResponse\x12\x42\n\tModEvento\x12\x19.eventos.ModEventoRequest\x1a\x1a.eventos.ModEventoResponse\x12\x45\n\nBajaEvento\x12\x1a.eventos.BajaEventoRequest\x1a\x1b.eventos.BajaEventoResponse\x12<\n\x0b\x44onarEvento\x12\x15.eventos.DonarRequest\x1a\x16.eventos.DonarResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\reventos.proto\x12\x07\x65ventos\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x0eusuarios.proto\x1a\x10\x64onaciones.proto\"\xb9\x01\n\x07\x45ventos\x12\x11\n\tideventos\x18\x01 \x01(\x03\x12\x0e\n\x06nombre\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scripcion\x18\x03 \x01(\t\x12-\n\tfechaHora\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\"\n\x07usuario\x18\x05 \x03(\x0b\x32\x11.usuarios.Usuario\x12#\n\x05\x64onar\x18\x06 \x03(\x0b\x32\x14.eventos.DonarEvento\"5\n\x11\x41ltaEventoRequest\x12 \n\x06\x65vento\x18\x01 \x01(\x0b\x32\x10.eventos.Eventos\"$\n\x12\x41ltaEventoResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"`\n\x10ModEventoRequest\x12 \n\x06\x65vento\x18\x01 \x01(\x0b\x32\x10.eventos.Eventos\x12*\n\ndonaciones\x18\x02 \x03(\x0b\x32\x16.donaciones.Donaciones\"#\n\x11ModEventoResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"&\n\x11\x42\x61jaEventoRequest\x12\x11\n\tideventos\x18\x01 \x01(\x03\"$\n\x12\x42\x61jaEventoResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"O\n\x0b\x44onarEvento\x12\x14\n\x0ciddonaciones\x18\x01 \x01(\x03\x12\x11\n\tideventos\x18\x02 \x01(\x03\x12\x17\n\x0f\x63\x61ntidad_donada\x18\x03 \x01(\x03\"3\n\x0c\x44onarRequest\x12#\n\x05\x64onar\x18\x01 \x01(\x0b\x32\x14.eventos.DonarEvento\"\x1f\n\rDonarResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"4\n\rUsuarioEvento\x12\x11\n\tidusuario\x18\x01 \x01(\x03\x12\x10\n\x08idevento\x18\x02 \x01(\x03\"B\n\x17ModificarMiembroRequest\x12\'\n\x07miembro\x18\x01 \x01(\x0b\x32\x16.eventos.UsuarioEvento\"*\n\x18ModificarMiembroResponse\x12\x0e\n\x06suceso\x18\x01 \x01(\x08\"\x07\n\x05\x45mpty\"7\n\x13ListEventosResponse\x12 \n\x06\x65vento\x18\x01 \x03(\x0b\x32\x10.eventos.Eventos2\x89\x04\n\x0e\x45ventosService\x12:\n\nGetEventos\x12\x0e.eventos.Empty\x1a\x1c.eventos.ListEventosResponse\x12\x45\n\nAltaEvento\x12\x1a.eventos.AltaEventoRequest\x1a\x1b.eventos.AltaEventoResponse\x12\x42\n\tModEvento\x12\x19.eventos.ModEventoRequest\x1a\x1a.eventos.ModEventoResponse\x12\x45\n\nBajaEvento\x12\x1a.eventos.BajaEventoRequest\x1a\x1b.eventos.BajaEventoResponse\x12<\n\x0b\x44onarEvento\x12\x15.eventos.DonarRequest\x1a\x16.eventos.DonarResponse\x12U\n\x0e\x41signarMiembro\x12 .eventos.ModificarMiembroRequest\x1a!.eventos.ModificarMiembroResponse\x12T\n\rQuitarMiembro\x12 .eventos.ModificarMiembroRequest\x1a!.eventos.ModificarMiembroResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -54,10 +54,16 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_DONARREQUEST']._serialized_end=719
   _globals['_DONARRESPONSE']._serialized_start=721
   _globals['_DONARRESPONSE']._serialized_end=752
-  _globals['_EMPTY']._serialized_start=754
-  _globals['_EMPTY']._serialized_end=761
-  _globals['_LISTEVENTOSRESPONSE']._serialized_start=763
-  _globals['_LISTEVENTOSRESPONSE']._serialized_end=818
-  _globals['_EVENTOSSERVICE']._serialized_start=821
-  _globals['_EVENTOSSERVICE']._serialized_end=1169
+  _globals['_USUARIOEVENTO']._serialized_start=754
+  _globals['_USUARIOEVENTO']._serialized_end=806
+  _globals['_MODIFICARMIEMBROREQUEST']._serialized_start=808
+  _globals['_MODIFICARMIEMBROREQUEST']._serialized_end=874
+  _globals['_MODIFICARMIEMBRORESPONSE']._serialized_start=876
+  _globals['_MODIFICARMIEMBRORESPONSE']._serialized_end=918
+  _globals['_EMPTY']._serialized_start=920
+  _globals['_EMPTY']._serialized_end=927
+  _globals['_LISTEVENTOSRESPONSE']._serialized_start=929
+  _globals['_LISTEVENTOSRESPONSE']._serialized_end=984
+  _globals['_EVENTOSSERVICE']._serialized_start=987
+  _globals['_EVENTOSSERVICE']._serialized_end=1508
 # @@protoc_insertion_point(module_scope)

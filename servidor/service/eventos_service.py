@@ -1,7 +1,7 @@
 import grpc
 import datetime
 
-from bdConnect import get_donacion, actualizar_stock
+from bdConnect import get_donacion, actualizar_stock, agregar_miembro_evento, quitar_miembro_evento
 from bdConnect import get_evento, get_eventos, alta_eventos, mod_eventos, baja_eventos
 from security import verificar_token
 from proto import eventos_pb2, eventos_pb2_grpc
@@ -82,7 +82,6 @@ class EventosServiceImpl(eventos_pb2_grpc.EventosServiceServicer):
         exito = mod_eventos(
             evento.ideventos,
             evento.nombre,
-            [u.idusuario for u in evento.usuario]
         )
         if not exito:
             context.set_trailing_metadata((
@@ -124,6 +123,24 @@ class EventosServiceImpl(eventos_pb2_grpc.EventosServiceServicer):
             context.abort(grpc.StatusCode.INTERNAL, "Error al actualizar el stock")
         
         return eventos_pb2.DonarResponse(suceso=exito)
+    
+    def AsignarMiembro(self, request, context):
+        usuarioEvento = request.miembro
+        
+        exito = agregar_miembro_evento(usuarioEvento.idusuario, usuarioEvento.idevento)
+        if not exito:
+            context.abort(grpc.StatusCode.INTERNAL, "No se pudo agregar el usuario al evento")
+
+        return eventos_pb2.ModificarMiembroResponse(suceso=exito)
+    
+    def QuitarMiembro(self, request, context):
+        usuarioEvento = request.miembro
+
+        exito = quitar_miembro_evento(usuarioEvento.idusuario, usuarioEvento.idevento)
+        if not exito:
+            context.abort(grpc.StatusCode.INTERNAL, "No se pudo quitar el usuario al evento")
+
+        return eventos_pb2.ModificarMiembroResponse(suceso=exito)
     
     def BajaEvento(self, request, context):
         exito = baja_eventos(request.ideventos)

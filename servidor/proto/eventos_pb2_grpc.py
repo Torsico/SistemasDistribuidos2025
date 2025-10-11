@@ -59,6 +59,16 @@ class EventosServiceStub(object):
                 request_serializer=eventos__pb2.DonarRequest.SerializeToString,
                 response_deserializer=eventos__pb2.DonarResponse.FromString,
                 _registered_method=True)
+        self.AsignarMiembro = channel.unary_unary(
+                '/eventos.EventosService/AsignarMiembro',
+                request_serializer=eventos__pb2.ModificarMiembroRequest.SerializeToString,
+                response_deserializer=eventos__pb2.ModificarMiembroResponse.FromString,
+                _registered_method=True)
+        self.QuitarMiembro = channel.unary_unary(
+                '/eventos.EventosService/QuitarMiembro',
+                request_serializer=eventos__pb2.ModificarMiembroRequest.SerializeToString,
+                response_deserializer=eventos__pb2.ModificarMiembroResponse.FromString,
+                _registered_method=True)
 
 
 class EventosServiceServicer(object):
@@ -94,6 +104,18 @@ class EventosServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def AsignarMiembro(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def QuitarMiembro(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_EventosServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -121,6 +143,16 @@ def add_EventosServiceServicer_to_server(servicer, server):
                     servicer.DonarEvento,
                     request_deserializer=eventos__pb2.DonarRequest.FromString,
                     response_serializer=eventos__pb2.DonarResponse.SerializeToString,
+            ),
+            'AsignarMiembro': grpc.unary_unary_rpc_method_handler(
+                    servicer.AsignarMiembro,
+                    request_deserializer=eventos__pb2.ModificarMiembroRequest.FromString,
+                    response_serializer=eventos__pb2.ModificarMiembroResponse.SerializeToString,
+            ),
+            'QuitarMiembro': grpc.unary_unary_rpc_method_handler(
+                    servicer.QuitarMiembro,
+                    request_deserializer=eventos__pb2.ModificarMiembroRequest.FromString,
+                    response_serializer=eventos__pb2.ModificarMiembroResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -258,6 +290,60 @@ class EventosService(object):
             '/eventos.EventosService/DonarEvento',
             eventos__pb2.DonarRequest.SerializeToString,
             eventos__pb2.DonarResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def AsignarMiembro(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/eventos.EventosService/AsignarMiembro',
+            eventos__pb2.ModificarMiembroRequest.SerializeToString,
+            eventos__pb2.ModificarMiembroResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def QuitarMiembro(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/eventos.EventosService/QuitarMiembro',
+            eventos__pb2.ModificarMiembroRequest.SerializeToString,
+            eventos__pb2.ModificarMiembroResponse.FromString,
             options,
             channel_credentials,
             insecure,

@@ -87,6 +87,26 @@ class DonarResponse(_message.Message):
     suceso: bool
     def __init__(self, suceso: bool = ...) -> None: ...
 
+class UsuarioEvento(_message.Message):
+    __slots__ = ("idusuario", "idevento")
+    IDUSUARIO_FIELD_NUMBER: _ClassVar[int]
+    IDEVENTO_FIELD_NUMBER: _ClassVar[int]
+    idusuario: int
+    idevento: int
+    def __init__(self, idusuario: _Optional[int] = ..., idevento: _Optional[int] = ...) -> None: ...
+
+class ModificarMiembroRequest(_message.Message):
+    __slots__ = ("miembro",)
+    MIEMBRO_FIELD_NUMBER: _ClassVar[int]
+    miembro: UsuarioEvento
+    def __init__(self, miembro: _Optional[_Union[UsuarioEvento, _Mapping]] = ...) -> None: ...
+
+class ModificarMiembroResponse(_message.Message):
+    __slots__ = ("suceso",)
+    SUCESO_FIELD_NUMBER: _ClassVar[int]
+    suceso: bool
+    def __init__(self, suceso: bool = ...) -> None: ...
+
 class Empty(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...

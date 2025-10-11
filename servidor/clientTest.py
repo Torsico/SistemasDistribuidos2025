@@ -115,7 +115,7 @@ def run():
         SECRET_KEY = "secretosecretoso468"
 
         payload = {
-            "idusuario": 1,
+            "idusuario": 3,
             "nombreUsuario": "jdoe",
             "rol": "Presidente",
             "exp": datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=1)
@@ -200,17 +200,25 @@ def run():
 
         # Mod Evento
 
-        usuarioPrueba2 = [usuarios_pb2.Usuario(idusuario=1), usuarios_pb2.Usuario(idusuario=2)]
         eventoMod = eventos_pb2.Eventos(
             ideventos=1,
-            nombre="Barrio Renovado",
-            usuario=usuarioPrueba2
+            nombre="Barrio Renovado"
         )
         
         donacionEvento = eventos_pb2.DonarEvento(
-            iddonaciones=2,
-            ideventos=15,
-            cantidad_donada=5
+            iddonaciones=3,
+            ideventos=2,
+            cantidad_donada=3
+        )
+
+        usuarioEvento1 = eventos_pb2.UsuarioEvento(
+            idusuario=2,
+            idevento=2
+        )
+
+        usuarioEvento2 = eventos_pb2.UsuarioEvento(
+            idusuario=1,
+            idevento=1
         )
 
         request = eventos_pb2.ModEventoRequest(evento=eventoMod)
@@ -228,6 +236,21 @@ def run():
             print("Mod Donacion Evento - Respuesta del Servidor: ", response.suceso)
         except grpc.RpcError as e:
             print("Error en Mod Donacion Evento:", e.code(), e.details())
+
+        
+        request = eventos_pb2.ModificarMiembroRequest(miembro=usuarioEvento1)
+        try:
+            response = stub.AsignarMiembro(request)
+            print("Asignar Miembro Evento - Respuesta del Servidor: ", response.suceso)
+        except grpc.RpcError as e:
+            print("Error en Asignar Miembro Evento:", e.code(), e.details())
+
+        request = eventos_pb2.ModificarMiembroRequest(miembro=usuarioEvento2)
+        try:
+            response = stub.QuitarMiembro(request)
+            print("Quitar Miembro Evento - Respuesta del Servidor: ", response.suceso)
+        except grpc.RpcError as e:
+            print("Error en Quitar Miembro Evento:", e.code(), e.details())
 
         # Baja Evento
 
