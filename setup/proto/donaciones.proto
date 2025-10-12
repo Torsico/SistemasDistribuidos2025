@@ -48,6 +48,7 @@ message ListDonacionesResponse{
 
 // Kafka Solicitudes
 
+// Solicitar
 message DonacionSolicitada{
     string categoria = 1;
     string descripcion = 2;
@@ -61,7 +62,22 @@ message SolicitarDonacionRequest{
 
 message SolicitarDonacionResponse{
     bool suceso = 1;
-    string mensaje = 2;
+}
+
+// Transferir
+    message DonacionTransferida{
+    string categoria = 1;
+    string descripcion = 2;
+    int64 cantidad = 3;
+}
+
+message TransferirDonacionRequest{
+    int64 idSolicitud = 1;
+    int64 idOrganizacion = 2;
+    repeated DonacionTransferida donacion = 3;
+}
+message TransferirDonacionResponse{
+    bool suceso = 1;
 }
 
 service DonacionesService{
@@ -71,4 +87,5 @@ service DonacionesService{
     rpc BajaDonaciones(BajaDonacionesRequest) returns (BajaDonacionesResponse);
 
     rpc SolicitarDonacion(SolicitarDonacionRequest) returns (SolicitarDonacionResponse);
+    rpc TransferirDonacion(TransferirDonacionRequest) returns (TransferirDonacionResponse);
 }

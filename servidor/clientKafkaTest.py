@@ -1,23 +1,21 @@
-import grpc
-import sys
-import os
+from kafka import KafkaProducer
+import json
 
-# Se agrega la carpeta 'proto' al path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "proto"))
+producer = KafkaProducer(
+    bootstrap_servers='localhost:9092',   # puerto del broker
+    value_serializer=lambda v: json.dumps(v).encode('utf-8')
+)
 
-from proto import donaciones_pb2, donaciones_pb2_grpc
+# Simular el contenido del request
+mensaje = {
+    "idSolicitante": 101,
+    "idOrganizacion": 1,
+    "donacion": [
+        {"categoria": "ALIMENTOS", "descripcion": "Puré de tomates"},
+        {"categoria": "ROPA", "descripcion": "Camisas"}
+    ]
+}
 
-with grpc.insecure_channel(f"localhost:50051") as channel:
-    stub = donaciones_pb2_grpc.DonacionesServiceStub(channel)
-
-    request = donaciones_pb2.SolicitarDonacionRequest(
-        idSolicitante=101,
-        idOrganizacion=1,
-        donacion=[
-            donaciones_pb2.DonacionSolicitada(categoria="ALIMENTOS", descripcion="Puré de tomates"),
-            donaciones_pb2.DonacionSolicitada(categoria="ROPA", descripcion="Camisas")
-        ]
-    )
-
-    response = stub.SolicitarDonacion(request)
-    print("Solicitud enviada, éxito:", response.suceso)
+producer.send("solicitud-donaciones", mensaje)
+producer.flush()
+print("Mensaje enviado!")

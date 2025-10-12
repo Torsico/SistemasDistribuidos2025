@@ -15,9 +15,9 @@ def ProducirSolicitud(solicitud):
     producer.flush()
     producer.close()
 
-def ProducirTransferencia(idSolicitante, idOrganizacion, donacion):
+def ProducirTransferencia(idSolicitud, idOrganizacion, donacion):
     transferencia = {
-        "idSolicitante": idSolicitante,
+        "idSolicitud": idSolicitud,
         "idOrganizacion": idOrganizacion,
         "donacion": donacion        
     }
@@ -32,7 +32,7 @@ def ProducirTransferencia(idSolicitante, idOrganizacion, donacion):
 while True:
     try:
         producer = KafkaProducer(
-            bootstrap_servers="localhost:9092",
+            bootstrap_servers="kafka:9092",
             value_serializer=lambda m: json.dumps(m).encode('utf-8')
         )
     except errors.NoBrokersAvailable:
