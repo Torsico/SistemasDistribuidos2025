@@ -18,7 +18,6 @@ module Donaciones
       rpc :AltaDonaciones, ::Donaciones::AltaDonacionesRequest, ::Donaciones::AltaDonacionesResponse
       rpc :ModDonaciones, ::Donaciones::ModDonacionesRequest, ::Donaciones::ModDonacionesResponse
       rpc :BajaDonaciones, ::Donaciones::BajaDonacionesRequest, ::Donaciones::BajaDonacionesResponse
-      # Kafka Solicitudes
       rpc :SolicitarDonacion, ::Donaciones::SolicitarDonacionRequest, ::Donaciones::SolicitarDonacionResponse
     end
 

@@ -14,12 +14,6 @@
 """The Python implementation of the GRPC helloworld.Greeter client."""
 from __future__ import print_function
 
-import sys
-import os
-
-# Se agrega la carpeta 'proto' al path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "proto"))
-
 from google.protobuf.timestamp_pb2 import Timestamp
 import datetime
 
@@ -27,7 +21,6 @@ import logging
 import jwt
 import grpc
 from proto import usuarios_pb2, usuarios_pb2_grpc
-from proto import rol_pb2, rol_pb2_grpc
 from proto import donaciones_pb2, donaciones_pb2_grpc
 from proto import eventos_pb2, eventos_pb2_grpc
 from google.protobuf import empty_pb2

@@ -81,19 +81,19 @@ class DonacionSolicitada(_message.Message):
     __slots__ = ("categoria", "descripcion")
     CATEGORIA_FIELD_NUMBER: _ClassVar[int]
     DESCRIPCION_FIELD_NUMBER: _ClassVar[int]
-    categoria: int
-    descripcion: int
-    def __init__(self, categoria: _Optional[int] = ..., descripcion: _Optional[int] = ...) -> None: ...
+    categoria: str
+    descripcion: str
+    def __init__(self, categoria: _Optional[str] = ..., descripcion: _Optional[str] = ...) -> None: ...
 
 class SolicitarDonacionRequest(_message.Message):
-    __slots__ = ("idOrganizacion", "idSolicitante", "donacion")
-    IDORGANIZACION_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ("idSolicitante", "idOrganizacion", "donacion")
     IDSOLICITANTE_FIELD_NUMBER: _ClassVar[int]
+    IDORGANIZACION_FIELD_NUMBER: _ClassVar[int]
     DONACION_FIELD_NUMBER: _ClassVar[int]
-    idOrganizacion: int
     idSolicitante: int
+    idOrganizacion: int
     donacion: _containers.RepeatedCompositeFieldContainer[DonacionSolicitada]
-    def __init__(self, idOrganizacion: _Optional[int] = ..., idSolicitante: _Optional[int] = ..., donacion: _Optional[_Iterable[_Union[DonacionSolicitada, _Mapping]]] = ...) -> None: ...
+    def __init__(self, idSolicitante: _Optional[int] = ..., idOrganizacion: _Optional[int] = ..., donacion: _Optional[_Iterable[_Union[DonacionSolicitada, _Mapping]]] = ...) -> None: ...
 
 class SolicitarDonacionResponse(_message.Message):
     __slots__ = ("suceso", "mensaje")

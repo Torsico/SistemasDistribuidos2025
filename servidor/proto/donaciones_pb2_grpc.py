@@ -89,8 +89,7 @@ class DonacionesServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def SolicitarDonacion(self, request, context):
-        """Kafka Solicitudes
-        """
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')

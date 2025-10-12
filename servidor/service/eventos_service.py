@@ -84,10 +84,6 @@ class EventosServiceImpl(eventos_pb2_grpc.EventosServiceServicer):
             evento.nombre,
         )
         if not exito:
-            context.set_trailing_metadata((
-                ("codigo-error", "Error alta"),
-                ("mensaje-error", "No se pudo crear el evento")
-            ))
             context.abort(grpc.StatusCode.INTERNAL, f"No se pudo modificar el evento")
 
         return eventos_pb2.ModEventoResponse(suceso=exito)

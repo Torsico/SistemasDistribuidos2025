@@ -49,13 +49,13 @@ message ListDonacionesResponse{
 // Kafka Solicitudes
 
 message DonacionSolicitada{
-    int64 categoria = 1;
-    int64 descripcion = 2;
+    string categoria = 1;
+    string descripcion = 2;
 }
 
 message SolicitarDonacionRequest{
-    int64 idOrganizacion = 1;
-    int64 idSolicitante = 2;
+    int64 idSolicitante = 1;
+    int64 idOrganizacion = 2;
     repeated DonacionSolicitada donacion = 3;
 }
 
@@ -70,6 +70,5 @@ service DonacionesService{
     rpc ModDonaciones(ModDonacionesRequest) returns (ModDonacionesResponse);
     rpc BajaDonaciones(BajaDonacionesRequest) returns (BajaDonacionesResponse);
 
-    // Kafka Solicitudes
     rpc SolicitarDonacion(SolicitarDonacionRequest) returns (SolicitarDonacionResponse);
 }
