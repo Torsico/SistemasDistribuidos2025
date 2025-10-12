@@ -18,8 +18,10 @@
 			when :mod; "Modificando"
 			when :baja; "Confirmar baja de"
 			else "???????????????"
-			end %> donacion <%="?" if @style==:baja%>
+			end %> evento <%="?" if @style==:baja%>
 	</div>
+	
+	<% if $session.can_mod_events? then %>
 	
 	<form
 		autocomplete="off"
@@ -28,54 +30,41 @@
 		<% when :alta %>
 			action="alta"
 		<% when :mod, :baja %>
-			action="<%=69%>"
+			action="<%=@editee.ideventos%>"
 		<% end %>
 	>
 	<div class="centermini" style="display: flex;">
 		<ul>
 			<%if @style == :baja %>
-				<%=@editee.descripcion%>
+				<%=@editee.nombre%>
 			<%else%>
 			
-			<%if @style==:alta%>
-			<label>Categoria</label>
-			<span style="color:red">*</span>
-			<input name="categoria" type="input" required>
+			<label>Nombre del evento</label>
+			<input name="nombre" type="input"
+				<%if @style==:mod%>
+				placeholder="<%=@editee.nombre%>"
+				<%end%>
+				<%= "required" if @style == :alta %>
+			>
 			<br>
-			<%end%>
 			
 			<label>Descripcion</label>
-			<span style="color:red">*</span>
 			<input name="descripcion" type="input"
 			<%if @style==:mod%>
 				placeholder="<%=@editee.descripcion%>"
-				required
+				<%= "required" if @style == :alta %>
 			<%end%>
 			>
 			<br>
 			
-			<label>Cantidad</label>
+			<label>Fecha del evento</label>
 			<span style="color:red">*</span>
-			<input name="cantidad" type="number"
-				value="<%=@style==:mod ? @editee.cantidad : "0"%>"
-			min="0" required>
-			<br>
-			
-			<%if @style==:alta%>
-			<input type="hidden" name="eliminado" value="0">
-			<%else%>
-			<label>Eliminado?</label>
-			<input name="activo" type="checkbox"
-				<%= "checked" if @editee.eliminado %>>
-			<br>
-			<%end%>
-			
-			
-			<%# hace falta? no se xd %>
+			<input type="datetime-local"
+				id="fechaHora" name="fechaHora"
+				<%= "required" if @style == :alta %>
+			>
 			
 			<% end %>
-			
-			
 		</ul>
 	</div>
 	<div class="centermini" style="display: flex;">
@@ -89,6 +78,106 @@
 		%>">
 	</div>
 	</form>
+	
+	<% if @style == :mod %><%# otros tipos de modificacion (participacion, donaciones) %>
+	<br>
+	<form
+		autocomplete="off"
+		method="post"
+		action="../donate/<%=@editee.ideventos%>"
+	>
+	Donaciones<br>
+	<div class="centermini" style="display: block;">
+		Donaciones realizadas en este evento:
+		<ul>
+			<% if @editee&.donar&.any? then %>
+				<% @editee.donar.each do |donev| %>
+				<% don = @donLUT[donev.iddonaciones] %>
+				<% raise "DON????" unless don %>
+				<li>- <%= "#{don.descripcion} (#{donev.cantidad_donada})" %></li>
+				<% end %>
+			<% else %>
+				<li>Nada.</li>
+			<% end %>
+		</ul>
+		<br>
+		<label>Agregar donacion?</label> <select name="itemid" required>
+		<% @alldons.each do |don| %>
+			<option value=<%=don.iddonaciones%>>
+			<%= "#{don.descripcion} (#{don.cantidad})" %>
+		<% end %>
+		</select>
+		<label>Cantidad</label>
+		<input name="cantidad" type="number" min="1" required>
+	</div>
+	<div class="centermini" style="display: flex;">
+		<input type="submit" value="Registrar donacion">
+	</div>
+	</form>
+	
+	<br>
+	<form
+		autocomplete="off"
+		method="post"
+		action="../join/<%=@editee.ideventos%>"
+	>
+	Participacion<br>
+	<div class="centermini" style="display: block;">
+		Estos usuarios participan en el evento:
+		<ul>
+			<% if @editee&.usuario&.any? then %>
+				<% @editee.usuario.each do |u| %>
+				<li>- <%= "#{u.nombreUsuario}" %></li>
+				<% end %>
+			<% else %>
+				<li><i>Nadie.</i></li>
+			<% end %>
+		</ul>
+		<br>
+		<label>Agregar miembro?</label>
+			<select name="userid" required>
+			<% @allusers.each do |u| %>
+			  <option value=<%=u.idusuario%>>
+				<%=u.nombreUsuario%><%=" (participando)" if @editee.usuario.include?(u)%>
+			<% end %>
+			</select>
+	</div>
+	<div class="centermini" style="display: flex;">
+		<input type="submit" value="Asignar/Remover">
+	</div>
+	</form>
+	<% end %>
+	
+	<% elsif $session.can_join_events? %> <%# para can_mod_events? %>
+	
+	<form
+		autocomplete="off"
+		method="post"
+		action="../join/<%=@editee.ideventos%>"
+	>
+	Mi participacion<br>
+	<div class="centermini" style="display: block;">
+		Estos usuarios participan en el evento:
+		<ul>
+			<% if @editee&.usuario&.any? then %>
+				<% @editee.usuario.each do |u| %>
+				<li>- <%= "#{u.nombreUsuario}" %></li>
+				<% end %>
+			<% else %>
+				<li><i>Nadie.</i></li>
+			<% end %>
+		</ul>
+		<br>
+		<% alreadyIn = @editee.usuario.include?($session.user) %>
+		<label><%= alreadyIn ? "Dejar de participar?" : "Participar?" %></label>
+	</div>
+	<div class="centermini" style="display: flex;">
+		<input type="submit" value="<%= alreadyIn ? "Salir" : "Participar" %>">
+	</div>
+	</form>
+	
+	<% end %>
+	
 	
 </body>
 </html>

@@ -27,6 +27,8 @@
 		<% @items.sort_by(&:first).each do |key, item| %>
 		<tr>
 			<td>
+				<% if $session.logged_in? %>
+				
 				<a href="/eventos/mod/<%=item.ideventos%>" class="btn"
 					<% if $session.can_mod_events? %>title="Modificar"
 					<% else %>title="Participacion"<% end %>
@@ -35,6 +37,8 @@
 					title="Eliminar">
     				❌
 				</a>
+				
+				<% end %>
 			</td>
 			<td><%= item.nombre %></td>
 			<td><%= item.descripcion %></td>

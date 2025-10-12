@@ -43,6 +43,8 @@ Rails.application.routes.draw do
 	get "eventos/baja/:id"	=> "eventos#bajaform"
 	post "eventos/alta"		=> "eventos#altapost"
 	post "eventos/mod/:id"	=> "eventos#modpost"
+	post "eventos/join/:id"	=> "eventos#joinpost" # voluntarios se saltan el formulario mod y solo entran
+	post "eventos/donate/:id"	=> "eventos#donatepost"
 	post "eventos/baja/:id"	=> "eventos#bajapost"
 	
 end

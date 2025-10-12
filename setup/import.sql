@@ -10,7 +10,11 @@ INSERT INTO rol (nombre) VALUES
 -- Usuario
 INSERT INTO usuario (nombreUsuario, nombre, apellido, email, rol, clave, telefono, activo)
 VALUES ('jdoe', 'John', 'Doe', 'jdoe@mail.com', 1, '1234', '1111-1111', 1),
-       ('mlopez', 'Maria', 'Lopez', 'mlopez@mail.com', 2, 'abcd', '2222-2222', 1);
+       ('mlopez', 'Maria', 'Lopez', 'mlopez@mail.com', 2, 'abcd', '2222-2222', 1),
+       ('p', 'Presi', 'Dente', 'presidente@xd.com', 1, 'p', '9999-8888', 1),
+       ('voc', 'Vo', 'Cal', 'vocal@xd.com', 2, 'v', '9999-8888', 1),
+       ('coo', 'Coordi', 'Nador', 'coordinador@xd.com', 3, 'c', '9999-8888', 1),
+       ('vol', 'Volun', 'Tario', 'voluntario@xd.com', 4, 'v', '9999-8888', 1);
 
 -- Donaciones
 INSERT INTO donaciones (categoria, descripcion, cantidad, eliminado, fecha_alta, fecha_mod, usuario_alta, usuario_mod)

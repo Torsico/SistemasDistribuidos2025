@@ -43,6 +43,7 @@ class LocalSession
     end
     
     def logged_in?
+        p @@user
         return !!@@user
     end
     
