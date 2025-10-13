@@ -13,6 +13,11 @@
 # limitations under the License.
 """The Python implementation of the GRPC helloworld.Greeter client."""
 from __future__ import print_function
+import sys
+import os
+
+# Se agrega la carpeta 'proto' al path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "proto"))
 
 from google.protobuf.timestamp_pb2 import Timestamp
 import datetime

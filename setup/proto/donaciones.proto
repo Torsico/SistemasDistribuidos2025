@@ -73,8 +73,9 @@ message SolicitarDonacionResponse{
 
 message TransferirDonacionRequest{
     int64 idSolicitud = 1;
-    int64 idOrganizacion = 2;
-    repeated DonacionTransferida donacion = 3;
+    int64 idOrganizacionDonante = 2;
+    int64 idOrganizacionSolicitante = 3;
+    repeated DonacionTransferida donacion = 4;
 }
 message TransferirDonacionResponse{
     bool suceso = 1;

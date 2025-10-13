@@ -1,40 +1,56 @@
 from kafka import KafkaProducer, errors
-from google.protobuf.json_format import MessageToDict
-
 import json
 import time
 
+producer = None
+
+def InicializarProducer():
+    global producer
+    while producer is None:
+        try:
+            producer = KafkaProducer(
+                bootstrap_servers="localhost:9092",
+                value_serializer=lambda m: json.dumps(m).encode('utf-8')
+            )
+            print("[KafkaProd] Producer conectado")
+        except errors.NoBrokersAvailable:
+            print("[KafkaProd] Kafka no disponible, reintentando en 2s...")
+            time.sleep(2)
+    return producer
 
 def ProducirSolicitud(solicitud):
+    global producer
+    if producer is None:
+        InicializarProducer()
     topic = "solicitud-donaciones"
-
-    solicitud_dict = MessageToDict(solicitud, preserving_proto_field_name=True)
-
-    producer.send(topic, solicitud_dict)
-    print(f"[KafkaProd] Solicitud publicada en {topic}: {solicitud}")
+    producer.send(topic, solicitud)
     producer.flush()
-    producer.close()
+    print(f"[KafkaProd] Solicitud publicada en {topic}: {solicitud}")
 
-def ProducirTransferencia(idSolicitud, idOrganizacion, donacion):
+def ProducirTransferencia(idSolicitud, idOrganizacionDonante, idOrganizacionSolicitante, donacion):
+    global producer
+    if producer is None:
+        InicializarProducer()
+    topic = f"transferencia-donaciones_{idOrganizacionSolicitante}"
     transferencia = {
         "idSolicitud": idSolicitud,
-        "idOrganizacion": idOrganizacion,
-        "donacion": donacion        
+        "idOrganizacionDonante": idOrganizacionDonante,
+        "idOrganizacionSolicitante": idOrganizacionSolicitante,
+        "donacion": donacion
     }
-    topic = f"/transferencia-donaciones/{idOrganizacion}"
     producer.send(topic, transferencia)
-    print(f"[KafkaProd] Transferencia publicada en {topic}: {transferencia}")
     producer.flush()
-    producer.close()
+    print(f"[KafkaProd] Transferencia publicada en {topic}: {transferencia}")
 
+def CerrarProducer():
+    global producer
+    if producer is not None:
+        producer.flush()
+        producer.close()
+        print("[KafkaProd] Producer cerrado")
+        producer = None
 
-
-while True:
-    try:
-        producer = KafkaProducer(
-            bootstrap_servers="kafka:9092",
-            value_serializer=lambda m: json.dumps(m).encode('utf-8')
-        )
-    except errors.NoBrokersAvailable:
-        print("Kafka no disponible, reintentando en 2s...")
+if __name__ == "__main__":
+    InicializarProducer()
+    while True:
         time.sleep(2)

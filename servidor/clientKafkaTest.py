@@ -1,13 +1,7 @@
-from kafka import KafkaProducer
-import json
+from kafkaService.producer import ProducirSolicitud, ProducirTransferencia, CerrarProducer
 
-producer = KafkaProducer(
-    bootstrap_servers='localhost:9092',   # puerto del broker
-    value_serializer=lambda v: json.dumps(v).encode('utf-8')
-)
-
-# Simular el contenido del request
-mensaje = {
+# Producir Solicitud
+mensaje_solicitud = {
     "idSolicitante": 101,
     "idOrganizacion": 1,
     "donacion": [
@@ -15,7 +9,17 @@ mensaje = {
         {"categoria": "ROPA", "descripcion": "Camisas"}
     ]
 }
+#ProducirSolicitud(mensaje_solicitud)
 
-producer.send("solicitud-donaciones", mensaje)
-producer.flush()
-print("Mensaje enviado!")
+
+# Producir Transferencia
+mensaje_transferencia = [{"categoria": "ALIMENTOS", "descripcion": "Puré de tomates", "cantidad":2000},]
+
+ProducirTransferencia(
+    idSolicitud= 102,
+    idOrganizacionDonante= 2,
+    idOrganizacionSolicitante= 4,
+    donacion= mensaje_transferencia
+)
+
+CerrarProducer()

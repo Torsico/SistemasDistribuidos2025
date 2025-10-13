@@ -117,3 +117,21 @@ class DonacionesServiceImpl(donaciones_pb2_grpc.DonacionesServiceServicer):
 
         return donaciones_pb2.SolicitarDonacionResponse(suceso=True)
     
+    def TransferirDonacion(self, request, context):
+        lista_donaciones = []
+        for d in request.donacion:
+            lista_donaciones.append({
+                "categoria": d.categoria,
+                "descripcion": d.descripcion,
+                "cantidad": d.cantidad
+            })
+
+        producer.ProducirTransferencia(            
+            request.idSolicitud,
+            request.idOrganizacionDonante,
+            request.idOrganizacionSolicitante,
+            lista_donaciones
+        )
+
+        return donaciones_pb2.SolicitarDonacionResponse(suceso=True)
+    

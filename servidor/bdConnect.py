@@ -5,7 +5,7 @@ from datetime import datetime
 
 def get_connection():
     conn = mysql.connector.connect(
-        host="localhost",
+        host="host.docker.internal",
         user="root",
         password="root",
         database="dist2025"

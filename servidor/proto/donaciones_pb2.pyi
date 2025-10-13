@@ -96,9 +96,35 @@ class SolicitarDonacionRequest(_message.Message):
     def __init__(self, idSolicitante: _Optional[int] = ..., idOrganizacion: _Optional[int] = ..., donacion: _Optional[_Iterable[_Union[DonacionSolicitada, _Mapping]]] = ...) -> None: ...
 
 class SolicitarDonacionResponse(_message.Message):
-    __slots__ = ("suceso", "mensaje")
+    __slots__ = ("suceso",)
     SUCESO_FIELD_NUMBER: _ClassVar[int]
-    MENSAJE_FIELD_NUMBER: _ClassVar[int]
     suceso: bool
-    mensaje: str
-    def __init__(self, suceso: bool = ..., mensaje: _Optional[str] = ...) -> None: ...
+    def __init__(self, suceso: bool = ...) -> None: ...
+
+class DonacionTransferida(_message.Message):
+    __slots__ = ("categoria", "descripcion", "cantidad")
+    CATEGORIA_FIELD_NUMBER: _ClassVar[int]
+    DESCRIPCION_FIELD_NUMBER: _ClassVar[int]
+    CANTIDAD_FIELD_NUMBER: _ClassVar[int]
+    categoria: str
+    descripcion: str
+    cantidad: int
+    def __init__(self, categoria: _Optional[str] = ..., descripcion: _Optional[str] = ..., cantidad: _Optional[int] = ...) -> None: ...
+
+class TransferirDonacionRequest(_message.Message):
+    __slots__ = ("idSolicitud", "idOrganizacionDonante", "idOrganizacionSolicitante", "donacion")
+    IDSOLICITUD_FIELD_NUMBER: _ClassVar[int]
+    IDORGANIZACIONDONANTE_FIELD_NUMBER: _ClassVar[int]
+    IDORGANIZACIONSOLICITANTE_FIELD_NUMBER: _ClassVar[int]
+    DONACION_FIELD_NUMBER: _ClassVar[int]
+    idSolicitud: int
+    idOrganizacionDonante: int
+    idOrganizacionSolicitante: int
+    donacion: _containers.RepeatedCompositeFieldContainer[DonacionTransferida]
+    def __init__(self, idSolicitud: _Optional[int] = ..., idOrganizacionDonante: _Optional[int] = ..., idOrganizacionSolicitante: _Optional[int] = ..., donacion: _Optional[_Iterable[_Union[DonacionTransferida, _Mapping]]] = ...) -> None: ...
+
+class TransferirDonacionResponse(_message.Message):
+    __slots__ = ("suceso",)
+    SUCESO_FIELD_NUMBER: _ClassVar[int]
+    suceso: bool
+    def __init__(self, suceso: bool = ...) -> None: ...

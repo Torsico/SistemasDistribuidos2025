@@ -43,9 +43,17 @@ services:
     container_name: grpc_server
     ports:
       - "50051:50051"
+    depends_on:
+      - kafka
     command: python server.py
     restart: unless-stopped
-    
+
+  grpc_client:
+    build: .
+    container_name: grpc_client
+    depends_on:
+      - grpc_server
+    command: python clientKafkaTest.py
 
   producer:
     build:
