@@ -4,6 +4,8 @@ WORKDIR /kafkaService
 
 COPY ./kafkaService/ .
 
+COPY .. .
+
 COPY ../requirements.txt .
 
 # Instalamos todas las dependencias, incluyendo protobuf

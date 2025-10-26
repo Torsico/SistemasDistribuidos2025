@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package messages;
+
+// Donaciones
+
+message Donacion {
+  string categoria = 1;
+  string descripcion = 2;
+  int32 cantidad = 3;
+}
+
+message SolicitudDonacion {
+  int32 idOrganizacionSolicitante = 1;
+  int32 idSolicitud = 2;
+  repeated Donacion donacion = 3;
+}
+
+message TransferenciaDonacion {
+  int32 idSolicitud = 1;
+  int32 idOrganizacionDonante = 2;
+  int32 idOrganizacionSolicitante = 3;
+  repeated Donacion donacion = 4;
+}
+
+message OfertaDonacion {
+  int32 idOferta = 1;
+  int32 idOrganizacionDonante = 2;
+  repeated Donacion donacion = 3;
+}
+
+message BajaSolicitud {
+  int32 idOrganizacionSolicitante = 1;
+  int32 idSolicitud = 2;
+}
+
+message RespuestaDonacion {
+  string mensaje = 1;
+  bool exito = 2;
+}
+
+
+// Evento
+
+message EventoExterno {
+  int32 idOrganizacion = 1;
+  int32 idEvento = 2;
+  string nombreEvento = 3;
+  string descripcion = 4;
+  string fechaHora = 5;
+}
+
+message BajaEvento {
+  int32 idOrganizacion = 1;
+  int32 idEvento = 2;
+}
+
+message Voluntario {
+  int32 idOrganizacion = 1;
+  int32 idVoluntario = 2;
+  string nombre = 3;
+  string apellido = 4;
+  string telefono = 5;
+  string email = 6;
+}
+
+message AdhesionEvento {
+  int32 idEvento = 1;
+  Voluntario voluntario = 2;
+}
+
+message RespuestaEvento {
+  string mensaje = 1;
+  bool exito = 2;
+}
+
+
+
+service MessagesService {
+  // ---- Donaciones ----
+  rpc AltaSolicitudDonacion (SolicitudDonacion) returns (RespuestaDonacion);
+  rpc RegistrarTransferencia (TransferenciaDonacion) returns (RespuestaDonacion);
+  rpc AltaOferta (OfertaDonacion) returns (RespuestaDonacion);
+  rpc BajaSolicitudDonacion (BajaSolicitud) returns (RespuestaDonacion);
+
+  // ---- Eventos ----
+  rpc PublicarEventoExterno (EventoExterno) returns (RespuestaEvento);
+  rpc BajaEventoExterno (BajaEvento) returns (RespuestaEvento);
+  rpc RegistrarAdhesionEvento (AdhesionEvento) returns (RespuestaEvento);
+}

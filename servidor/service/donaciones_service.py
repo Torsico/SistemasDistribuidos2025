@@ -2,7 +2,6 @@ import grpc
 
 from security import verificar_token
 from bdConnect import get_donaciones, alta_donaciones, mod_donaciones, baja_donaciones
-from kafkaService import producer
 from proto import donaciones_pb2, donaciones_pb2_grpc
 
 class DonacionesServiceImpl(donaciones_pb2_grpc.DonacionesServiceServicer):
@@ -99,39 +98,4 @@ class DonacionesServiceImpl(donaciones_pb2_grpc.DonacionesServiceServicer):
             context.abort(grpc.StatusCode.NOT_FOUND, f"No se encontro la donacion")
         return donaciones_pb2.BajaDonacionesResponse(suceso=exito)
     
-    def SolicitarDonacion(self, request, context):
-        lista_donaciones = []
-        for d in request.donacion:
-            lista_donaciones.append({
-                "categoria": d.categoria,
-                "descripcion": d.descripcion
-            })
-        
-        solicitud = {
-            "idSolicitante": request.idSolicitante,
-            "idOrganizacion": request.idOrganizacion,
-            "donacion": lista_donaciones
-        }
-
-        producer.ProducirSolicitud(solicitud)
-
-        return donaciones_pb2.SolicitarDonacionResponse(suceso=True)
-    
-    def TransferirDonacion(self, request, context):
-        lista_donaciones = []
-        for d in request.donacion:
-            lista_donaciones.append({
-                "categoria": d.categoria,
-                "descripcion": d.descripcion,
-                "cantidad": d.cantidad
-            })
-
-        producer.ProducirTransferencia(            
-            request.idSolicitud,
-            request.idOrganizacionDonante,
-            request.idOrganizacionSolicitante,
-            lista_donaciones
-        )
-
-        return donaciones_pb2.SolicitarDonacionResponse(suceso=True)
     

@@ -46,47 +46,9 @@ message ListDonacionesResponse{
     repeated Donaciones donaciones = 1;
 }
 
-// Kafka Solicitudes
-
-// Solicitar
-message DonacionSolicitada{
-    string categoria = 1;
-    string descripcion = 2;
-}
-
-message SolicitarDonacionRequest{
-    int64 idSolicitante = 1;
-    int64 idOrganizacion = 2;
-    repeated DonacionSolicitada donacion = 3;
-}
-
-message SolicitarDonacionResponse{
-    bool suceso = 1;
-}
-
-// Transferir
-    message DonacionTransferida{
-    string categoria = 1;
-    string descripcion = 2;
-    int64 cantidad = 3;
-}
-
-message TransferirDonacionRequest{
-    int64 idSolicitud = 1;
-    int64 idOrganizacionDonante = 2;
-    int64 idOrganizacionSolicitante = 3;
-    repeated DonacionTransferida donacion = 4;
-}
-message TransferirDonacionResponse{
-    bool suceso = 1;
-}
-
 service DonacionesService{
     rpc GetDonaciones(Empty) returns (ListDonacionesResponse);
     rpc AltaDonaciones(AltaDonacionesRequest) returns (AltaDonacionesResponse);
     rpc ModDonaciones(ModDonacionesRequest) returns (ModDonacionesResponse);
     rpc BajaDonaciones(BajaDonacionesRequest) returns (BajaDonacionesResponse);
-
-    rpc SolicitarDonacion(SolicitarDonacionRequest) returns (SolicitarDonacionResponse);
-    rpc TransferirDonacion(TransferirDonacionRequest) returns (TransferirDonacionResponse);
 }

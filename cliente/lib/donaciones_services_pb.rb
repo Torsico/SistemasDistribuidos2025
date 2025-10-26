@@ -18,8 +18,6 @@ module Donaciones
       rpc :AltaDonaciones, ::Donaciones::AltaDonacionesRequest, ::Donaciones::AltaDonacionesResponse
       rpc :ModDonaciones, ::Donaciones::ModDonacionesRequest, ::Donaciones::ModDonacionesResponse
       rpc :BajaDonaciones, ::Donaciones::BajaDonacionesRequest, ::Donaciones::BajaDonacionesResponse
-      rpc :SolicitarDonacion, ::Donaciones::SolicitarDonacionRequest, ::Donaciones::SolicitarDonacionResponse
-      rpc :TransferirDonacion, ::Donaciones::TransferirDonacionRequest, ::Donaciones::TransferirDonacionResponse
     end
 
     Stub = Service.rpc_stub_class
